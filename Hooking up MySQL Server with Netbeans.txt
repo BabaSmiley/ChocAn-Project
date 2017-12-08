@@ -1,0 +1,29 @@
+1.) Open up netbeans. Open the window menu at the top menu bar and select Services.
+
+2.) Right click Databases and select register MySQL Server
+		NOTE: it is possible there is already an entry for the server bellow. in which case skip to step 
+
+3.) Enter the following into the fields under Basic Properties tab:
+	Server Host Name: localhost
+	Server Port Number: 3306
+	Administrator User Name: root
+	Administrator Password: *KEEP BLANK*
+	Remember Password: Checked
+
+4.) Enter the following into the fields under Admin Properties tab:
+	Path/URL to admin tool: *INSERT PATH TO REPOSITORY HERE*\mysql\bin\mysqladmin.exe
+	Arguments: *KEEP BLANK*
+	Path to start command: *INSERT PATH TO REPOSITORY HERE*\mysql\bin\mysqld.exe
+	Arguments: *KEEP BLANK*
+	Path to stop command: *INSERT PATH TO REPOSITORY HERE*\mysql\bin\mysqladmin.exe
+	Arguments: -u root shutdown
+
+5.) Select OK
+
+6.) Right click MySQL Server at localhost:3306... and select start.
+
+7.) Expand MySQL Server at localhost:3306... and right click chocan. Select connect.
+
+8.) To close the server, right click MySQL Server at localhost:3306... and select Stop.
+	NOTE: Make sure you stop the server before you push anything to the github! The server has files open whenever
+it is running and will most likely ruin the github commit!

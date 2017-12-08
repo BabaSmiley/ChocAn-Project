@@ -1,0 +1,11 @@
+After downloading the github folder, you should have a folder called mysql with a data folder and 3 files in it.
+In order to get the rest of the database, download the x64 bit version of the 5.7.20 MySQL server community version
+standalone from https://dev.mysql.com/downloads/mysql/  - make sure you get the standalone zip archive, not the installer.
+
+Unzip the file that was downloaded and move all the folders from it into the mysql folder in the github repository.
+Note the repository has a .gitignore to prevent pushing any of the files in the mysql folder except those in the root
+and data folders.
+
+In order to run the database on its own, open a cmd prompt to the mysql\bin\ directory and run mysqld.exe
+
+To hook up the MySQL server to netbeans, look at the Hooking up MySQL Server with Netbeans.txt in the repository root directory
