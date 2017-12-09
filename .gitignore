@@ -3,3 +3,6 @@
 /mysql/include/*
 /mysql/lib/*
 /mysql/share/*
+/ChocAnServerApplication/nbproject/private/
+/ChocAnServerApplication/dist/
+/ChocAnServerApplication/build/
