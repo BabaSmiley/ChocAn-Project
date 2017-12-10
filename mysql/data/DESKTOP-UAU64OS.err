@@ -641,3 +641,63 @@ Version: '5.7.20'  socket: ''  port: 3306  MySQL Community Server (GPL)
 2017-12-09T17:34:22.546387Z 0 [Note] Shutting down plugin 'binlog'
 2017-12-09T17:34:22.546387Z 0 [Note] C:\Users\danie\Documents\Team-Steiner-Project-ChocAn\mysql\bin\mysqld.exe: Shutdown complete
 
+2017-12-10T21:04:45.458206Z 0 [Note] --secure-file-priv is set to NULL. Operations related to importing and exporting data are disabled
+2017-12-10T21:04:45.458206Z 0 [Note] C:\Users\danie\Documents\Team-Steiner-Project-ChocAn\mysql\bin\mysqld.exe (mysqld 5.7.20) starting as process 7272 ...
+2017-12-10T21:04:45.505089Z 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2017-12-10T21:04:45.505089Z 0 [Note] InnoDB: Uses event mutexes
+2017-12-10T21:04:45.505089Z 0 [Note] InnoDB: _mm_lfence() and _mm_sfence() are used for memory barrier
+2017-12-10T21:04:45.505089Z 0 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2017-12-10T21:04:45.505089Z 0 [Note] InnoDB: Number of pools: 1
+2017-12-10T21:04:45.505089Z 0 [Note] InnoDB: Not using CPU crc32 instructions
+2017-12-10T21:04:45.505089Z 0 [Note] InnoDB: Initializing buffer pool, total size = 128M, instances = 1, chunk size = 128M
+2017-12-10T21:04:45.520704Z 0 [Note] InnoDB: Completed initialization of buffer pool
+2017-12-10T21:04:45.567587Z 0 [Note] InnoDB: Highest supported file format is Barracuda.
+2017-12-10T21:04:45.780587Z 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2017-12-10T21:04:45.780587Z 0 [Note] InnoDB: Setting file '.\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2017-12-10T21:04:45.808658Z 0 [Note] InnoDB: File '.\ibtmp1' size is now 12 MB.
+2017-12-10T21:04:45.824284Z 0 [Note] InnoDB: 96 redo rollback segment(s) found. 96 redo rollback segment(s) are active.
+2017-12-10T21:04:45.824284Z 0 [Note] InnoDB: 32 non-redo rollback segment(s) are active.
+2017-12-10T21:04:45.824284Z 0 [Note] InnoDB: Waiting for purge to start
+2017-12-10T21:04:45.886805Z 0 [Note] InnoDB: 5.7.20 started; log sequence number 2901240
+2017-12-10T21:04:45.886805Z 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\danie\Documents\Team-Steiner-Project-ChocAn\mysql\data\ib_buffer_pool
+2017-12-10T21:04:45.886805Z 0 [Note] Plugin 'FEDERATED' is disabled.
+2017-12-10T21:04:45.902419Z 0 [Note] InnoDB: Buffer pool(s) load completed at 171210 16:04:45
+2017-12-10T21:04:45.902419Z 0 [Warning] Failed to set up SSL because of the following SSL library error: SSL context is not usable without certificate and private key
+2017-12-10T21:04:45.918035Z 0 [Note] Server hostname (bind-address): '*'; port: 3306
+2017-12-10T21:04:45.918035Z 0 [Note] IPv6 is available.
+2017-12-10T21:04:45.918035Z 0 [Note]   - '::' resolves to '::';
+2017-12-10T21:04:45.918035Z 0 [Note] Server socket created on IP: '::'.
+2017-12-10T21:04:46.640829Z 0 [Note] Event Scheduler: Loaded 0 events
+2017-12-10T21:04:46.640829Z 0 [Note] C:\Users\danie\Documents\Team-Steiner-Project-ChocAn\mysql\bin\mysqld.exe: ready for connections.
+Version: '5.7.20'  socket: ''  port: 3306  MySQL Community Server (GPL)
+2017-12-10T21:04:46.641830Z 0 [Note] Executing 'SELECT * FROM INFORMATION_SCHEMA.TABLES;' to get a list of tables using the deprecated partition engine. You may use the startup option '--disable-partition-engine-check' to skip this check. 
+2017-12-10T21:04:46.642830Z 0 [Note] Beginning of list of non-natively partitioned tables
+2017-12-10T21:04:47.150542Z 0 [Note] End of list of non-natively partitioned tables
+2017-12-10T21:04:47.213040Z 3 [Note] Access denied for user 'root'@'localhost' (using password: YES)
+2017-12-10T21:04:47.228668Z 4 [Note] Access denied for user 'root'@'localhost' (using password: YES)
+2017-12-10T21:41:05.306079Z 5 [Note] Access denied for user 'root'@'localhost' (using password: YES)
+2017-12-10T21:41:05.483138Z 0 [Note] --secure-file-priv is set to NULL. Operations related to importing and exporting data are disabled
+2017-12-10T21:41:05.483138Z 0 [Note] C:\Users\danie\Documents\Team-Steiner-Project-ChocAn\mysql\bin\mysqld.exe (mysqld 5.7.20) starting as process 15516 ...
+2017-12-10T21:41:05.498761Z 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2017-12-10T21:41:05.498761Z 0 [Note] InnoDB: Uses event mutexes
+2017-12-10T21:41:05.498761Z 0 [Note] InnoDB: _mm_lfence() and _mm_sfence() are used for memory barrier
+2017-12-10T21:41:05.498761Z 0 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2017-12-10T21:41:05.498761Z 0 [Note] InnoDB: Number of pools: 1
+2017-12-10T21:41:05.498761Z 0 [Note] InnoDB: Not using CPU crc32 instructions
+2017-12-10T21:41:05.498761Z 0 [Note] InnoDB: Initializing buffer pool, total size = 128M, instances = 1, chunk size = 128M
+2017-12-10T21:41:05.498761Z 0 [Note] InnoDB: Completed initialization of buffer pool
+2017-12-10T21:41:05.530066Z 0 [ERROR] InnoDB: The innodb_system data file 'ibdata1' must be writable
+2017-12-10T21:41:05.530066Z 0 [ERROR] InnoDB: The innodb_system data file 'ibdata1' must be writable
+2017-12-10T21:41:05.530066Z 0 [ERROR] InnoDB: Plugin initialization aborted with error Generic error
+2017-12-10T21:41:05.747943Z 0 [ERROR] Plugin 'InnoDB' init function returned error.
+2017-12-10T21:41:05.747943Z 0 [ERROR] Plugin 'InnoDB' registration as a STORAGE ENGINE failed.
+2017-12-10T21:41:05.747943Z 0 [ERROR] Failed to initialize plugins.
+2017-12-10T21:41:05.747943Z 0 [ERROR] Aborting
+
+2017-12-10T21:41:05.747943Z 0 [Note] Binlog end
+2017-12-10T21:41:05.747943Z 0 [Note] Shutting down plugin 'CSV'
+2017-12-10T21:41:05.747943Z 0 [Note] C:\Users\danie\Documents\Team-Steiner-Project-ChocAn\mysql\bin\mysqld.exe: Shutdown complete
+
+2017-12-10T21:41:07.320308Z 6 [Note] Access denied for user 'root'@'localhost' (using password: YES)
+2017-12-10T21:41:07.611754Z 7 [Note] Access denied for user 'root'@'localhost' (using password: YES)
+2017-12-10T21:41:10.241940Z 8 [Note] Access denied for user 'root'@'localhost' (using password: YES)

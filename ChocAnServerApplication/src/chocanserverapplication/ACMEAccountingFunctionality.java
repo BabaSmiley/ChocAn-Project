@@ -1,8 +1,17 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * CIS-376
+ * Fall 2017
+ * Team Steiner
+ * Project ChocAn
+ * Group Members: Brandon Falk, Afeefeh Seblini,
+ * Ismaeel Varis, Daniel Vera-Burgos
+ * 
+ * ACME Accounting Functionality
+ * 
+ * This class will contain all the different static methods required to serve
+ * the ACME Accounting third party software.
  */
+
 package chocanserverapplication;
 
 import chocanstructs.Member; 
@@ -35,8 +44,23 @@ public class ACMEAccountingFunctionality
         return null;
     }
     
-    //public static void updateMemberStatus(List<ChocAnStructs.Member> memberUpdates)
+    /**
+     * Takes a list of Members and updates their validity and reason in the the
+     * database
+     * 
+     * @param memberUpdates list of members to update reason and validity of
+     */
+    public static void updateMemberStatus(List<Member> memberUpdates)
     {
-        
+        //For each element in memberUpdates
+            //Query the member table for a tuple with the matching memberNumber 
+            //in the element
+            
+            //if the query returned a single result
+            
+            //update the member table entry using the memberNumber, isValid and
+            //validityReason in the element
     }
+    
+    
 }
