@@ -26,7 +26,7 @@ public class ServerThread implements Runnable
     /**
      * @param client the socket connected to the client to serve
      */
-    ServerThread(Socket client)
+    public ServerThread(Socket client)
     {
         this.client = client;
     }
