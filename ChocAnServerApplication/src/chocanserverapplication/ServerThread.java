@@ -18,10 +18,12 @@
 package chocanserverapplication;
 
 import java.net.Socket;
+import java.util.List;
 
 public class ServerThread implements Runnable
 {
     private Socket client;
+    private int clientPrivileges; //-1 = none, 0 = employee, 1 = manager
     
     /**
      * @param client the socket connected to the client to serve
@@ -29,44 +31,31 @@ public class ServerThread implements Runnable
     public ServerThread(Socket client)
     {
         this.client = client;
+        clientPrivileges = -1;
     }
 
     /**
-     * The main loop. This is run when the class is given its' own thread.
+     * First checks the client's credentials (login) and stores what their
+     * privileges are.
      * 
-     * Should take input, figure out what to do with it, do it, repeat.
+     * Then run the main loop.
+     * 
+     * Should take input, figure out what to do with it, do it, send a response
+     * to the client, then repeat.
      */
     public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    public void processInput()
-    {
-        
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     /**
-     * Method used to verify a given username and password against the member
-     * table in the database.
+     * takes an input string and decides what functionality to do with it, 
+     * checks clientPrivileges, then executes the function and returns the
+     * result string
      * 
-     * @param username memberID of an employee
-     * @param password password of an employee
-     * @return 0 if credentials match an employee, 1 if they match a manager, else 2
+     * @param input
      */
-    public int verifyEmployeeLogin(String username, String password)
+    public String processInput(String input)
     {
-        //query the employee table in the database for a tuple with an 
-        //employeeID that matches the username and a password that matches the 
-        //password.
-        
-        //if the query returns a result and isManager is true, return 1
-        
-        //if the query returns a result and isManager is false, return 0
-        
-        //if the query returns no results, return 2
-        
-        return 0;
+        return null;
     }
-    
-    public 
 }

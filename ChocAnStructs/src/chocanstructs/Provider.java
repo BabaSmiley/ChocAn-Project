@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 
-public class Provider {
+package chocanstructs;
+
+public class Provider 
+{
     
 }

@@ -11,6 +11,9 @@
  * functions.
  */
 
-public class Service {
+package chocanstructs;
+
+public class Service 
+{
     
 }

@@ -6,11 +6,14 @@
  * Group Members: Brandon Falk, Afeefeh Seblini,
  * Ismaeel Varis, Daniel Vera-Burgos
  * 
- * This file contains Employee which is common between the ChocAnServerApplication
+ * This file contains Bill which is common between the ChocAnServerApplication
  * and the ChocAnEmployyeTerminal. It will largely be used as interfaces between
  * functions.
  */
 
-public class Employee {
+package chocanstructs;
+
+public class Bill 
+{
     
 }
