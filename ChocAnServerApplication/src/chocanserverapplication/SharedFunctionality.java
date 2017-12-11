@@ -19,23 +19,5 @@ import java.util.List;
 
 public class SharedFunctionality 
 {   
-    /**
-     * returns all of the active entries in the serviceDirectory table in the
-     * database in the form of a list of Service structs.
-     * 
-     * Shared between Employee and Provider terminals.
-     * 
-     * @return a list of all the services still active in the serviceDirectory
-     */
-    public static List<Service> getServiceDirectory()
-    {
-        //Query the database for all entries in the serviceDirectory table that
-        //have isActive set to true
-        
-        //Convert the returned query statement into a list of services
-        
-        //return the list of services
-        
-        return null;
-    }
+    
 }
