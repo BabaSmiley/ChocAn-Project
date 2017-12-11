@@ -19,3 +19,7 @@ mysql/data/DESKTOP-UAU64OS.pid
 mysql/data/ibdata1
 mysql/data/ib_logfile0
 mysql/data/ib_buffer_pool
+mysql/data/DESKTOP-UAU64OS.err
+mysql/data/ib_buffer_pool
+mysql/data/ib_logfile0
+mysql/data/ibdata1
