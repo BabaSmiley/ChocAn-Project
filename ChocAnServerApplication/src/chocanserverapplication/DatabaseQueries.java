@@ -20,7 +20,7 @@ import chocanstructs.Provider;
 import chocanstructs.Member;
 import chocanstructs.Service;
 import chocanstructs.Bill;
-import java.util.List;
+import java.util.ArrayList;
 
 public class DatabaseQueries 
 {
@@ -28,12 +28,12 @@ public class DatabaseQueries
     private static final String databaseUsername = "root";
     private static final String databasePassword = "";
     
-    public static List<Service> getServicesForMember(String memberNumber, Date endDate)
+    public static ArrayList<Service> getServicesForMember(String memberNumber, Date endDate)
     {
         return null;
     }
     
-    public static List<Service> getServicesForProvider(String providerNumber, Date endDate)
+    public static ArrayList<Service> getServicesForProvider(String providerNumber, Date endDate)
     {
         return null;
     }
@@ -94,49 +94,528 @@ public class DatabaseQueries
         }
     }
     
-    public static List<Member> getUpdatedMembers()
+    /**
+     * returns a list of all members who have the flag isUpdated set to true
+     * 
+     * @return ArrayList of Members who have update flag set to trues
+     * @throws SQLException 
+     */
+    public static ArrayList<Member> getUpdatedMembers() throws SQLException
     {
-        return null;
+        //setup connection to database
+        Connection myConn = null;
+        Statement myStmt = null;
+        ResultSet myRs = null;
+        
+        myConn = DriverManager.getConnection(connectionString,
+                databaseUsername, databasePassword);
+        
+        //Create sql statement
+        myStmt = myConn.createStatement();
+        
+        String statement = "select * from member where isUpdated = true";
+        
+        //execute statement and store result
+        myRs = myStmt.executeQuery(statement);
+        
+        //Convert result set to List<Member>
+        ArrayList<Member> memberList = new ArrayList<Member>();
+        
+        while(myRs.next())
+        {
+            Member newMember = new Member();
+            newMember.memberNumber = myRs.getString("memberNumber");
+            newMember.name = myRs.getString("name");
+            newMember.emailAddress = myRs.getString("emailAddress");
+            newMember.streetAddress = myRs.getString("streetAddress");
+            newMember.city = myRs.getString("city");
+            newMember.state = myRs.getString("state");
+            newMember.zipCode = myRs.getString("zipCode");
+            newMember.isValid = myRs.getBoolean("isValid");
+            newMember.validityReason = myRs.getString("validityReason");
+            newMember.isActive = myRs.getBoolean("isActive");
+            
+            memberList.add(newMember);
+        }
+        
+        //cleanup connection
+        myRs.close();
+        myStmt.close();
+        myConn.close();
+        
+        //return the memberList
+        return memberList;
     }
     
-    public static boolean updateMemberStatuses(List<Member> membersToUpdate)
+    /**
+     * sets the isUpdated flag of all members in the database to false
+     * 
+     * @return true if the statement completed without issue
+     */
+    public static boolean setAllMemberUpdatedFalse()
     {
-        return false;
+        try
+        {
+            //setup connection to database
+            Connection myConn = null;
+            Statement myStmt = null;
+            
+            myConn = DriverManager.getConnection(connectionString,
+                    databaseUsername, databasePassword);
+            
+            //Create sql statement
+            myStmt = myConn.createStatement();
+            
+            String statement = "update member set isUpdated = true where isUpdated = false";
+            
+            //execute statement
+            myStmt.executeUpdate(statement);
+            
+            //cleanup connection
+            myStmt.close();
+            myConn.close();
+            
+            //return the boolean
+            return true;
+        } catch(Exception e)
+        {
+            return false;
+        }
     }
     
-    public static boolean verifyMember(String memberNumber)
+    /**
+     * for each member in the list of members input, update the corresponding 
+     * entry in the member table of the database to match the isValid and
+     * validityReason of.
+     * 
+     * @param membersToUpdate list of members to update the isValid and
+     * validityReason of.
+     * @return 
+     */
+    public static boolean updateMemberStatuses(ArrayList<Member> membersToUpdate)
     {
-        return false;
+        try
+        {
+            //setup connection to database
+            Connection myConn = null;
+            PreparedStatement myStmt = null;
+            ResultSet myRs = null;
+            
+            myConn = DriverManager.getConnection(connectionString,
+                    databaseUsername, databasePassword);
+            
+            //prepare sql statement
+            String statement = "update member set isValid = ? , "
+                    + "validityReason = ? where memberNumber = ?";
+            myStmt = myConn.prepareStatement(statement);
+            
+            //update all members in list
+            for (Member currentMember : membersToUpdate)
+            {
+                //Fill statement variables
+                myStmt.setBoolean(1, currentMember.isValid);
+                myStmt.setString(2, currentMember.validityReason);
+                myStmt.setString(3, currentMember.memberNumber);
+                
+                //execute statement
+                myStmt.executeUpdate();
+            }
+            
+            //cleanup connection
+            myRs.close();
+            myStmt.close();
+            myConn.close();
+            
+            //return the boolean
+            return true;
+        } catch(Exception e)
+        {
+            return false;
+        }
     }
     
+    /**
+     * Checks the database to see if the member is valid. Returns "0" if valid,
+     * "1"+validityReason if invalid. Inactive counts as invalid.
+     * 
+     * @param memberNumber
+     * @returnReturns "0" if valid, "1"+validityReason if invalid. Inactive 
+     * counts as invalid
+     * @throws SQLException 
+     */
+    public static String verifyMember(String memberNumber) throws SQLException
+    {
+        //setup connection to database
+        Connection myConn = null;
+        PreparedStatement myStmt = null;
+        ResultSet myRs = null;
+        
+        myConn = DriverManager.getConnection(connectionString,
+                databaseUsername, databasePassword);
+        
+        //Create sql statement
+        String statement = "select isValid, isActive, validityReason from member"
+                + " where memberNumber = ?";
+        myStmt = myConn.prepareStatement(statement);
+        myStmt.setString(1, memberNumber);
+        
+        //execute statement and store result
+        myRs = myStmt.executeQuery(statement);
+        
+        //extract output
+        boolean memberFound = false;
+        boolean isActive = false;
+        boolean isValid = false;
+        String validityReason = null;
+        if (myRs.next())
+        {
+            memberFound = true;
+            isActive = myRs.getBoolean("isActive");
+            isValid = myRs.getBoolean("isValid");
+            validityReason = myRs.getString("validityReason");
+        }
+        
+        //cleanup connection
+        myRs.close();
+        myStmt.close();
+        myConn.close();
+        
+        //determine output
+        String output;
+        if (memberFound)
+        {
+            if (isActive)
+            {
+                if (isValid)
+                {
+                    output = "0";
+                }
+                else
+                {
+                    output = "1" + validityReason;
+                }
+            }
+            else
+            {
+                output = "1Member Is Inactive";
+            }
+        }
+        else
+        {
+            output = "1Member Does Not Exist";
+        }
+        
+        //return the string
+        return output;
+    }
+    
+    /**
+     * checks to see if the providerNumber and password combo matches an entry in
+     * the database. Returns true if it does, false if it doesn't. Also returns
+     * false if the database can't be queried for some reason.
+     * 
+     * @param providerNumber
+     * @param password
+     * @return true means verified, false means not verified or database down
+     */
     public static boolean verifyProvider(String providerNumber, String password)
     {
-        return false;
+        try
+        {
+            //setup connection to database
+            Connection myConn = null;
+            PreparedStatement myStmt = null;
+            ResultSet myRs = null;
+            
+            myConn = DriverManager.getConnection(connectionString,
+                    databaseUsername, databasePassword);
+            
+            //Create sql statement
+            String statement = "select memberNumber from provider"
+                    + " where providerNumber = ? and password = ? and isActive = true";
+            myStmt = myConn.prepareStatement(statement);
+            myStmt.setString(1, providerNumber);
+            myStmt.setString(2, password);
+            
+            //execute statement and store result
+            myRs = myStmt.executeQuery(statement);
+            
+            //determine if a match was found
+            boolean providerFound = false;
+            if (myRs.next())
+            {
+                providerFound = true;
+            }
+            
+            //cleanup connection
+            myRs.close();
+            myStmt.close();
+            myConn.close();
+            
+            //return the boolean
+            return providerFound;
+        } catch(Exception e)
+        {
+            return false;
+        }
     }
     
-    public static List<Service> getActiveServices()
+    /**
+     * gets and returns a list of services in the servicedirectory database
+     * with isActive set to true
+     * 
+     * @return list of services in database with isActive set to true
+     * @throws SQLException 
+     */
+    public static ArrayList<Service> getActiveServices() throws SQLException
     {
-        return null;
+        //setup connection to database
+        Connection myConn = null;
+        Statement myStmt = null;
+        ResultSet myRs = null;
+        
+        myConn = DriverManager.getConnection(connectionString,
+                databaseUsername, databasePassword);
+        
+        //Create sql statement
+        myStmt = myConn.createStatement();
+        
+        String statement = "select serviceNumber, name, fee "
+                + "from servicedirectory where isActive = true";
+        
+        //execute statement and store result
+        myRs = myStmt.executeQuery(statement);
+        
+        //Convert result set to List<Service>
+        ArrayList<Service> serviceList = new ArrayList<Service>();
+        
+        while(myRs.next())
+        {
+            Service newService = new Service();
+            newService.serviceNumber = myRs.getString("serviceNumber");
+            newService.name = myRs.getString("name");
+            newService.fee = myRs.getDouble("fee");
+            newService.isActive = true;
+            
+            serviceList.add(newService);
+        }
+        
+        //cleanup connection
+        myRs.close();
+        myStmt.close();
+        myConn.close();
+        
+        //return the serviceList
+        return serviceList;
     }
     
-    public static List<Service> getAllServices()
+    /**
+     * gets and returns a list of all services in the servicedirectory table in 
+     * the database
+     * 
+     * @return list of all services in database
+     * @throws SQLException 
+     */
+    public static ArrayList<Service> getAllServices() throws SQLException
     {
-        return null;
+        //setup connection to database
+        Connection myConn = null;
+        Statement myStmt = null;
+        ResultSet myRs = null;
+        
+        myConn = DriverManager.getConnection(connectionString,
+                databaseUsername, databasePassword);
+        
+        //Create sql statement
+        myStmt = myConn.createStatement();
+        
+        String statement = "select serviceNumber, name, fee, isActive"
+                + " from servicedirectory";
+        
+        //execute statement and store result
+        myRs = myStmt.executeQuery(statement);
+        
+        //Convert result set to List<Service>
+        ArrayList<Service> serviceList = new ArrayList<Service>();
+        
+        while(myRs.next())
+        {
+            Service newService = new Service();
+            newService.serviceNumber = myRs.getString("serviceNumber");
+            newService.name = myRs.getString("name");
+            newService.fee = myRs.getDouble("fee");
+            newService.isActive = myRs.getBoolean("isActive");
+            
+            serviceList.add(newService);
+        }
+        
+        //cleanup connection
+        myRs.close();
+        myStmt.close();
+        myConn.close();
+        
+        //return the serviceList
+        return serviceList;
     }
     
-    public static List<Employee> getAllEmployees()
+    /**
+     * Gets and returns a list of all employees from the employee table in the
+     * database
+     * 
+     * @return list of employees
+     * @throws SQLException 
+     */
+    public static ArrayList<Employee> getAllEmployees() throws SQLException
     {
-        return null;
+        //setup connection to database
+        Connection myConn = null;
+        Statement myStmt = null;
+        ResultSet myRs = null;
+        
+        myConn = DriverManager.getConnection(connectionString,
+                databaseUsername, databasePassword);
+        
+        //Create sql statement
+        myStmt = myConn.createStatement();
+        
+        String statement = "select * from employee";
+        
+        //execute statement and store result
+        myRs = myStmt.executeQuery(statement);
+        
+        //Convert result set to List<Employee>
+        ArrayList<Employee> employeeList = new ArrayList<Employee>();
+        
+        while(myRs.next())
+        {
+            Employee newEmployee = new Employee();
+            newEmployee.employeeNumber = myRs.getString("employeeNumber");
+            newEmployee.password = myRs.getString("password");
+            newEmployee.name = myRs.getString("name");
+            newEmployee.emailAddress = myRs.getString("emailAddress");
+            newEmployee.streetAddress = myRs.getString("streetAddress");
+            newEmployee.city = myRs.getString("city");
+            newEmployee.state = myRs.getString("state");
+            newEmployee.zipCode = myRs.getString("zipCode");
+            newEmployee.isActive = myRs.getBoolean("isActive");
+            
+            employeeList.add(newEmployee);
+        }
+        
+        //cleanup connection
+        myRs.close();
+        myStmt.close();
+        myConn.close();
+        
+        //return the employeeList
+        return employeeList;
     }
     
-    public static List<Member> getAllMembers()
+    /**
+     * Gets and returns a list of all members from the member table in the
+     * database
+     * 
+     * @return list of members
+     * @throws SQLException 
+     */
+    public static ArrayList<Member> getAllMembers() throws SQLException
     {
-        return null;
+        //setup connection to database
+        Connection myConn = null;
+        Statement myStmt = null;
+        ResultSet myRs = null;
+        
+        myConn = DriverManager.getConnection(connectionString,
+                databaseUsername, databasePassword);
+        
+        //Create sql statement
+        myStmt = myConn.createStatement();
+        
+        String statement = "select * from member";
+        
+        //execute statement and store result
+        myRs = myStmt.executeQuery(statement);
+        
+        //Convert result set to List<Member>
+        ArrayList<Member> memberList = new ArrayList<Member>();
+        
+        while(myRs.next())
+        {
+            Member newMember = new Member();
+            newMember.memberNumber = myRs.getString("employeeNumber");
+            newMember.name = myRs.getString("name");
+            newMember.emailAddress = myRs.getString("emailAddress");
+            newMember.streetAddress = myRs.getString("streetAddress");
+            newMember.city = myRs.getString("city");
+            newMember.state = myRs.getString("state");
+            newMember.zipCode = myRs.getString("zipCode");
+            newMember.isValid = myRs.getBoolean("isValid");
+            newMember.validityReason = myRs.getString("validityReason");
+            newMember.isActive = myRs.getBoolean("isActive");
+            
+            memberList.add(newMember);
+        }
+        
+        //cleanup connection
+        myRs.close();
+        myStmt.close();
+        myConn.close();
+        
+        //return the memberList
+        return memberList;
     }
     
-    public static List<Provider> getAllProviders()
+    /**
+     * Gets and returns a list of all providers from the provider table in the
+     * database
+     * 
+     * @return list of providers
+     * @throws SQLException 
+     */
+    public static ArrayList<Provider> getAllProviders() throws SQLException
     {
-        return null;
+        //setup connection to database
+        Connection myConn = null;
+        Statement myStmt = null;
+        ResultSet myRs = null;
+        
+        myConn = DriverManager.getConnection(connectionString,
+                databaseUsername, databasePassword);
+        
+        //Create sql statement
+        myStmt = myConn.createStatement();
+        
+        String statement = "select * from provider";
+        
+        //execute statement and store result
+        myRs = myStmt.executeQuery(statement);
+        
+        //Convert result set to List<Provider>
+        ArrayList<Provider> providerList = new ArrayList<Provider>();
+        
+        while(myRs.next())
+        {
+            Provider newProvider = new Provider();
+            newProvider.providerNumber = myRs.getString("providerNumber");
+            newProvider.password = myRs.getString("password");
+            newProvider.name = myRs.getString("name");
+            newProvider.emailAddress = myRs.getString("emailAddress");
+            newProvider.streetAddress = myRs.getString("streetAddress");
+            newProvider.city = myRs.getString("city");
+            newProvider.state = myRs.getString("state");
+            newProvider.zipCode = myRs.getString("zipCode");
+            newProvider.isActive = myRs.getBoolean("isActive");
+            
+            providerList.add(newProvider);
+        }
+        
+        //cleanup connection
+        myRs.close();
+        myStmt.close();
+        myConn.close();
+        
+        //return the providerList
+        return providerList;
     }
     
     /**
@@ -294,9 +773,77 @@ public class DatabaseQueries
         }
     }
     
+    /**
+     * Inserts new Provider into the provider table if the providerNumber isn't
+     * already taken
+     * 
+     * @param providerData provider to be inserted into the database
+     * @return true if insert succeeded
+     */
     public static boolean insertProvider(Provider providerData)
     {
-        return false;
+        try
+        {
+            //setup connection to database
+            Connection myConn = null;
+            PreparedStatement myStmt = null;
+            ResultSet myRs = null;
+            
+            myConn = DriverManager.getConnection(connectionString,
+                    databaseUsername, databasePassword);
+            
+            //Check that providerNumber isn't taken.
+            //Create sql statement
+            String statement = "select providerNumber from provider where "
+                    + "providerNumber = ?";
+            
+            myStmt = myConn.prepareStatement(statement);
+            myStmt.setString(1, providerData.providerNumber);
+            
+            //execute query and store result
+            myRs = myStmt.executeQuery();
+            
+            boolean returnValue = true;
+            
+            //if there is a value returned, providerNumber is taken, return false
+            if (myRs.next())
+            {
+                returnValue = false;
+            }
+            
+            //if providerNumber isn't taken, insert the new provider
+            if (returnValue)
+            {
+                //Create sql statement
+                statement = "insert into employee values( ? , ? , ? , ? , ? , ? , ? "
+                        + ", ? , ? )";
+                
+                myStmt = myConn.prepareStatement(statement);
+                myStmt.setString(1, providerData.providerNumber);
+                myStmt.setString(2, providerData.password);
+                myStmt.setString(3, providerData.name);
+                myStmt.setString(4, providerData.emailAddress);
+                myStmt.setString(5, providerData.streetAddress);
+                myStmt.setString(6, providerData.city);
+                myStmt.setString(7, providerData.state);
+                myStmt.setString(8, providerData.zipCode);
+                myStmt.setBoolean(9, providerData.isActive);
+                
+                //execute query and store result
+                myRs = myStmt.executeQuery();
+            }
+            
+            //cleanup connection
+            myRs.close();
+            myStmt.close();
+            myConn.close();
+            
+            //return the boolean
+            return returnValue;
+        } catch(Exception e)
+        {
+            return false;
+        }
     }
     
     public static boolean updateProvider(Provider providerDate)
