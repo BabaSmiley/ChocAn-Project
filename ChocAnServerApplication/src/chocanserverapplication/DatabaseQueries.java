@@ -20,6 +20,8 @@ import chocanstructs.Provider;
 import chocanstructs.Member;
 import chocanstructs.Service;
 import chocanstructs.Bill;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 public class DatabaseQueries 
@@ -28,14 +30,336 @@ public class DatabaseQueries
     private static final String databaseUsername = "root";
     private static final String databasePassword = "";
     
-    public static ArrayList<Service> getServicesForMember(String memberNumber, Date endDate)
+    /**
+     * gets a list of bills from the database that contain memberNumber and were
+     * billed between endDate and endDate - 7 days
+     * 
+     * @param memberNumber
+     * @param endDate
+     * @return list of bills
+     * @throws SQLException 
+     */
+    public static ArrayList<Bill> getServicesForMember(String memberNumber, LocalDateTime endDate) throws SQLException
     {
-        return null;
+        //setup connection to database
+        Connection myConn = null;
+        PreparedStatement myStmt = null;
+        ResultSet myRs = null;
+        
+        myConn = DriverManager.getConnection(connectionString,
+                databaseUsername, databasePassword);
+        
+        //Format endDateTime and derive startDateTime
+        String formattedEndDateTime = "'" + endDate.getYear() + "-" + 
+                String.format("%02d", endDate.getMonthValue()) + "-" + 
+                String.format("%02d", endDate.getDayOfMonth()) + " " + 
+                String.format("%02d", endDate.getHour()) + ":" +
+                String.format("%02d", endDate.getMinute()) + ":" + 
+                String.format("%02d", endDate.getSecond()) + "'";
+        
+        LocalDateTime startDate = endDate.plusDays(-7);
+        
+        String formattedStartDateTime = "'" + startDate.getYear() + "-" + 
+                String.format("%02d", startDate.getMonthValue()) + "-" + 
+                String.format("%02d", startDate.getDayOfMonth()) + " " + 
+                String.format("%02d", startDate.getHour()) + ":" +
+                String.format("%02d", startDate.getMinute()) + ":" + 
+                String.format("%02d", startDate.getSecond()) + "'";
+        
+        //Create sql statement
+        String statement = "select * from bill where "
+                + "memberNumber = ? and (dateOfService between " + 
+                formattedStartDateTime + " and " + formattedEndDateTime + ")";
+        
+        myStmt = myConn.prepareStatement(statement);
+        myStmt.setString(1, memberNumber);
+        
+        //execute statement and store result
+        myRs = myStmt.executeQuery();
+        
+        //Convert Result Set into list of bills
+        ArrayList<Bill> billList = new ArrayList<Bill>();
+        
+        while(myRs.next())
+        {
+            Bill newBill = new Bill();
+            
+            newBill.providerNumber = myRs.getString("providerNumber");
+            newBill.memberNumber = myRs.getString("memberNumber");
+            newBill.serviceNumber = myRs.getString("serviceNumber");
+            newBill.dateTimeBilled = myRs.getDate("dateTimeBilled").toInstant()
+                    .atZone(ZoneId.systemDefault()).toLocalDateTime();
+            newBill.dateOfService = myRs.getDate("dateOfService").toInstant()
+                    .atZone(ZoneId.systemDefault()).toLocalDate();
+            newBill.comments = myRs.getString("comments");
+            
+            billList.add(newBill);
+        }
+        
+        //cleanup connection
+        myRs.close();
+        myStmt.close();
+        myConn.close();
+        
+        //return the billList
+        return billList;
     }
     
-    public static ArrayList<Service> getServicesForProvider(String providerNumber, Date endDate)
+    /**
+     * gets a list of bills from the database that contain providerNumber and were
+     * billed between endDate and endDate - 7 days
+     * 
+     * @param providerNumber
+     * @param endDate
+     * @return list of bills
+     * @throws SQLException 
+     */
+    public static ArrayList<Bill> getServicesForProvider(String providerNumber, LocalDateTime endDate) throws SQLException
     {
-        return null;
+        //setup connection to database
+        Connection myConn = null;
+        PreparedStatement myStmt = null;
+        ResultSet myRs = null;
+        
+        myConn = DriverManager.getConnection(connectionString,
+                databaseUsername, databasePassword);
+        
+        //Format endDateTime and derive startDateTime
+        String formattedEndDateTime = "'" + endDate.getYear() + "-" + 
+                String.format("%02d", endDate.getMonthValue()) + "-" + 
+                String.format("%02d", endDate.getDayOfMonth()) + " " + 
+                String.format("%02d", endDate.getHour()) + ":" +
+                String.format("%02d", endDate.getMinute()) + ":" + 
+                String.format("%02d", endDate.getSecond()) + "'";
+        
+        LocalDateTime startDate = endDate.plusDays(-7);
+        
+        String formattedStartDateTime = "'" + startDate.getYear() + "-" + 
+                String.format("%02d", startDate.getMonthValue()) + "-" + 
+                String.format("%02d", startDate.getDayOfMonth()) + " " + 
+                String.format("%02d", startDate.getHour()) + ":" +
+                String.format("%02d", startDate.getMinute()) + ":" + 
+                String.format("%02d", startDate.getSecond()) + "'";
+        
+        //Create sql statement
+        String statement = "select * from bill where "
+                + "providerNumber = ? and (dateOfService between " + 
+                formattedStartDateTime + " and " + formattedEndDateTime + ")";
+        
+        myStmt = myConn.prepareStatement(statement);
+        myStmt.setString(1, providerNumber);
+        
+        //execute statement and store result
+        myRs = myStmt.executeQuery();
+        
+        //Convert Result Set into list of bills
+        ArrayList<Bill> billList = new ArrayList<Bill>();
+        
+        while(myRs.next())
+        {
+            Bill newBill = new Bill();
+            
+            newBill.providerNumber = myRs.getString("providerNumber");
+            newBill.memberNumber = myRs.getString("memberNumber");
+            newBill.serviceNumber = myRs.getString("serviceNumber");
+            newBill.dateTimeBilled = myRs.getDate("dateTimeBilled").toInstant()
+                    .atZone(ZoneId.systemDefault()).toLocalDateTime();
+            newBill.dateOfService = myRs.getDate("dateOfService").toInstant()
+                    .atZone(ZoneId.systemDefault()).toLocalDate();
+            newBill.comments = myRs.getString("comments");
+            
+            billList.add(newBill);
+        }
+        
+        //cleanup connection
+        myRs.close();
+        myStmt.close();
+        myConn.close();
+        
+        //return the billList
+        return billList;
+    }
+    
+    /**
+     * gets the service associated with serviceNumber from the database
+     * 
+     * @param serviceNumber
+     * @return a service
+     * @throws SQLException 
+     */
+    public static Service getService(String serviceNumber) throws SQLException
+    {
+        //setup connection to database
+        Connection myConn = null;
+        PreparedStatement myStmt = null;
+        ResultSet myRs = null;
+        
+        myConn = DriverManager.getConnection(connectionString,
+                databaseUsername, databasePassword);
+        
+        //Create sql statement
+        String statement = "select * from servicedirectory where "
+                + "serviceNumber = ?";
+        
+        myStmt = myConn.prepareStatement(statement);
+        myStmt.setString(1, serviceNumber);
+        
+        //execute statement and store result
+        myRs = myStmt.executeQuery();
+        
+        //Convert Result Set into service
+        Service requestedService = new Service();
+        
+        if(myRs.next())
+        {
+            requestedService.serviceNumber = myRs.getString("serviceNumber");
+            requestedService.name = myRs.getString("name");
+            requestedService.fee = myRs.getDouble("fee");
+            requestedService.isActive = myRs.getBoolean("isActive");
+        }
+        else
+        {
+            requestedService.serviceNumber = "ERROR: SERVICE NOT FOUND";
+            requestedService.name = "ERROR: SERVICE NOT FOUND";
+            requestedService.fee = 0;
+            requestedService.isActive = false;
+        }
+        
+        //cleanup connection
+        myRs.close();
+        myStmt.close();
+        myConn.close();
+        
+        //return the service
+        return requestedService;
+    }
+    
+    /**
+     * gets the member associated with memberNumber in the database
+     * 
+     * @param memberNumber
+     * @return a member
+     * @throws SQLException 
+     */
+    public static Member getMember(String memberNumber) throws SQLException
+    {
+        //setup connection to database
+        Connection myConn = null;
+        PreparedStatement myStmt = null;
+        ResultSet myRs = null;
+        
+        myConn = DriverManager.getConnection(connectionString,
+                databaseUsername, databasePassword);
+        
+        //Create sql statement
+        String statement = "select * from member where "
+                + "memberNumber = ?";
+        
+        myStmt = myConn.prepareStatement(statement);
+        myStmt.setString(1, memberNumber);
+        
+        //execute statement and store result
+        myRs = myStmt.executeQuery();
+        
+        //Convert Result Set into member
+        Member requestedMember = new Member();
+        
+        if(myRs.next())
+        {
+            requestedMember.memberNumber = myRs.getString("employeeNumber");
+            requestedMember.name = myRs.getString("name");
+            requestedMember.emailAddress = myRs.getString("emailAddress");
+            requestedMember.streetAddress = myRs.getString("streetAddress");
+            requestedMember.city = myRs.getString("city");
+            requestedMember.state = myRs.getString("state");
+            requestedMember.zipCode = myRs.getString("zipCode");
+            requestedMember.isValid = myRs.getBoolean("isValid");
+            requestedMember.validityReason = myRs.getString("validityReason");
+            requestedMember.isActive = myRs.getBoolean("isActive");
+        }
+        else
+        {
+            requestedMember.memberNumber = "ERROR: MEMBER NOT FOUND";
+            requestedMember.name = "ERROR: MEMBER NOT FOUND";
+            requestedMember.emailAddress = "ERROR: MEMBER NOT FOUND";
+            requestedMember.streetAddress = "ERROR: MEMBER NOT FOUND";
+            requestedMember.city = "ERROR: MEMBER NOT FOUND";
+            requestedMember.state = "ERROR: MEMBER NOT FOUND";
+            requestedMember.zipCode = "ERROR: MEMBER NOT FOUND";
+            requestedMember.isValid = false;
+            requestedMember.validityReason = "ERROR: MEMBER NOT FOUND";
+            requestedMember.isActive = false;
+        }
+        
+        //cleanup connection
+        myRs.close();
+        myStmt.close();
+        myConn.close();
+        
+        //return the service
+        return requestedMember;
+    }
+    
+    /**
+     * gets the provider associated with providerNumber in the database
+     * 
+     * @param providerNumber
+     * @return a provider
+     * @throws SQLException 
+     */
+    public static Provider getProvider(String providerNumber) throws SQLException
+    {
+        //setup connection to database
+        Connection myConn = null;
+        PreparedStatement myStmt = null;
+        ResultSet myRs = null;
+        
+        myConn = DriverManager.getConnection(connectionString,
+                databaseUsername, databasePassword);
+        
+        //Create sql statement
+        String statement = "select * from provider where "
+                + "providerNumber = ?";
+        
+        myStmt = myConn.prepareStatement(statement);
+        myStmt.setString(1, providerNumber);
+        
+        //execute statement and store result
+        myRs = myStmt.executeQuery();
+        
+        //Convert Result Set into provider
+        Provider requestedProvider = new Provider();
+        
+        if(myRs.next())
+        {
+            requestedProvider.providerNumber = myRs.getString("providerNumber");
+            requestedProvider.name = myRs.getString("name");
+            requestedProvider.emailAddress = myRs.getString("emailAddress");
+            requestedProvider.streetAddress = myRs.getString("streetAddress");
+            requestedProvider.city = myRs.getString("city");
+            requestedProvider.state = myRs.getString("state");
+            requestedProvider.zipCode = myRs.getString("zipCode");
+            requestedProvider.isActive = myRs.getBoolean("isActive");
+        }
+        else
+        {
+            requestedProvider.providerNumber = "ERROR: MEMBER NOT FOUND";
+            requestedProvider.name = "ERROR: MEMBER NOT FOUND";
+            requestedProvider.emailAddress = "ERROR: MEMBER NOT FOUND";
+            requestedProvider.streetAddress = "ERROR: MEMBER NOT FOUND";
+            requestedProvider.city = "ERROR: MEMBER NOT FOUND";
+            requestedProvider.state = "ERROR: MEMBER NOT FOUND";
+            requestedProvider.zipCode = "ERROR: MEMBER NOT FOUND";
+            requestedProvider.isActive = false;
+        }
+        
+        //cleanup connection
+        myRs.close();
+        myStmt.close();
+        myConn.close();
+        
+        //return the service
+        return requestedProvider;
     }
     
     /**
@@ -674,8 +998,8 @@ public class DatabaseQueries
                 myStmt.setString(8, employeeData.zipCode);
                 myStmt.setBoolean(9, employeeData.isActive);
                 
-                //execute query and store result
-                myRs = myStmt.executeQuery();
+                //execute query
+                myStmt.executeUpdate();
             }
             
             //cleanup connection
@@ -756,8 +1080,8 @@ public class DatabaseQueries
                 myStmt.setBoolean(8, employeeData.isActive);
                 myStmt.setString(9, employeeData.employeeNumber);
                 
-                //execute query and store result
-                myRs = myStmt.executeQuery();
+                //execute query
+                myStmt.executeUpdate();
             }
             
             //cleanup connection
@@ -815,7 +1139,7 @@ public class DatabaseQueries
             if (returnValue)
             {
                 //Create sql statement
-                statement = "insert into employee values( ? , ? , ? , ? , ? , ? , ? "
+                statement = "insert into provider values( ? , ? , ? , ? , ? , ? , ? "
                         + ", ? , ? )";
                 
                 myStmt = myConn.prepareStatement(statement);
@@ -829,8 +1153,8 @@ public class DatabaseQueries
                 myStmt.setString(8, providerData.zipCode);
                 myStmt.setBoolean(9, providerData.isActive);
                 
-                //execute query and store result
-                myRs = myStmt.executeQuery();
+                //execute query
+                myStmt.executeUpdate();
             }
             
             //cleanup connection
@@ -846,33 +1170,513 @@ public class DatabaseQueries
         }
     }
     
-    public static boolean updateProvider(Provider providerDate)
+    /**
+     * Updates provider entry in the database if it exists.
+     * 
+     * @param providerData provider to be updated
+     * @return true if update successful
+     */
+    public static boolean updateProvider(Provider providerData)
     {
-        return false;
+        try
+        {
+            //setup connection to database
+            Connection myConn = null;
+            PreparedStatement myStmt = null;
+            ResultSet myRs = null;
+            
+            myConn = DriverManager.getConnection(connectionString,
+                    databaseUsername, databasePassword);
+            
+            //Check that providerNumber exists in the table
+            //Create sql statement
+            String statement = "select providerNumber from provider where "
+                    + "providerNumber = ?";
+            
+            myStmt = myConn.prepareStatement(statement);
+            myStmt.setString(1, providerData.providerNumber);
+            
+            //execute query and store result
+            myRs = myStmt.executeQuery();
+            
+            boolean returnValue = false;
+            
+            //if there is a value returned, providerNumber does exist in table
+            if (myRs.next())
+            {
+                returnValue = true;
+            }
+            
+            //if providerNumber exists in table, update the provider
+            if (returnValue)
+            {
+                //Create sql statement
+                statement = "update provider "
+                        + "set password = ? , "
+                        + "name = ? , "
+                        + "emailAddress = ? , "
+                        + "streetAddress = ? , "
+                        + "city = ? , "
+                        + "state = ? , "
+                        + "zipCode = ? , "
+                        + "isActive = ? , "
+                        + "where providerNumber = ?";
+                
+                myStmt = myConn.prepareStatement(statement);
+                myStmt.setString(1, providerData.password);
+                myStmt.setString(2, providerData.name);
+                myStmt.setString(3, providerData.emailAddress);
+                myStmt.setString(4, providerData.streetAddress);
+                myStmt.setString(5, providerData.city);
+                myStmt.setString(6, providerData.state);
+                myStmt.setString(7, providerData.zipCode);
+                myStmt.setBoolean(8, providerData.isActive);
+                myStmt.setString(9, providerData.providerNumber);
+                
+                //execute query
+                myStmt.executeUpdate();
+            }
+            
+            //cleanup connection
+            myRs.close();
+            myStmt.close();
+            myConn.close();
+            
+            //return the boolean
+            return returnValue;
+        } catch(Exception e)
+        {
+            return false;
+        }
     }
     
+    /**
+     * Inserts new Member into the member table if the memberNumber isn't taken
+     * 
+     * @param memberData member to be inserted into the database
+     * @return true if the insertion succeeds.
+     */
     public static boolean insertMember(Member memberData)
     {
-        return false;
+        try
+        {
+            //setup connection to database
+            Connection myConn = null;
+            PreparedStatement myStmt = null;
+            ResultSet myRs = null;
+            
+            myConn = DriverManager.getConnection(connectionString,
+                    databaseUsername, databasePassword);
+            
+            //Check that memberNumber isn't taken.
+            //Create sql statement
+            String statement = "select memberNumber from member where "
+                    + "memberNumber = ?";
+            
+            myStmt = myConn.prepareStatement(statement);
+            myStmt.setString(1, memberData.memberNumber);
+            
+            //execute query and store result
+            myRs = myStmt.executeQuery();
+            
+            boolean returnValue = true;
+            
+            //if there is a value returned, providerNumber is taken, return false
+            if (myRs.next())
+            {
+                returnValue = false;
+            }
+            
+            //if memberNumber isn't taken, insert the new member
+            if (returnValue)
+            {
+                //Create sql statement
+                statement = "insert into provider values( ? , ? , ? , ? , ? , ? , ? "
+                        + ", ? , ? , ? , ?)";
+                
+                myStmt = myConn.prepareStatement(statement);
+                myStmt.setString(1, memberData.memberNumber);
+                myStmt.setString(3, memberData.name);
+                myStmt.setString(4, memberData.emailAddress);
+                myStmt.setString(5, memberData.streetAddress);
+                myStmt.setString(6, memberData.city);
+                myStmt.setString(7, memberData.state);
+                myStmt.setString(8, memberData.zipCode);
+                myStmt.setBoolean(9, true);
+                myStmt.setBoolean(10, memberData.isValid);
+                myStmt.setString(11, memberData.validityReason);
+                myStmt.setBoolean(12, memberData.isActive);
+                
+                //execute query
+                myStmt.executeUpdate();
+            }
+            
+            //cleanup connection
+            myRs.close();
+            myStmt.close();
+            myConn.close();
+            
+            //return the boolean
+            return returnValue;
+        } catch(Exception e)
+        {
+            return false;
+        }
     }
     
+    /**
+     * Updates member entry in the database if it exists
+     * 
+     * @param memberData member to be updated
+     * @return true if the update was successful
+     */
     public static boolean updateMember(Member memberData)
     {
-        return false;
+        try
+        {
+            //setup connection to database
+            Connection myConn = null;
+            PreparedStatement myStmt = null;
+            ResultSet myRs = null;
+            
+            myConn = DriverManager.getConnection(connectionString,
+                    databaseUsername, databasePassword);
+            
+            //Check that memberNumber exists in the table
+            //Create sql statement
+            String statement = "select memberNumber from member where "
+                    + "memberNumber = ?";
+            
+            myStmt = myConn.prepareStatement(statement);
+            myStmt.setString(1, memberData.memberNumber);
+            
+            //execute query and store result
+            myRs = myStmt.executeQuery();
+            
+            boolean returnValue = false;
+            
+            //if there is a value returned, memberNumber does exist in table
+            if (myRs.next())
+            {
+                returnValue = true;
+            }
+            
+            //if memberNumber exists in table, update the member
+            if (returnValue)
+            {
+                //Create sql statement
+                statement = "update member "
+                        + "set name = ? , "
+                        + "emailAddress = ? , "
+                        + "streetAddress = ? , "
+                        + "city = ? , "
+                        + "state = ? , "
+                        + "zipCode = ? , "
+                        + "isUpdated = true , "
+                        + "isValid = ? , "
+                        + "validityReason = ? , "
+                        + "isActive = ? , "
+                        + "where memberNumber = ?";
+                
+                myStmt = myConn.prepareStatement(statement);
+                myStmt.setString(1, memberData.name);
+                myStmt.setString(2, memberData.emailAddress);
+                myStmt.setString(3, memberData.streetAddress);
+                myStmt.setString(4, memberData.city);
+                myStmt.setString(5, memberData.state);
+                myStmt.setString(6, memberData.zipCode);
+                myStmt.setBoolean(7, true);
+                myStmt.setBoolean(8, memberData.isValid);
+                myStmt.setString(9, memberData.validityReason);
+                myStmt.setBoolean(10, memberData.isActive);
+                myStmt.setString(11, memberData.memberNumber);
+                
+                //execute query
+                myStmt.executeUpdate();
+            }
+            
+            //cleanup connection
+            myRs.close();
+            myStmt.close();
+            myConn.close();
+            
+            //return the boolean
+            return returnValue;
+        } catch(Exception e)
+        {
+            return false;
+        }
     }
     
+    /**
+     * Inserts new service into the servicedirectory table if the serviceNumber
+     * isn't taken
+     * 
+     * @param serviceData service to be inserted
+     * @return true if the insertion succeeded
+     */
     public static boolean insertService(Service serviceData)
     {
-        return false;
+        try
+        {
+            //setup connection to database
+            Connection myConn = null;
+            PreparedStatement myStmt = null;
+            ResultSet myRs = null;
+            
+            myConn = DriverManager.getConnection(connectionString,
+                    databaseUsername, databasePassword);
+            
+            //Check that serviceNumber isn't taken.
+            //Create sql statement
+            String statement = "select serviceNumber from servicedirectory where "
+                    + "serviceNumber = ?";
+            
+            myStmt = myConn.prepareStatement(statement);
+            myStmt.setString(1, serviceData.serviceNumber);
+            
+            //execute query and store result
+            myRs = myStmt.executeQuery();
+            
+            boolean returnValue = true;
+            
+            //if there is a value returned, serviceNumber is taken, return false
+            if (myRs.next())
+            {
+                returnValue = false;
+            }
+            
+            //if serviceNumber isn't taken, insert the new service
+            if (returnValue)
+            {
+                //Create sql statement
+                statement = "insert into servicedirectory values( ? , ? , ? , ? )";
+                
+                myStmt = myConn.prepareStatement(statement);
+                myStmt.setString(1, serviceData.serviceNumber);
+                myStmt.setString(3, serviceData.name);
+                myStmt.setDouble(4, serviceData.fee);
+                myStmt.setBoolean(5, serviceData.isActive);
+                
+                //execute query
+                myStmt.executeUpdate();
+            }
+            
+            //cleanup connection
+            myRs.close();
+            myStmt.close();
+            myConn.close();
+            
+            //return the boolean
+            return returnValue;
+        } catch(Exception e)
+        {
+            return false;
+        }
     }
     
+    /**
+     * Updates service entry in the database if it exists
+     * 
+     * @param serviceData service to be updated
+     * @return true if the update was successful
+     */
     public static boolean updateService(Service serviceData)
     {
-        return false;
+        try
+        {
+            //setup connection to database
+            Connection myConn = null;
+            PreparedStatement myStmt = null;
+            ResultSet myRs = null;
+            
+            myConn = DriverManager.getConnection(connectionString,
+                    databaseUsername, databasePassword);
+            
+            //Check that serviceNumber exists in the table
+            //Create sql statement
+            String statement = "select serviceNumber from servicedirectory where "
+                    + "serviceNumber = ?";
+            
+            myStmt = myConn.prepareStatement(statement);
+            myStmt.setString(1, serviceData.serviceNumber);
+            
+            //execute query and store result
+            myRs = myStmt.executeQuery();
+            
+            boolean returnValue = false;
+            
+            //if there is a value returned, serviceNumber does exist in table
+            if (myRs.next())
+            {
+                returnValue = true;
+            }
+            
+            //if serviceNumber exists in table, update the service
+            if (returnValue)
+            {
+                //Create sql statement
+                statement = "update servicedirectory "
+                        + "set name = ? , "
+                        + "fee = ? , "
+                        + "isActive = ? , "
+                        + "where serviceNumber = ?";
+                
+                myStmt = myConn.prepareStatement(statement);
+                myStmt.setString(1, serviceData.name);
+                myStmt.setDouble(2, serviceData.fee);
+                myStmt.setBoolean(3, serviceData.isActive);
+                
+                //execute query
+                myStmt.executeUpdate();
+            }
+            
+            //cleanup connection
+            myRs.close();
+            myStmt.close();
+            myConn.close();
+            
+            //return the boolean
+            return returnValue;
+        } catch(Exception e)
+        {
+            return false;
+        }
     }
     
+    /**
+     * Inserts new bill into the bill table if the bill is unique and if providerNumber,
+     * memberNumber, and serviceNumber all have entries in their respective tables
+     * 
+     * @param billData bill to be inserted into the database
+     * @return true if the insert is successful
+     */
     public static boolean insertBill(Bill billData)
     {
-        return false;
+        try
+        {
+            //setup connection to database
+            Connection myConn = null;
+            PreparedStatement myStmt = null;
+            ResultSet myRs = null;
+            
+            myConn = DriverManager.getConnection(connectionString,
+                    databaseUsername, databasePassword);
+            
+            boolean returnValue = true;
+            //Check that ProviderNumber exists in provider
+            //Create sql statement
+            String statement = "select providerNumber from provider where "
+                    + "providerNumber = ?";
+            
+            myStmt = myConn.prepareStatement(statement);
+            myStmt.setString(1, billData.providerNumber);
+            
+            //execute query and store result
+            myRs = myStmt.executeQuery();
+            
+            //if there isn't a value returned, providerNumber doesn't exist. Fail insert
+            if(!myRs.next())
+            {
+                returnValue = false;
+            }
+            
+            //Check that MemberNumber exists in member
+            //Create sql statement
+            statement = "select memberNumber from member where "
+                    + "memberNumber = ?";
+            
+            myStmt = myConn.prepareStatement(statement);
+            myStmt.setString(1, billData.memberNumber);
+            
+            //execute query and store result
+            myRs = myStmt.executeQuery();
+            
+            //if there isn't a value returned, memberNumber doesn't exist. Fail insert
+            if(!myRs.next())
+            {
+                returnValue = false;
+            }
+            
+            //Check that ServiceNumber exists in servicedirectory
+            //Create sql statement
+            statement = "select serviceNumber from servicedirectory where "
+                    + "serviceNumber = ?";
+            
+            myStmt = myConn.prepareStatement(statement);
+            myStmt.setString(1, billData.serviceNumber);
+            
+            //execute query and store result
+            myRs = myStmt.executeQuery();
+            
+            //if there isn't a value returned, serviceNumber doesn't exist. Fail insert
+            if(!myRs.next())
+            {
+                returnValue = false;
+            }
+            
+            //Check that bill is unique
+            //Format dateTimeBilled
+            String formattedDateTimeBilled = "'" + billData.dateTimeBilled.getYear() + "-" + 
+                String.format("%02d", billData.dateTimeBilled.getMonthValue()) + "-" + 
+                String.format("%02d", billData.dateTimeBilled.getDayOfMonth()) + " " + 
+                String.format("%02d", billData.dateTimeBilled.getHour()) + ":" +
+                String.format("%02d", billData.dateTimeBilled.getMinute()) + ":" + 
+                String.format("%02d", billData.dateTimeBilled.getSecond()) + "'";
+            
+            //Create sql statement
+            statement = "select serviceNumber from bill where "
+                    + "providerNumber = ? and memberNumber = ? and "
+                    + "serviceNumber = ? and dateTimeBilled = "
+                    + formattedDateTimeBilled;
+            
+            myStmt = myConn.prepareStatement(statement);
+            myStmt.setString(1, billData.providerNumber);
+            myStmt.setString(2, billData.memberNumber);
+            myStmt.setString(3, billData.serviceNumber);
+            
+            //execute query and store result
+            myRs = myStmt.executeQuery();
+            
+            //if there is a value returned, date isn't unqiue, return false
+            if (myRs.next())
+            {
+                returnValue = false;
+            }
+            
+            //if bill is unique, insert the new bill
+            if (returnValue)
+            {
+                //Format dateOfService
+                String formattedDateOfService = "'" + billData.dateOfService.getYear() + "-" + 
+                String.format("%02d", billData.dateOfService.getMonthValue()) + "-" + 
+                String.format("%02d", billData.dateOfService.getDayOfMonth()) + "'";
+                
+                //Create sql statement
+                statement = "insert into bill values( ? , ? , ? , " + 
+                        formattedDateTimeBilled + " , " + formattedDateOfService + 
+                        " , ? )";
+                
+                myStmt = myConn.prepareStatement(statement);
+                myStmt.setString(1, billData.providerNumber);
+                myStmt.setString(2, billData.memberNumber);
+                myStmt.setString(3, billData.serviceNumber);
+                myStmt.setString(4, billData.comments);
+                
+                //execute query
+                myStmt.executeUpdate();
+            }
+            
+            //cleanup connection
+            myRs.close();
+            myStmt.close();
+            myConn.close();
+            
+            //return the boolean
+            return returnValue;
+        } catch(Exception e)
+        {
+            return false;
+        }
     }
 }

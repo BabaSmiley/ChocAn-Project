@@ -13,14 +13,16 @@
 
 package chocanstructs;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Bill 
 {
     public String providerNumber;
     public String memberNumber;
     public String serviceNumber;
-    public Date dateOfService;
+    public LocalDateTime dateTimeBilled;
+    public LocalDate dateOfService;
     public String comments;
     
     public Bill()

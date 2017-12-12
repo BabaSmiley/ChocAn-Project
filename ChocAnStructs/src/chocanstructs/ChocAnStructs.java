@@ -5,12 +5,20 @@
  */
 package chocanstructs;
 
+import java.time.LocalDateTime;
+
 public class ChocAnStructs 
 {
     public static void main(String[] args) 
     {
-        Member myMember = new Member();
+        LocalDateTime dateTime = LocalDateTime.now();
         
-        System.out.println("ran");
+        System.out.println(dateTime);
+        System.out.println(dateTime.getYear() + "-" + 
+                String.format("%02d", dateTime.getMonthValue()) + "-" + 
+                String.format("%02d", dateTime.getDayOfMonth()) + " " + 
+                String.format("%02d", dateTime.getHour()) + ":" +
+                String.format("%02d", dateTime.getMinute()) + ":" + 
+                String.format("%02d", dateTime.getSecond()));
     }
 }
