@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class DatabaseQueries 
 {
-    private static final String connectionString = "jdbc:mysql://localhost:3306/chocan";
+    private static final String connectionString = "jdbc:mysql://localhost:3306/chocan?autoReconnect=true&useSSL=false";
     private static final String databaseUsername = "root";
     private static final String databasePassword = "";
     
@@ -266,7 +266,7 @@ public class DatabaseQueries
         
         if(myRs.next())
         {
-            requestedMember.memberNumber = myRs.getString("employeeNumber");
+            requestedMember.memberNumber = myRs.getString("memberNumber");
             requestedMember.name = myRs.getString("name");
             requestedMember.emailAddress = myRs.getString("emailAddress");
             requestedMember.streetAddress = myRs.getString("streetAddress");
