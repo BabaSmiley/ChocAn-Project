@@ -363,14 +363,13 @@ public class DatabaseQueries
     }
     
     /**
-     * queries database for employee with employeeNumber and password. Returns
-     * true if found, false otherwise
+     * queries database for employee with employeeNumber and password.
      * 
      * @param employeeNumber
      * @param password
-     * @return true if found, false if not found
+     * @return 0 if employee login, 1 if manager login, 2 if bad login, 3 if database down.
      */
-    public static boolean employeeLoginQuery(String employeeNumber, String password)
+    public static int employeeLogin(String employeeNumber, String password)
     {
         try
         {
@@ -383,7 +382,7 @@ public class DatabaseQueries
                     databaseUsername, databasePassword);
             
             //Create sql statement
-            String statement = "select employeeNumber, password from employee where "
+            String statement = "select isManager, password from employee where "
                     + "employeeNumber = ? and password = ? and isActive = true";
             
             myStmt = myConn.prepareStatement(statement);
@@ -393,16 +392,19 @@ public class DatabaseQueries
             //execute query and store result
             myRs = myStmt.executeQuery();
             
-            boolean returnValue;
+            int returnValue;
             
             //if there is a value returned, save true, otherwise save false
             if (myRs.next())
             {
-                returnValue = true;
+                if (myRs.getBoolean("isManager"))
+                    returnValue = 1;
+                else
+                    returnValue = 0;
             }
             else
             {
-                returnValue = false;
+                returnValue = 2;
             }
             
             //cleanup connection
@@ -414,7 +416,7 @@ public class DatabaseQueries
             return returnValue;
         } catch(Exception e)
         {
-            return false;
+            return 3;
         }
     }
     
@@ -949,7 +951,7 @@ public class DatabaseQueries
      * @param employeeData employee struct containing data for insertion
      * @return true if insertion success, else false
      */
-    public static boolean insertEmployeeQuery(Employee employeeData)
+    public static boolean insertEmployee(Employee employeeData)
     {
         try
         {
@@ -1023,7 +1025,7 @@ public class DatabaseQueries
      * @return true if update success, else false
      * @throws SQLException 
      */
-    public static boolean updateEmployeeQuery(Employee employeeData)
+    public static boolean updateEmployee(Employee employeeData)
     {
         try
         {

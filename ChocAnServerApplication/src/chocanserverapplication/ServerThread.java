@@ -19,10 +19,14 @@ package chocanserverapplication;
 
 import java.net.Socket;
 import java.util.List;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class ServerThread implements Runnable
 {
     private Socket client;
+    ObjectInputStream inputStream;
+    ObjectOutputStream outputStream;
     private int clientPrivileges; //-1 = none, 0 = employee, 1 = manager
     
     /**
@@ -30,21 +34,46 @@ public class ServerThread implements Runnable
      */
     public ServerThread(Socket client)
     {
-        this.client = client;
-        clientPrivileges = -1;
+        try
+        {
+            this.client = client;
+            inputStream = new ObjectInputStream(client.getInputStream());
+            outputStream = new ObjectOutputStream(client.getOutputStream());
+            clientPrivileges = -1;
+        } catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
-
+    
     /**
      * First checks the client's credentials (login) and stores what their
      * privileges are.
-     * 
+     *
      * Then run the main loop.
-     * 
+     *
      * Should take input, figure out what to do with it, do it, send a response
      * to the client, then repeat.
      */
-    public void run() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void run()
+    {
+        try
+        {
+            String receivedCommand;
+            String employeeNumber = (String) inputStream.readObject();
+            String password = (String) inputStream.readObject();
+            
+            
+            String response;
+            
+            while(true)
+            {
+                
+            }
+        } catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
     
     /**
@@ -54,8 +83,9 @@ public class ServerThread implements Runnable
      * 
      * @param input
      */
-    public String processInput(String input)
+    private String processInput(String input)
     {
         return null;
     }
+    
 }
