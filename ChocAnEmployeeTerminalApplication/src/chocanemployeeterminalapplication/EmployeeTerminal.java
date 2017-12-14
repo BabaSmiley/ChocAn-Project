@@ -27,21 +27,466 @@ public class EmployeeTerminal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        titlePanel = new javax.swing.JPanel();
+        logoutButton = new javax.swing.JButton();
+        welcomeLabel = new javax.swing.JLabel();
+        chocAnLabel = new javax.swing.JLabel();
+        mainPanel = new javax.swing.JTabbedPane();
+        serviceDirectoryPanel = new javax.swing.JPanel();
+        createButtonSD = new javax.swing.JButton();
+        editButtonSD = new javax.swing.JButton();
+        deleteButtonSD = new javax.swing.JButton();
+        scrollPanelSD = new javax.swing.JScrollPane();
+        servicesLabel = new javax.swing.JLabel();
+        providersPanel = new javax.swing.JPanel();
+        scrollPaneP = new javax.swing.JScrollPane();
+        providersLabel = new javax.swing.JLabel();
+        createButtonP = new javax.swing.JButton();
+        editButtonP = new javax.swing.JButton();
+        deleteButtonP = new javax.swing.JButton();
+        membersPanel = new javax.swing.JPanel();
+        scrollPanelM = new javax.swing.JScrollPane();
+        membersLabel = new javax.swing.JLabel();
+        createButtonM = new javax.swing.JButton();
+        editButtonM = new javax.swing.JButton();
+        deleteButtonM = new javax.swing.JButton();
+        employeesPanel = new javax.swing.JPanel();
+        employeesLabel = new javax.swing.JLabel();
+        scrollPanelE = new javax.swing.JScrollPane();
+        createButtonE = new javax.swing.JButton();
+        editButtonE = new javax.swing.JButton();
+        deleteButtonE = new javax.swing.JButton();
+        requestReportPanel = new javax.swing.JPanel();
+        requestReportButton = new javax.swing.JButton();
+        dateScrollPane = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        requestReportInstructions = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Chocoholics Anonymous");
+        setBackground(new java.awt.Color(230, 242, 255));
+
+        titlePanel.setBackground(new java.awt.Color(236, 245, 255));
+
+        logoutButton.setFont(new java.awt.Font("Verdana", 0, 16)); // NOI18N
+        logoutButton.setText("Log out");
+        logoutButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        welcomeLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        welcomeLabel.setText("Welcome, ");
+
+        chocAnLabel.setFont(new java.awt.Font("Verdana", 1, 36)); // NOI18N
+        chocAnLabel.setText("Chocoholics Anonymous");
+
+        javax.swing.GroupLayout titlePanelLayout = new javax.swing.GroupLayout(titlePanel);
+        titlePanel.setLayout(titlePanelLayout);
+        titlePanelLayout.setHorizontalGroup(
+            titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(titlePanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titlePanelLayout.createSequentialGroup()
+                        .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titlePanelLayout.createSequentialGroup()
+                        .addComponent(welcomeLabel)
+                        .addGap(141, 141, 141))))
+            .addGroup(titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titlePanelLayout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(chocAnLabel)
+                    .addGap(414, 414, 414)))
+        );
+        titlePanelLayout.setVerticalGroup(
+            titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titlePanelLayout.createSequentialGroup()
+                .addContainerGap(26, Short.MAX_VALUE)
+                .addComponent(welcomeLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(logoutButton)
+                .addGap(25, 25, 25))
+            .addGroup(titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(titlePanelLayout.createSequentialGroup()
+                    .addComponent(chocAnLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(23, Short.MAX_VALUE)))
+        );
+
+        mainPanel.setBackground(new java.awt.Color(236, 245, 255));
+        mainPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        mainPanel.setName(""); // NOI18N
+
+        serviceDirectoryPanel.setBackground(new java.awt.Color(236, 245, 255));
+        serviceDirectoryPanel.setName("Service Directory "); // NOI18N
+
+        createButtonSD.setFont(new java.awt.Font("Verdana", 0, 16)); // NOI18N
+        createButtonSD.setText("Create");
+        createButtonSD.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        createButtonSD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createButtonSDActionPerformed(evt);
+            }
+        });
+
+        editButtonSD.setFont(new java.awt.Font("Verdana", 0, 16)); // NOI18N
+        editButtonSD.setText("Edit");
+        editButtonSD.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        editButtonSD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonSDActionPerformed(evt);
+            }
+        });
+
+        deleteButtonSD.setFont(new java.awt.Font("Verdana", 0, 16)); // NOI18N
+        deleteButtonSD.setText("Delete");
+        deleteButtonSD.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        scrollPanelSD.setBackground(new java.awt.Color(242, 245, 247));
+        scrollPanelSD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        servicesLabel.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        servicesLabel.setText("Services:");
+
+        javax.swing.GroupLayout serviceDirectoryPanelLayout = new javax.swing.GroupLayout(serviceDirectoryPanel);
+        serviceDirectoryPanel.setLayout(serviceDirectoryPanelLayout);
+        serviceDirectoryPanelLayout.setHorizontalGroup(
+            serviceDirectoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(serviceDirectoryPanelLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addGroup(serviceDirectoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(servicesLabel)
+                    .addGroup(serviceDirectoryPanelLayout.createSequentialGroup()
+                        .addComponent(scrollPanelSD, javax.swing.GroupLayout.PREFERRED_SIZE, 612, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(69, 69, 69)
+                        .addGroup(serviceDirectoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(editButtonSD, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(createButtonSD, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(deleteButtonSD, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(78, Short.MAX_VALUE))
+        );
+        serviceDirectoryPanelLayout.setVerticalGroup(
+            serviceDirectoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, serviceDirectoryPanelLayout.createSequentialGroup()
+                .addContainerGap(65, Short.MAX_VALUE)
+                .addComponent(servicesLabel)
+                .addGroup(serviceDirectoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(serviceDirectoryPanelLayout.createSequentialGroup()
+                        .addGap(175, 175, 175)
+                        .addComponent(createButtonSD)
+                        .addGap(31, 31, 31)
+                        .addComponent(editButtonSD)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(deleteButtonSD))
+                    .addGroup(serviceDirectoryPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(scrollPanelSD, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(25, 25, 25))
+        );
+
+        servicesLabel.getAccessibleContext().setAccessibleName("Services ");
+
+        mainPanel.addTab("Service Directory ", serviceDirectoryPanel);
+
+        providersPanel.setBackground(new java.awt.Color(237, 245, 255));
+
+        scrollPaneP.setBackground(new java.awt.Color(243, 237, 237));
+        scrollPaneP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        providersLabel.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        providersLabel.setText("Providers:");
+
+        createButtonP.setFont(new java.awt.Font("Verdana", 0, 16)); // NOI18N
+        createButtonP.setText("Create");
+        createButtonP.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        createButtonP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createButtonPActionPerformed(evt);
+            }
+        });
+
+        editButtonP.setFont(new java.awt.Font("Verdana", 0, 16)); // NOI18N
+        editButtonP.setText("Edit");
+        editButtonP.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        editButtonP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonPActionPerformed(evt);
+            }
+        });
+
+        deleteButtonP.setFont(new java.awt.Font("Verdana", 0, 16)); // NOI18N
+        deleteButtonP.setText("Delete");
+        deleteButtonP.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        javax.swing.GroupLayout providersPanelLayout = new javax.swing.GroupLayout(providersPanel);
+        providersPanel.setLayout(providersPanelLayout);
+        providersPanelLayout.setHorizontalGroup(
+            providersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(providersPanelLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addGroup(providersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(providersLabel)
+                    .addGroup(providersPanelLayout.createSequentialGroup()
+                        .addComponent(scrollPaneP, javax.swing.GroupLayout.PREFERRED_SIZE, 612, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(73, 73, 73)
+                        .addGroup(providersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(editButtonP, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(createButtonP, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(deleteButtonP, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(73, Short.MAX_VALUE))
+        );
+        providersPanelLayout.setVerticalGroup(
+            providersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, providersPanelLayout.createSequentialGroup()
+                .addContainerGap(65, Short.MAX_VALUE)
+                .addGroup(providersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(providersPanelLayout.createSequentialGroup()
+                        .addComponent(createButtonP)
+                        .addGap(27, 27, 27)
+                        .addComponent(editButtonP)
+                        .addGap(30, 30, 30)
+                        .addComponent(deleteButtonP))
+                    .addGroup(providersPanelLayout.createSequentialGroup()
+                        .addComponent(providersLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(scrollPaneP, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(25, 25, 25))
+        );
+
+        providersLabel.getAccessibleContext().setAccessibleName("providersLabel ");
+
+        mainPanel.addTab("Providers ", providersPanel);
+
+        membersPanel.setBackground(new java.awt.Color(237, 245, 255));
+
+        scrollPanelM.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        membersLabel.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        membersLabel.setText("Members:");
+
+        createButtonM.setFont(new java.awt.Font("Verdana", 0, 16)); // NOI18N
+        createButtonM.setText("Create");
+        createButtonM.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        createButtonM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createButtonMActionPerformed(evt);
+            }
+        });
+
+        editButtonM.setFont(new java.awt.Font("Verdana", 0, 16)); // NOI18N
+        editButtonM.setText("Edit");
+        editButtonM.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        editButtonM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonMActionPerformed(evt);
+            }
+        });
+
+        deleteButtonM.setFont(new java.awt.Font("Verdana", 0, 16)); // NOI18N
+        deleteButtonM.setText("Delete");
+        deleteButtonM.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        javax.swing.GroupLayout membersPanelLayout = new javax.swing.GroupLayout(membersPanel);
+        membersPanel.setLayout(membersPanelLayout);
+        membersPanelLayout.setHorizontalGroup(
+            membersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(membersPanelLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addGroup(membersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(membersLabel)
+                    .addGroup(membersPanelLayout.createSequentialGroup()
+                        .addComponent(scrollPanelM, javax.swing.GroupLayout.PREFERRED_SIZE, 612, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(69, 69, 69)
+                        .addGroup(membersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(editButtonM, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(createButtonM, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(deleteButtonM, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(77, Short.MAX_VALUE))
+        );
+        membersPanelLayout.setVerticalGroup(
+            membersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, membersPanelLayout.createSequentialGroup()
+                .addContainerGap(65, Short.MAX_VALUE)
+                .addComponent(membersLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(membersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(membersPanelLayout.createSequentialGroup()
+                        .addComponent(createButtonM)
+                        .addGap(28, 28, 28)
+                        .addComponent(editButtonM)
+                        .addGap(29, 29, 29)
+                        .addComponent(deleteButtonM))
+                    .addComponent(scrollPanelM, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25))
+        );
+
+        mainPanel.addTab("Members", membersPanel);
+
+        employeesPanel.setBackground(new java.awt.Color(237, 245, 255));
+
+        employeesLabel.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        employeesLabel.setText("Employees:");
+
+        scrollPanelE.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        createButtonE.setFont(new java.awt.Font("Verdana", 0, 16)); // NOI18N
+        createButtonE.setText("Create");
+        createButtonE.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        createButtonE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createButtonEActionPerformed(evt);
+            }
+        });
+
+        editButtonE.setFont(new java.awt.Font("Verdana", 0, 16)); // NOI18N
+        editButtonE.setText("Edit");
+        editButtonE.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        editButtonE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonEActionPerformed(evt);
+            }
+        });
+
+        deleteButtonE.setFont(new java.awt.Font("Verdana", 0, 16)); // NOI18N
+        deleteButtonE.setText("Delete");
+        deleteButtonE.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        javax.swing.GroupLayout employeesPanelLayout = new javax.swing.GroupLayout(employeesPanel);
+        employeesPanel.setLayout(employeesPanelLayout);
+        employeesPanelLayout.setHorizontalGroup(
+            employeesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(employeesPanelLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addGroup(employeesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(employeesLabel)
+                    .addGroup(employeesPanelLayout.createSequentialGroup()
+                        .addComponent(scrollPanelE, javax.swing.GroupLayout.PREFERRED_SIZE, 612, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(67, 67, 67)
+                        .addGroup(employeesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(editButtonE, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(createButtonE, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(deleteButtonE, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(78, Short.MAX_VALUE))
+        );
+        employeesPanelLayout.setVerticalGroup(
+            employeesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, employeesPanelLayout.createSequentialGroup()
+                .addContainerGap(65, Short.MAX_VALUE)
+                .addGroup(employeesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(employeesPanelLayout.createSequentialGroup()
+                        .addComponent(createButtonE)
+                        .addGap(29, 29, 29)
+                        .addComponent(editButtonE)
+                        .addGap(29, 29, 29)
+                        .addComponent(deleteButtonE))
+                    .addGroup(employeesPanelLayout.createSequentialGroup()
+                        .addComponent(employeesLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(scrollPanelE, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(25, 25, 25))
+        );
+
+        mainPanel.addTab("Employees", employeesPanel);
+
+        requestReportPanel.setBackground(new java.awt.Color(237, 245, 255));
+
+        requestReportButton.setFont(new java.awt.Font("Verdana", 0, 16)); // NOI18N
+        requestReportButton.setText("Request Report");
+        requestReportButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jList1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        dateScrollPane.setViewportView(jList1);
+
+        requestReportInstructions.setText("Choose a date to request a report for:");
+
+        javax.swing.GroupLayout requestReportPanelLayout = new javax.swing.GroupLayout(requestReportPanel);
+        requestReportPanel.setLayout(requestReportPanelLayout);
+        requestReportPanelLayout.setHorizontalGroup(
+            requestReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(requestReportPanelLayout.createSequentialGroup()
+                .addGroup(requestReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(requestReportPanelLayout.createSequentialGroup()
+                        .addGap(355, 355, 355)
+                        .addGroup(requestReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(dateScrollPane)
+                            .addComponent(requestReportButton, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)))
+                    .addGroup(requestReportPanelLayout.createSequentialGroup()
+                        .addGap(309, 309, 309)
+                        .addComponent(requestReportInstructions)))
+                .addContainerGap(358, Short.MAX_VALUE))
+        );
+        requestReportPanelLayout.setVerticalGroup(
+            requestReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, requestReportPanelLayout.createSequentialGroup()
+                .addContainerGap(82, Short.MAX_VALUE)
+                .addComponent(requestReportInstructions)
+                .addGap(18, 18, 18)
+                .addComponent(dateScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(requestReportButton)
+                .addGap(88, 88, 88))
+        );
+
+        mainPanel.addTab("Request Report", requestReportPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(titlePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mainPanel)
+                .addContainerGap())
         );
+
+        mainPanel.getAccessibleContext().setAccessibleName("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void editButtonSDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonSDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editButtonSDActionPerformed
+
+    private void createButtonSDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonSDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_createButtonSDActionPerformed
+
+    private void createButtonPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonPActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_createButtonPActionPerformed
+
+    private void editButtonPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonPActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editButtonPActionPerformed
+
+    private void createButtonMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonMActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_createButtonMActionPerformed
+
+    private void editButtonMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonMActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editButtonMActionPerformed
+
+    private void createButtonEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonEActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_createButtonEActionPerformed
+
+    private void editButtonEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonEActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editButtonEActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +524,39 @@ public class EmployeeTerminal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel chocAnLabel;
+    private javax.swing.JButton createButtonE;
+    private javax.swing.JButton createButtonM;
+    private javax.swing.JButton createButtonP;
+    private javax.swing.JButton createButtonSD;
+    private javax.swing.JScrollPane dateScrollPane;
+    private javax.swing.JButton deleteButtonE;
+    private javax.swing.JButton deleteButtonM;
+    private javax.swing.JButton deleteButtonP;
+    private javax.swing.JButton deleteButtonSD;
+    private javax.swing.JButton editButtonE;
+    private javax.swing.JButton editButtonM;
+    private javax.swing.JButton editButtonP;
+    private javax.swing.JButton editButtonSD;
+    private javax.swing.JLabel employeesLabel;
+    private javax.swing.JPanel employeesPanel;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JButton logoutButton;
+    private javax.swing.JTabbedPane mainPanel;
+    private javax.swing.JLabel membersLabel;
+    private javax.swing.JPanel membersPanel;
+    private javax.swing.JLabel providersLabel;
+    private javax.swing.JPanel providersPanel;
+    private javax.swing.JButton requestReportButton;
+    private javax.swing.JLabel requestReportInstructions;
+    private javax.swing.JPanel requestReportPanel;
+    private javax.swing.JScrollPane scrollPaneP;
+    private javax.swing.JScrollPane scrollPanelE;
+    private javax.swing.JScrollPane scrollPanelM;
+    private javax.swing.JScrollPane scrollPanelSD;
+    private javax.swing.JPanel serviceDirectoryPanel;
+    private javax.swing.JLabel servicesLabel;
+    private javax.swing.JPanel titlePanel;
+    private javax.swing.JLabel welcomeLabel;
     // End of variables declaration//GEN-END:variables
 }
