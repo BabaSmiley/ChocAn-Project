@@ -18,7 +18,6 @@
 package chocanserverapplication;
 
 import java.net.Socket;
-import java.util.List;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -27,6 +26,7 @@ public class ServerThread implements Runnable
     private Socket client;
     ObjectInputStream inputStream;
     ObjectOutputStream outputStream;
+    
     private int clientPrivileges; //-1 = none, 0 = employee, 1 = manager
     
     /**
@@ -37,9 +37,10 @@ public class ServerThread implements Runnable
         try
         {
             this.client = client;
+            clientPrivileges = -1;
+            
             inputStream = new ObjectInputStream(client.getInputStream());
             outputStream = new ObjectOutputStream(client.getOutputStream());
-            clientPrivileges = -1;
         } catch(Exception e)
         {
             e.printStackTrace();
@@ -59,17 +60,21 @@ public class ServerThread implements Runnable
     {
         try
         {
-            String receivedCommand;
-            String employeeNumber = (String) inputStream.readObject();
-            String password = (String) inputStream.readObject();
+            String receivedCommand = (String) inputStream.readObject();
+            if (receivedCommand.equals("employeelogin"))
+            {
+                int response = processEmployeeLoginCommand();
+                clientPrivileges = response;
+                
+                outputStream.writeObject(response);
+            }
             
-            
-            String response;
-            
-            while(true)
+            while(clientPrivileges == 0 || clientPrivileges == 1)
             {
                 
             }
+            
+            client.close();
         } catch(Exception e)
         {
             e.printStackTrace();
@@ -88,4 +93,17 @@ public class ServerThread implements Runnable
         return null;
     }
     
+    private int processEmployeeLoginCommand()
+    {
+        try
+        {   
+            String employeeNumber = (String) inputStream.readObject();
+            String password = (String) inputStream.readObject();
+            return DatabaseQueries.employeeLogin(employeeNumber, password);
+        } catch(Exception e)
+        {
+            e.printStackTrace();
+            return 4;
+        }
+    }
 }

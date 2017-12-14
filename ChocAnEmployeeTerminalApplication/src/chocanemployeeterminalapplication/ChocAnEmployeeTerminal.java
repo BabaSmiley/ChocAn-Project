@@ -16,6 +16,8 @@
 
 package chocanemployeeterminalapplication;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class ChocAnEmployeeTerminal
@@ -24,12 +26,21 @@ public class ChocAnEmployeeTerminal
     private static final int connectionPort = 3305;
     
     private Socket connectionSocket;
+    private ObjectInputStream inputStream;
+    private ObjectOutputStream outputStream;
+    
+    ChocAnEmployeeTerminal()
+    {
+        
+    }
     
     private boolean connect()
     {
         try
         {
             connectionSocket = new Socket(connectionAddress, connectionPort);
+            outputStream = new ObjectOutputStream(connectionSocket.getOutputStream());
+            inputStream = new ObjectInputStream(connectionSocket.getInputStream());
         } catch(Exception e)
         {
             return false;
@@ -57,21 +68,39 @@ public class ChocAnEmployeeTerminal
      * 
      * @param employeeNumber
      * @param password
-     * @return 
+     * @return 0 for successful login as Employee, 1 for successful
+     * login as Manager, 2 for failed login, and 3 for database connection failed,
+     * 4 for connection failed
      */
     public int login(String employeeNumber, String password)
     {
-        //Connect to the server
-        boolean connectionSuccess = connect();
-        if (!connectionSuccess)
-            return 3;
-        
-        //create a string in the following format: “loginRequest\t” + username + “\t” + password
-        
-        //call the connect method giving it the string
-        
-        //return whatever the connect method returns
-
-        return -1;
+        try
+        {
+            //Connect to the server, return 4 if failed
+            boolean connectionSuccess = connect();
+            if (!connectionSuccess)
+                return 4;
+            
+            //send login command followed by the arguments as strings
+            //employeelogin
+            String commandString = "employeelogin";
+            outputStream.writeObject(commandString);
+            
+            //employeeNumber
+            outputStream.writeObject(employeeNumber);
+            
+            //password
+            outputStream.writeObject(password);
+            
+            //get response from server - an int.
+            int serverResponse = (int) inputStream.readObject();
+            
+            //return whatever the server responded with
+            return serverResponse;
+        } catch(Exception e)
+        {
+            e.printStackTrace();
+            return 4;
+        }
     }
 }

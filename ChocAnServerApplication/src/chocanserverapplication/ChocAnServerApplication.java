@@ -98,9 +98,7 @@ public class ChocAnServerApplication
                         clientSocket.getInetAddress() + ":" + 
                         clientSocket.getPort());
                 
-                newClientService = new ServerThread(clientSocket);
-                Thread t = new Thread(newClientService);
-                t.start();
+                new Thread(new ServerThread(clientSocket)).start();
             } catch (IOException e) 
             {
                 System.out.println("welcomeSocket failed to accept on port " + 
