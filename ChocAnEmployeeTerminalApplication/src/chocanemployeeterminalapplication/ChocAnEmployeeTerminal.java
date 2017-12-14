@@ -121,7 +121,7 @@ public class ChocAnEmployeeTerminal
         return 0;
     }
     
-    public int updateServer(Service serviceData)
+    public int updateService(Service serviceData)
     {
         return 0;
     }

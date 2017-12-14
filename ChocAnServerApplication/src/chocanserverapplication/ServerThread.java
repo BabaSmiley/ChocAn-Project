@@ -1,19 +1,19 @@
 /*
- * CIS-376
- * Fall 2017
- * Team Steiner
- * Project ChocAn
- * Group Members: Brandon Falk, Afeefeh Seblini,
- * Ismaeel Varis, Daniel Vera-Burgos
- * 
- * ServerThread Class
- * 
- * This class is part of the ChocAn Server Application.
- * 
- * Each instance of this class will be assigned a unique tcp client connection
- * and then run on their own thread. They will be responsible for serving their
- * client up until the client disconnects.
- */
+* CIS-376
+* Fall 2017
+* Team Steiner
+* Project ChocAn
+* Group Members: Brandon Falk, Afeefeh Seblini,
+* Ismaeel Varis, Daniel Vera-Burgos
+*
+* ServerThread Class
+*
+* This class is part of the ChocAn Server Application.
+*
+* Each instance of this class will be assigned a unique tcp client connection
+* and then run on their own thread. They will be responsible for serving their
+* client up until the client disconnects.
+*/
 
 package chocanserverapplication;
 
@@ -24,6 +24,7 @@ import chocanstructs.Service;
 import java.net.Socket;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -55,9 +56,29 @@ public class ServerThread implements Runnable
     
     private void close()
     {
-        inputStream.close();
-        outputStream.close();
-        client.close();
+        try
+        {
+            inputStream.close();
+        } catch(Exception e)
+        {
+            
+        }
+        
+        try
+        {
+            outputStream.close();
+        } catch(Exception e)
+        {
+            
+        }
+        
+        try
+        {
+            client.close();
+        } catch(Exception e)
+        {
+            
+        }
     }
     
     /**
@@ -73,6 +94,7 @@ public class ServerThread implements Runnable
     {
         try
         {
+            //Run login command
             String receivedCommand = (String) inputStream.readObject();
             if (receivedCommand.equals("employeelogin"))
             {
@@ -83,77 +105,15 @@ public class ServerThread implements Runnable
                 outputStream.writeObject(response);
             }
             
+            //while clientPrivileges are valid (0 for employee, 1 for manager)
             while(clientPrivileges == 0 || clientPrivileges == 1)
             {
                 receivedCommand = (String) inputStream.readObject();
                 
-                switch(receivedCommand)
-                {
-                    case "getservicedirectory":
-                        
-                        break;
-                        
-                    case "insertservice":
-                        
-                        break;
-                        
-                    case "insertservice":
-                        
-                        break;
-                        
-                    case "getproviders":
-                        
-                        break;
-                        
-                    case "insertprovider":
-                        
-                        break;
-                        
-                    case "updateprovider":
-                        
-                        break;
-                        
-                    case "getmembers":
-                        
-                        break;
-                        
-                    case "insertmember":
-                        
-                        break;
-                        
-                    case "updatemember":
-                        
-                        break;
-                        
-                    case "getemployee":
-                        
-                        break;
-                        
-                    case "insertemployee":
-                        
-                        break;
-                        
-                    case "updateemployee":
-                        
-                        break;
-                        
-                    case "requestproviderreport":
-                        
-                        break;
-                        
-                    case "requestmemberreport":
-                        
-                        break;
-                        
-                    case "requestsummaryreport":
-                        
-                        break;
-                        
-                    default:
-                        clientPrivileges = -1;
-                }
+                processInput(receivedCommand);
             }
             
+            //Close
             close();
         } catch(Exception e)
         {
@@ -162,24 +122,122 @@ public class ServerThread implements Runnable
     }
     
     /**
-     * takes an input string and decides what functionality to do with it, 
-     * checks clientPrivileges, then executes the function and returns the
-     * result string
-     * 
+     * takes an input string and decides what functionality to do with it,
+     * checks clientPrivileges, then executes the function\
+     *
      * @param input
      */
-    private String processInput(String input)
+    private void processInput(String receivedCommand)
     {
-        return null;
+        switch(receivedCommand)
+        {
+            case "getservicedirectory":
+                try
+                {
+                    processGetAllServicesCommand();
+                } catch(Exception e)
+                {
+                    
+                }
+                break;
+                
+            case "insertservice":
+                processInsertServiceCommand();
+                break;
+                
+            case "updateservice":
+                
+                break;
+                
+            case "getproviders":
+                
+                break;
+                
+            case "insertprovider":
+                
+                break;
+                
+            case "updateprovider":
+                
+                break;
+                
+            case "getmembers":
+                
+                break;
+                
+            case "insertmember":
+                
+                break;
+                
+            case "updatemember":
+                
+                break;
+                
+            case "getemployee":
+                
+                break;
+                
+            case "insertemployee":
+                
+                break;
+                
+            case "updateemployee":
+                
+                break;
+                
+            case "requestproviderreport":
+                
+                break;
+                
+            case "requestmemberreport":
+                
+                break;
+                
+            case "requestsummaryreport":
+                
+                break;
+                
+            //If not recognized command, drop the connection
+            default:
+                clientPrivileges = -1;
+        }
     }
     
     private int processEmployeeLoginCommand()
     {
         try
-        {   
+        {
             String employeeNumber = (String) inputStream.readObject();
             String password = (String) inputStream.readObject();
             return DatabaseQueries.employeeLogin(employeeNumber, password);
+        } catch(Exception e)
+        {
+            return 3;
+        }
+    }
+    
+    public ArrayList<Service> processGetAllServicesCommand() throws SQLException
+    {
+        ArrayList<Service> allServices = DatabaseQueries.getAllServices();
+        return allServices;
+    }
+    
+    public int processInsertServiceCommand()
+    {
+        try
+        {
+            //get the service to insert
+            Service serviceData = (Service) inputStream.readObject();
+            
+            //Query database and store success boolean
+            boolean insertSuccess = DatabaseQueries.insertService(serviceData);
+            
+            //return 0 if true, 1 if false
+            if (insertSuccess)
+                return 0;
+            else
+                return 1;
+            
         } catch(Exception e)
         {
             e.printStackTrace();
@@ -187,17 +245,7 @@ public class ServerThread implements Runnable
         }
     }
     
-    public ArrayList<Service> processGetServiceDirectoryCommand()
-    {
-        return null;
-    }
-    
-    public int processInsertServiceCommand(Service serviceData)
-    {
-        return 0;
-    }
-    
-    public int processUpdateServerCommand(Service serviceData)
+    public int processUpdateServiceCommand()
     {
         return 0;
     }
@@ -207,12 +255,12 @@ public class ServerThread implements Runnable
         return null;
     }
     
-    public int processInsertProviderCommand(Provider providerData)
+    public int processInsertProviderCommand()
     {
         return 0;
     }
     
-    public int processUpdateProviderCommand(Provider providerData)
+    public int processUpdateProviderCommand()
     {
         return 0;
     }
@@ -222,12 +270,12 @@ public class ServerThread implements Runnable
         return null;
     }
     
-    public int processInsertMemberCommand(Member memberData)
+    public int processInsertMemberCommand()
     {
         return 0;
     }
     
-    public int processUpdateMemberCommand(Member memberData)
+    public int processUpdateMemberCommand()
     {
         return 0;
     }
@@ -237,27 +285,27 @@ public class ServerThread implements Runnable
         return null;
     }
     
-    public int processInsertEmployeeCommand(Employee employeeData)
+    public int processInsertEmployeeCommand()
     {
         return 0;
     }
     
-    public int processUpdateEmployeeCommand(Employee employeeData)
+    public int processUpdateEmployeeCommand()
     {
         return 0;
     }
     
-    public int processRequestProviderReportCommand(String providerNumber, LocalDateTime endDateTime)
+    public int processRequestProviderReportCommand()
     {
         return 0;
     }
     
-    public int processRequestMemberReportCommand(String memberNumber, LocalDateTime endDateTime)
+    public int processRequestMemberReportCommand()
     {
         return 0;
     }
     
-    public int processRequestSummaryReportCommand(LocalDateTime endDateTime)
+    public int processRequestSummaryReportCommand()
     {
         return 0;
     }

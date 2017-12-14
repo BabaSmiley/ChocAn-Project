@@ -8,8 +8,9 @@
  * 
  * Employee Functionality
  * 
- * This class will contain all the different static methods required to serve
- * a Employee Terminal Client
+ * This class contains methods that check the integrity of data before it reaches
+ * the database as either an insertion or deletion. These functions are for use
+ * in the employee terminal.
  */
 
 package chocanserverapplication;
@@ -19,32 +20,10 @@ import chocanstructs.Provider;
 import chocanstructs.Member;
 import chocanstructs.Service;
 import java.util.List;
+import chocanserverapplication.DatabaseQueries;
 
 public class EmployeeFunctionality 
-{
-    /**
-     * Method used to verify a given username and password against the member
-     * table in the database.
-     * 
-     * @param username memberID of an employee
-     * @param password password of an employee
-     * @return 0 if credentials match an employee, 1 if they match a manager, else 2
-     */
-    public static int verifyEmployeeLogin(String username, String password)
-    {
-        //query the employee table in the database for a tuple with an 
-        //employeeID that matches the username and a password that matches the 
-        //password.
-        
-        //if the query returns a result and isManager is true, return 1
-        
-        //if the query returns a result and isManager is false, return 0
-        
-        //if the query returns no results, return 2
-        
-        return 0;
-    }
-    
+{   
     /**
      * takes an employee struct in as input, validates the data in the struct,
      * adds the struct to the Employee table of the database, returns successful
@@ -57,16 +36,17 @@ public class EmployeeFunctionality
     {
         //call the verifyData function from the employee struct on employee data
         //if verifyData returns false, return 4
+        if (employeeCreationData.verifyData())
+            return 4;
         
-        //try
-            //run an insertion command on the employee table in the database
-            //using all of the data in employeeData
-        //catch all
-            //return 1
+        //get the query result
+        boolean insertSuccess = DatabaseQueries.insertEmployee(employeeCreationData);
         
-        //return 0
-        
-        return 0;
+        //if query was successful, return 0, else return 1
+        if (insertSuccess)
+            return 0;
+        else
+            return 1;
     }
     
     /**
@@ -78,17 +58,18 @@ public class EmployeeFunctionality
     public static int updateEmployee(Employee employeeCreationData)
     {
         //call the verifyData function from employeeCreationData
-        
         //if verifyData returns false, return 4
+        if (employeeCreationData.verifyData())
+            return 4;
         
-        //try
-            //run an update common on the employee table in the database using
-            //all of the data in employeeData
-        //catch all
-            //return 1
-        //return 0
+        //get the query result
+        boolean updateSuccess = DatabaseQueries.updateEmployee(employeeCreationData);
         
-        return 0;
+        //if the query was successful, return 0, else return 1
+        if (updateSuccess)
+            return 0;
+        else
+            return 1;
     }
     
     /**
@@ -101,18 +82,19 @@ public class EmployeeFunctionality
      */
     public static int createProvider(Provider providerCreationData)
     {
-        //call the verifyData function from the provider struct on provider data
+        //call the verifyData function from employeeCreationData
         //if verifyData returns false, return 4
+        if (providerCreationData.verifyData())
+            return 4;
         
-        //try
-            //run an insertion command on the provider table in the database
-            //using all of the data in providerCreationData
-        //catch all
-            //return 1
+        //get the query result
+        boolean insertSuccess = DatabaseQueries.insertProvider(providerCreationData);
         
-        //return 0
-        
-        return 0;
+        //if the query was successful, return 0, else return 1
+        if (insertSuccess)
+            return 0;
+        else
+            return 1;
     }
     
     /**
@@ -123,18 +105,19 @@ public class EmployeeFunctionality
      */
     public static int updateProvider(Provider providerCreationData)
     {
-        //call the verifyData function from providerCreationData
-        
+        //call the verifyData function from employeeCreationData
         //if verifyData returns false, return 4
+        if (providerCreationData.verifyData())
+            return 4;
         
-        //try
-            //run an update common on the provider table in the database using
-            //all of the data in providerCreationData
-        //catch all
-            //return 1
-        //return 0
+        //get the query result
+        boolean updateSuccess = DatabaseQueries.updateProvider(providerCreationData);
         
-        return 0;
+        //if the query was successful, return 0, else return 1
+        if (updateSuccess)
+            return 0;
+        else
+            return 1;
     }
     
     /**
@@ -147,18 +130,19 @@ public class EmployeeFunctionality
      */
     public static int createMember(Member memberCreationData)
     {
-        //call the verifyData function from the member struct on member data
+        //call the verifyData function from employeeCreationData
         //if verifyData returns false, return 4
+        if (memberCreationData.verifyData())
+            return 4;
         
-        //try
-            //run an insertion command on the member table in the database
-            //using all of the data in memberCreationData
-        //catch all
-            //return 1
+        //get the query result
+        boolean insertSuccess = DatabaseQueries.insertMember(memberCreationData);
         
-        //return 0
-        
-        return 0;
+        //if the query was successful, return 0, else return 1
+        if (insertSuccess)
+            return 0;
+        else
+            return 1;
     }
     
     /**
@@ -169,18 +153,19 @@ public class EmployeeFunctionality
      */
     public static int updateMember(Member memberCreationData)
     {
-        //call the verifyData function from memberCreationData
-        
+        //call the verifyData function from employeeCreationData
         //if verifyData returns false, return 4
+        if (memberCreationData.verifyData())
+            return 4;
         
-        //try
-            //run an update common on the member table in the database using
-            //all of the data in memberCreationData
-        //catch all
-            //return 1
-        //return 0
+        //get the query result
+        boolean updateSuccess = DatabaseQueries.updateMember(memberCreationData);
         
-        return 0;
+        //if the query was successful, return 0, else return 1
+        if (updateSuccess)
+            return 0;
+        else
+            return 1;
     }
     
     /**
@@ -193,18 +178,19 @@ public class EmployeeFunctionality
      */
     public static int createService(Service serviceCreationData)
     {
-        //call the verifyData function from the service struct on service data
+        //call the verifyData function from employeeCreationData
         //if verifyData returns false, return 4
+        if (serviceCreationData.verifyData())
+            return 4;
         
-        //try
-            //run an insertion command on the service table in the database
-            //using all of the data in serviceCreationData
-        //catch all
-            //return 1
+        //get the query result
+        boolean insertSuccess = DatabaseQueries.insertService(serviceCreationData);
         
-        //return 0
-        
-        return 0;
+        //if the query was successful, return 0, else return 1
+        if (insertSuccess)
+            return 0;
+        else
+            return 1;
     }
     
     /**
@@ -215,37 +201,18 @@ public class EmployeeFunctionality
      */
     public static int updateService(Service serviceCreationData)
     {
-        //call the verifyData function from serviceCreationData
-        
+        //call the verifyData function from employeeCreationData
         //if verifyData returns false, return 4
+        if (serviceCreationData.verifyData())
+            return 4;
         
-        //try
-            //run an update common on the service table in the database using
-            //all of the data in serviceCreationData
-        //catch all
-            //return 1
-        //return 0
+        //get the query result
+        boolean insertSuccess = DatabaseQueries.insertService(serviceCreationData);
         
-        return 0;
-    }
-    
-    /**
-     * returns all of the active entries in the serviceDirectory table in the
-     * database in the form of a list of Service structs.
-     * 
-     * Shared between Employee and Provider terminals.
-     * 
-     * @return a list of all the services still active in the serviceDirectory
-     */
-    public static List<Service> getServiceDirectory()
-    {
-        //Query the database for all entries in the serviceDirectory table that
-        //have isActive set to true
-        
-        //Convert the returned query statement into a list of services
-        
-        //return the list of services
-        
-        return null;
+        //if the query was successful, return 0, else return 1
+        if (insertSuccess)
+            return 0;
+        else
+            return 1;
     }
 }
