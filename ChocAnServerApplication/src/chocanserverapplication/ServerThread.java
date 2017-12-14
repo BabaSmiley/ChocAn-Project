@@ -17,9 +17,15 @@
 
 package chocanserverapplication;
 
+import chocanstructs.Employee;
+import chocanstructs.Member;
+import chocanstructs.Provider;
+import chocanstructs.Service;
 import java.net.Socket;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class ServerThread implements Runnable
 {
@@ -47,6 +53,13 @@ public class ServerThread implements Runnable
         }
     }
     
+    private void close()
+    {
+        inputStream.close();
+        outputStream.close();
+        client.close();
+    }
+    
     /**
      * First checks the client's credentials (login) and stores what their
      * privileges are.
@@ -64,6 +77,7 @@ public class ServerThread implements Runnable
             if (receivedCommand.equals("employeelogin"))
             {
                 int response = processEmployeeLoginCommand();
+                
                 clientPrivileges = response;
                 
                 outputStream.writeObject(response);
@@ -71,13 +85,79 @@ public class ServerThread implements Runnable
             
             while(clientPrivileges == 0 || clientPrivileges == 1)
             {
+                receivedCommand = (String) inputStream.readObject();
                 
+                switch(receivedCommand)
+                {
+                    case "getservicedirectory":
+                        
+                        break;
+                        
+                    case "insertservice":
+                        
+                        break;
+                        
+                    case "insertservice":
+                        
+                        break;
+                        
+                    case "getproviders":
+                        
+                        break;
+                        
+                    case "insertprovider":
+                        
+                        break;
+                        
+                    case "updateprovider":
+                        
+                        break;
+                        
+                    case "getmembers":
+                        
+                        break;
+                        
+                    case "insertmember":
+                        
+                        break;
+                        
+                    case "updatemember":
+                        
+                        break;
+                        
+                    case "getemployee":
+                        
+                        break;
+                        
+                    case "insertemployee":
+                        
+                        break;
+                        
+                    case "updateemployee":
+                        
+                        break;
+                        
+                    case "requestproviderreport":
+                        
+                        break;
+                        
+                    case "requestmemberreport":
+                        
+                        break;
+                        
+                    case "requestsummaryreport":
+                        
+                        break;
+                        
+                    default:
+                        clientPrivileges = -1;
+                }
             }
             
-            client.close();
+            close();
         } catch(Exception e)
         {
-            e.printStackTrace();
+            close();
         }
     }
     
@@ -105,5 +185,80 @@ public class ServerThread implements Runnable
             e.printStackTrace();
             return 4;
         }
+    }
+    
+    public ArrayList<Service> processGetServiceDirectoryCommand()
+    {
+        return null;
+    }
+    
+    public int processInsertServiceCommand(Service serviceData)
+    {
+        return 0;
+    }
+    
+    public int processUpdateServerCommand(Service serviceData)
+    {
+        return 0;
+    }
+    
+    public ArrayList<Provider> processGetProvidersCommand()
+    {
+        return null;
+    }
+    
+    public int processInsertProviderCommand(Provider providerData)
+    {
+        return 0;
+    }
+    
+    public int processUpdateProviderCommand(Provider providerData)
+    {
+        return 0;
+    }
+    
+    public ArrayList<Member> processGetMembersCommand()
+    {
+        return null;
+    }
+    
+    public int processInsertMemberCommand(Member memberData)
+    {
+        return 0;
+    }
+    
+    public int processUpdateMemberCommand(Member memberData)
+    {
+        return 0;
+    }
+    
+    public ArrayList<Employee> processGetEmployeesCommand()
+    {
+        return null;
+    }
+    
+    public int processInsertEmployeeCommand(Employee employeeData)
+    {
+        return 0;
+    }
+    
+    public int processUpdateEmployeeCommand(Employee employeeData)
+    {
+        return 0;
+    }
+    
+    public int processRequestProviderReportCommand(String providerNumber, LocalDateTime endDateTime)
+    {
+        return 0;
+    }
+    
+    public int processRequestMemberReportCommand(String memberNumber, LocalDateTime endDateTime)
+    {
+        return 0;
+    }
+    
+    public int processRequestSummaryReportCommand(LocalDateTime endDateTime)
+    {
+        return 0;
     }
 }

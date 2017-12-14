@@ -19,6 +19,13 @@ package chocanemployeeterminalapplication;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import chocanstructs.Employee;
+import chocanstructs.Provider;
+import chocanstructs.Member;
+import chocanstructs.Service;
+import chocanstructs.Bill;
+import java.time.LocalDateTime;
 
 public class ChocAnEmployeeTerminal
 {
@@ -102,5 +109,80 @@ public class ChocAnEmployeeTerminal
             e.printStackTrace();
             return 4;
         }
+    }
+    
+    public ArrayList<Service> getServiceDirectory()
+    {
+        return null;
+    }
+    
+    public int insertService(Service serviceData)
+    {
+        return 0;
+    }
+    
+    public int updateServer(Service serviceData)
+    {
+        return 0;
+    }
+    
+    public ArrayList<Provider> getProviders()
+    {
+        return null;
+    }
+    
+    public int insertProvider(Provider providerData)
+    {
+        return 0;
+    }
+    
+    public int updateProvider(Provider providerData)
+    {
+        return 0;
+    }
+    
+    public ArrayList<Member> getMembers()
+    {
+        return null;
+    }
+    
+    public int insertMember(Member memberData)
+    {
+        return 0;
+    }
+    
+    public int updateMember(Member memberData)
+    {
+        return 0;
+    }
+    
+    public ArrayList<Employee> getEmployees()
+    {
+        return null;
+    }
+    
+    public int insertEmployee(Employee employeeData)
+    {
+        return 0;
+    }
+    
+    public int updateEmployee(Employee employeeData)
+    {
+        return 0;
+    }
+    
+    public int requestProviderReport(String providerNumber, LocalDateTime endDateTime)
+    {
+        return 0;
+    }
+    
+    public int requestMemberReport(String memberNumber, LocalDateTime endDateTime)
+    {
+        return 0;
+    }
+    
+    public int requestSummaryReport(LocalDateTime endDateTime)
+    {
+        return 0;
     }
 }
