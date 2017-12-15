@@ -181,6 +181,80 @@ public class DatabaseQueries
     }
     
     /**
+     * gets a list of bills from the database that were billed between endDate
+     * and endDate - 7 days.
+     * 
+     * @param endDate
+     * @return list of bills
+     * @throws SQLException 
+     */
+    public static ArrayList<Bill> getServicesBeforeDate(LocalDateTime endDate) throws SQLException
+    {
+        //setup connection to database
+        Connection myConn = null;
+        PreparedStatement myStmt = null;
+        ResultSet myRs = null;
+        
+        myConn = DriverManager.getConnection(connectionString,
+                databaseUsername, databasePassword);
+        
+        //Format endDateTime and derive startDateTime
+        String formattedEndDateTime = "'" + endDate.getYear() + "-" + 
+                String.format("%02d", endDate.getMonthValue()) + "-" + 
+                String.format("%02d", endDate.getDayOfMonth()) + " " + 
+                String.format("%02d", endDate.getHour()) + ":" +
+                String.format("%02d", endDate.getMinute()) + ":" + 
+                String.format("%02d", endDate.getSecond()) + "'";
+        
+        LocalDateTime startDate = endDate.plusDays(-7);
+        
+        String formattedStartDateTime = "'" + startDate.getYear() + "-" + 
+                String.format("%02d", startDate.getMonthValue()) + "-" + 
+                String.format("%02d", startDate.getDayOfMonth()) + " " + 
+                String.format("%02d", startDate.getHour()) + ":" +
+                String.format("%02d", startDate.getMinute()) + ":" + 
+                String.format("%02d", startDate.getSecond()) + "'";
+        
+        //Create sql statement
+        String statement = "select * from bill where "
+                + "(dateOfService between " + formattedStartDateTime + 
+                " and " + formattedEndDateTime + ")" + 
+                "order by providerNumber asc";
+        
+        myStmt = myConn.prepareStatement(statement);
+        
+        //execute statement and store result
+        myRs = myStmt.executeQuery();
+        
+        //Convert Result Set into list of bills
+        ArrayList<Bill> billList = new ArrayList<Bill>();
+        
+        while(myRs.next())
+        {
+            Bill newBill = new Bill();
+            
+            newBill.providerNumber = myRs.getString("providerNumber");
+            newBill.memberNumber = myRs.getString("memberNumber");
+            newBill.serviceNumber = myRs.getString("serviceNumber");
+            newBill.dateTimeBilled = myRs.getDate("dateTimeBilled").toInstant()
+                    .atZone(ZoneId.systemDefault()).toLocalDateTime();
+            newBill.dateOfService = myRs.getDate("dateOfService").toInstant()
+                    .atZone(ZoneId.systemDefault()).toLocalDate();
+            newBill.comments = myRs.getString("comments");
+            
+            billList.add(newBill);
+        }
+        
+        //cleanup connection
+        myRs.close();
+        myStmt.close();
+        myConn.close();
+        
+        //return the billList
+        return billList;
+    }
+    
+    /**
      * gets the service associated with serviceNumber from the database
      * 
      * @param serviceNumber

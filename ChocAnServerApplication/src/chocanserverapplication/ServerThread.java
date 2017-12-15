@@ -21,12 +21,16 @@ import chocanstructs.Employee;
 import chocanstructs.Member;
 import chocanstructs.Provider;
 import chocanstructs.Service;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.Socket;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ServerThread implements Runnable
 {
@@ -41,6 +45,36 @@ public class ServerThread implements Runnable
      */
     public ServerThread(Socket client)
     {
+        Runtime.getRuntime().addShutdownHook(new Thread()
+        {
+            public void run()
+            {
+                try 
+                {
+                    inputStream.close();
+                } catch (Exception e) 
+                {
+                    e.printStackTrace();
+                }
+                
+                try 
+                {
+                    outputStream.close();
+                } catch (Exception e) 
+                {
+                    e.printStackTrace();
+                }
+                
+                try 
+                {
+                    client.close();
+                } catch (Exception e) 
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+        
         try
         {
             this.client = client;
@@ -94,16 +128,10 @@ public class ServerThread implements Runnable
     {
         try
         {
-            //Run login command
+            //login functionality!
             String receivedCommand = (String) inputStream.readObject();
             if (receivedCommand.equals("employeelogin"))
-            {
-                int response = processEmployeeLoginCommand();
-                
-                clientPrivileges = response;
-                
-                outputStream.writeObject(response);
-            }
+                processEmployeeLoginCommand();
             
             //while clientPrivileges are valid (0 for employee, 1 for manager)
             while(clientPrivileges == 0 || clientPrivileges == 1)
@@ -132,181 +160,424 @@ public class ServerThread implements Runnable
         switch(receivedCommand)
         {
             case "getservicedirectory":
-                try
-                {
+            {
+                try {
                     processGetAllServicesCommand();
-                } catch(Exception e)
-                {
-                    
+                } catch(Exception e){
+                    e.printStackTrace();
                 }
-                break;
-                
+            }
+            break;
+            
             case "insertservice":
-                processInsertServiceCommand();
-                break;
-                
+            {
+                try {
+                    processInsertServiceCommand();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
+            
             case "updateservice":
-                
-                break;
-                
+            {
+                try {
+                    processUpdateServiceCommand();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
+            
             case "getproviders":
-                
-                break;
-                
+            {
+                try {
+                    processGetAllProvidersCommand();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
+            
             case "insertprovider":
-                
-                break;
-                
+            {
+                try {
+                    processInsertProviderCommand();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
+            
             case "updateprovider":
-                
-                break;
-                
+            {
+                try {
+                    processUpdateProviderCommand();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
+            
             case "getmembers":
-                
-                break;
-                
+            {
+                try {
+                    processGetAllMembersCommand();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
+            
             case "insertmember":
-                
-                break;
-                
+            {
+                try {
+                    processInsertMemberCommand();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
+            
             case "updatemember":
-                
-                break;
-                
-            case "getemployee":
-                
-                break;
-                
+            {
+                try {
+                    processUpdateMemberCommand();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
+            
+            case "getemployees":
+            {
+                try {
+                    processGetAllEmployeesCommand();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
+            
             case "insertemployee":
-                
-                break;
-                
+            {
+                try {
+                    processInsertEmployeeCommand();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
+            
             case "updateemployee":
-                
-                break;
-                
+            {
+                try {
+                    processUpdateEmployeeCommand();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
+            
             case "requestproviderreport":
-                
-                break;
-                
+            {
+                try {
+                    processRequestProviderReportCommand();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
+            
             case "requestmemberreport":
-                
-                break;
-                
+            {
+                try {
+                    processRequestMemberReportCommand();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
+            
             case "requestsummaryreport":
-                
-                break;
-                
+            {
+                try {
+                    processRequestSummaryReportCommand();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
+            
             //If not recognized command, drop the connection
             default:
                 clientPrivileges = -1;
         }
     }
     
-    private int processEmployeeLoginCommand()
+    private void processEmployeeLoginCommand() throws IOException
     {
+        int returnValue;
+        
         try
         {
             String employeeNumber = (String) inputStream.readObject();
             String password = (String) inputStream.readObject();
-            return DatabaseQueries.employeeLogin(employeeNumber, password);
+            returnValue = DatabaseQueries.employeeLogin(employeeNumber, password);
         } catch(Exception e)
         {
-            return 3;
+            returnValue = 3;
         }
+        
+        clientPrivileges = returnValue;
+        
+        outputStream.writeObject(returnValue);
     }
     
-    public ArrayList<Service> processGetAllServicesCommand() throws SQLException
+    public void processGetAllServicesCommand() throws SQLException, IOException
     {
         ArrayList<Service> allServices = DatabaseQueries.getAllServices();
-        return allServices;
+        
+        outputStream.writeObject(allServices);
     }
     
-    public int processInsertServiceCommand()
+    public void processInsertServiceCommand() throws IOException
     {
+        int returnValue;
+        
         try
         {
             //get the service to insert
             Service serviceData = (Service) inputStream.readObject();
             
-            //Query database and store success boolean
-            boolean insertSuccess = DatabaseQueries.insertService(serviceData);
-            
-            //return 0 if true, 1 if false
-            if (insertSuccess)
-                return 0;
-            else
-                return 1;
-            
+            //Check value, query database, return value (EmployeeFunctionality function)
+            returnValue = EmployeeFunctionality.createService(serviceData);
         } catch(Exception e)
         {
             e.printStackTrace();
-            return 4;
+            returnValue = 4;
         }
+        
+        outputStream.writeObject(returnValue);
     }
     
-    public int processUpdateServiceCommand()
+    public void processUpdateServiceCommand() throws IOException
     {
-        return 0;
+        int returnValue;
+        
+        try
+        {
+            //get the service to insert
+            Service serviceData = (Service) inputStream.readObject();
+            
+            //Check value, query database, return value (EmployeeFunctionality function)
+            returnValue = EmployeeFunctionality.updateService(serviceData);
+        } catch(Exception e)
+        {
+            e.printStackTrace();
+            returnValue = 4;
+        }
+        
+        outputStream.writeObject(returnValue);
     }
     
-    public ArrayList<Provider> processGetProvidersCommand()
+    public void processGetAllProvidersCommand() throws SQLException, IOException
     {
-        return null;
+        ArrayList<Provider> allProviders = DatabaseQueries.getAllProviders();
+        
+        outputStream.writeObject(allProviders);
     }
     
-    public int processInsertProviderCommand()
+    public void processInsertProviderCommand() throws IOException
     {
-        return 0;
+        int returnValue;
+        
+        try
+        {
+            //get the provider to insert
+            Provider providerData = (Provider) inputStream.readObject();
+            
+            //Check value, query database, return value (EmployeeFunctionality function)
+            returnValue = EmployeeFunctionality.createProvider(providerData);
+        } catch(Exception e)
+        {
+            e.printStackTrace();
+            returnValue = 4;
+        }
+        
+        outputStream.writeObject(returnValue);
     }
     
-    public int processUpdateProviderCommand()
+    public void processUpdateProviderCommand() throws IOException
     {
-        return 0;
+        int returnValue;
+        
+        try
+        {
+            //get the provider to insert
+            Provider providerData = (Provider) inputStream.readObject();
+            
+            //Check value, query database, return value (EmployeeFunctionality function)
+            returnValue = EmployeeFunctionality.updateProvider(providerData);
+        } catch(Exception e)
+        {
+            e.printStackTrace();
+            returnValue = 4;
+        }
+        
+        outputStream.writeObject(returnValue);
     }
     
-    public ArrayList<Member> processGetMembersCommand()
+    public void processGetAllMembersCommand() throws SQLException, IOException
     {
-        return null;
+        ArrayList<Member> allMembers = DatabaseQueries.getAllMembers();
+        
+        outputStream.writeObject(allMembers);
     }
     
-    public int processInsertMemberCommand()
+    public void processInsertMemberCommand() throws IOException
     {
-        return 0;
+        int returnValue;
+        
+        try
+        {
+            //get the member to insert
+            Member memberData = (Member) inputStream.readObject();
+            
+            //Check value, query database, return value (EmployeeFunctionality function)
+            returnValue = EmployeeFunctionality.createMember(memberData);
+        } catch(Exception e)
+        {
+            e.printStackTrace();
+            returnValue = 4;
+        }
+        
+        outputStream.writeObject(returnValue);
     }
     
-    public int processUpdateMemberCommand()
+    public void processUpdateMemberCommand() throws IOException
     {
-        return 0;
+        int returnValue;
+        
+        try
+        {
+            //get the member to insert
+            Member memberData = (Member) inputStream.readObject();
+            
+            //Check value, query database, return value (EmployeeFunctionality function)
+            returnValue = EmployeeFunctionality.updateMember(memberData);
+        } catch(Exception e)
+        {
+            e.printStackTrace();
+            returnValue = 4;
+        }
+        
+        outputStream.writeObject(returnValue);
     }
     
-    public ArrayList<Employee> processGetEmployeesCommand()
+    public void processGetAllEmployeesCommand() throws SQLException, IOException
     {
-        return null;
+        if (clientPrivileges == 1)
+        {
+            ArrayList<Employee> allEmployees = DatabaseQueries.getAllEmployees();
+            
+            outputStream.writeObject(allEmployees);
+        }
+        else
+            clientPrivileges = -1;
     }
     
-    public int processInsertEmployeeCommand()
+    public void processInsertEmployeeCommand() throws IOException
     {
-        return 0;
+        if (clientPrivileges == 1)
+        {
+            int returnValue;
+            
+            try
+            {
+                //get the employee to insert
+                Employee employeeData = (Employee) inputStream.readObject();
+                
+                //Check value, query database, return value (EmployeeFunctionality function)
+                returnValue = EmployeeFunctionality.createEmployee(employeeData);
+            } catch(Exception e)
+            {
+                e.printStackTrace();
+                returnValue = 4;
+            }
+            
+            outputStream.writeObject(returnValue);
+        }
+        else
+            clientPrivileges = -1;
     }
     
-    public int processUpdateEmployeeCommand()
+    public void processUpdateEmployeeCommand() throws IOException
     {
-        return 0;
+        if (clientPrivileges == 1)
+        {
+            int returnValue;
+            
+            try
+            {
+                //get the employee to insert
+                Employee employeeData = (Employee) inputStream.readObject();
+                
+                //Check value, query database, return value (EmployeeFunctionality function)
+                returnValue = EmployeeFunctionality.updateEmployee(employeeData);
+            } catch(Exception e)
+            {
+                e.printStackTrace();
+                returnValue = 4;
+            }
+            
+            outputStream.writeObject(returnValue);
+        }
+        else
+            clientPrivileges = -1;
     }
     
-    public int processRequestProviderReportCommand()
+    public void processRequestProviderReportCommand() throws IOException, ClassNotFoundException, SQLException
     {
-        return 0;
+        if (clientPrivileges == 1)
+        {
+            String providerNumber = (String) inputStream.readObject();
+            LocalDateTime endTime = (LocalDateTime) inputStream.readObject();
+            
+            int returnValue = EmployeeFunctionality.createProviderReport(providerNumber, endTime);
+            
+            outputStream.writeObject(returnValue);
+        }
+        else
+            clientPrivileges = -1;
     }
     
-    public int processRequestMemberReportCommand()
+    public void processRequestMemberReportCommand() throws IOException, ClassNotFoundException, SQLException
     {
-        return 0;
+        if (clientPrivileges == 1)
+        {
+            String memberNumber = (String) inputStream.readObject();
+            LocalDateTime endTime = (LocalDateTime) inputStream.readObject();
+            
+            int returnValue = EmployeeFunctionality.createProviderReport(memberNumber, endTime);
+            
+            outputStream.writeObject(returnValue);
+        }
+        else
+            clientPrivileges = -1;
     }
     
-    public int processRequestSummaryReportCommand()
+    public void processRequestSummaryReportCommand() throws IOException, ClassNotFoundException, SQLException
     {
-        return 0;
+        if (clientPrivileges == 1)
+        {
+            LocalDateTime endTime = (LocalDateTime) inputStream.readObject();
+            
+            int returnValue = EmployeeFunctionality.createSummaryReport(endTime);
+            
+            outputStream.writeObject(returnValue);
+        }
+        else
+            clientPrivileges = -1;
     }
 }
