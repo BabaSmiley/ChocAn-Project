@@ -60,6 +60,8 @@ public class EmployeeTerminal extends javax.swing.JFrame {
          }
     }
     
+    //if user logged on is not a manager
+    //NOTE: setting of flag for Employee/Manager is not implemented 
     public void employeeLoggedOn(int i){
         if(i==1){
             mainPanel.remove(employeesPanel);
