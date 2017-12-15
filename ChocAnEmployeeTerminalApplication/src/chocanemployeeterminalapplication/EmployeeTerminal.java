@@ -15,6 +15,7 @@ import chocanstructs.Service;
 import chocanstructs.Bill;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import javax.swing.JPanel;
 /**
  *
  * @author Afeefeh
@@ -38,15 +39,21 @@ public class EmployeeTerminal extends javax.swing.JFrame {
             mainPanel.remove(employeesPanel);
             mainPanel.remove(requestReportPanel);
             mainPanel.add(loginPanel);
+            mainPanel.setTitleAt(0, "Login");
             logoutButton.setVisible(false);
             welcomeLabel.setVisible(false);
          }     
          else{
             mainPanel.add(serviceDirectoryPanel);
+            mainPanel.setTitleAt(1, "Service Directory");
             mainPanel.add(providersPanel);
+            mainPanel.setTitleAt(2, "Providers");
             mainPanel.add(membersPanel);
+            mainPanel.setTitleAt(3, "Members");
             mainPanel.add(employeesPanel);
+            mainPanel.setTitleAt(4, "Employees");
             mainPanel.add(requestReportPanel);
+            mainPanel.setTitleAt(5, "Reports");
             mainPanel.remove(loginPanel);
             logoutButton.setVisible(true);
             welcomeLabel.setVisible(true); 
@@ -1232,4 +1239,6 @@ public class EmployeeTerminal extends javax.swing.JFrame {
     private javax.swing.JTextField zipInputM;
     private javax.swing.JTextField zipInputP;
     // End of variables declaration//GEN-END:variables
+
+   
 }
