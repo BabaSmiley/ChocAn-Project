@@ -25,6 +25,7 @@ import chocanstructs.Provider;
 import chocanstructs.Member;
 import chocanstructs.Service;
 import chocanstructs.Bill;
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 public class ChocAnEmployeeTerminal
@@ -61,6 +62,24 @@ public class ChocAnEmployeeTerminal
         try
         {
             connectionSocket.close();
+        } catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        
+        
+        try
+        {
+            outputStream.close();
+        } catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        
+        
+        try
+        {
+            inputStream.close();
         } catch(Exception e)
         {
             e.printStackTrace();
@@ -111,78 +130,208 @@ public class ChocAnEmployeeTerminal
         }
     }
     
-    public ArrayList<Service> getServiceDirectory()
+    public ArrayList<Service> getAllServices() throws IOException, ClassNotFoundException
     {
-        return null;
+        String command = "getallservices";
+        
+        outputStream.writeObject(command);
+        
+        ArrayList<Service> allServices = (ArrayList<Service>) inputStream.readObject();
+        
+        return allServices;
     }
     
-    public int insertService(Service serviceData)
+    public int insertService(Service serviceData) throws IOException, ClassNotFoundException
     {
-        return 0;
+        if (!serviceData.verifyData())
+            return 4;
+        
+        String command = "insertservice";
+        
+        outputStream.writeObject(command);
+        
+        outputStream.writeObject(serviceData);
+        
+        int returnValue = (int) inputStream.readObject();
+        
+        return returnValue;
     }
     
-    public int updateService(Service serviceData)
+    public int updateService(Service serviceData) throws IOException, ClassNotFoundException
     {
-        return 0;
+        if (!serviceData.verifyData())
+            return 4;
+        
+        String command = "updateservice";
+        
+        outputStream.writeObject(command);
+        
+        outputStream.writeObject(serviceData);
+        
+        int returnValue = (int) inputStream.readObject();
+        
+        return returnValue;
     }
     
-    public ArrayList<Provider> getProviders()
+    public ArrayList<Provider> getAllProviders() throws IOException, ClassNotFoundException
     {
-        return null;
+        String command = "getallproviders";
+        
+        outputStream.writeObject(command);
+        
+        ArrayList<Provider> allProviders = (ArrayList<Provider>) inputStream.readObject();
+        
+        return allProviders;
     }
     
-    public int insertProvider(Provider providerData)
+    public int insertProvider(Provider providerData) throws IOException, ClassNotFoundException
     {
-        return 0;
+        if (!providerData.verifyData())
+            return 4;
+        
+        String command = "insertprovider";
+        
+        outputStream.writeObject(command);
+        
+        outputStream.writeObject(providerData);
+        
+        int returnValue = (int) inputStream.readObject();
+        
+        return returnValue;
     }
     
-    public int updateProvider(Provider providerData)
+    public int updateProvider(Provider providerData) throws IOException, ClassNotFoundException
     {
-        return 0;
+        if (!providerData.verifyData())
+            return 4;
+        
+        String command = "updateprovider";
+        
+        outputStream.writeObject(command);
+        
+        outputStream.writeObject(providerData);
+        
+        int returnValue = (int) inputStream.readObject();
+        
+        return returnValue;
     }
     
-    public ArrayList<Member> getMembers()
+    public ArrayList<Member> getAllMembers() throws IOException, ClassNotFoundException
     {
-        return null;
+        String command = "getallmembers";
+        
+        outputStream.writeObject(command);
+        
+        ArrayList<Member> allMembers = (ArrayList<Member>) inputStream.readObject();
+        
+        return allMembers;
     }
     
-    public int insertMember(Member memberData)
+    public int insertMember(Member memberData) throws IOException, ClassNotFoundException
     {
-        return 0;
+        if (!memberData.verifyData())
+            return 4;
+        
+        String command = "insertmember";
+        
+        outputStream.writeObject(command);
+        
+        outputStream.writeObject(memberData);
+        
+        int returnValue = (int) inputStream.readObject();
+        
+        return returnValue;
     }
     
-    public int updateMember(Member memberData)
+    public int updateMember(Member memberData) throws IOException, ClassNotFoundException
     {
-        return 0;
+        if (!memberData.verifyData())
+            return 4;
+        
+        String command = "updatemember";
+        
+        outputStream.writeObject(command);
+        
+        outputStream.writeObject(memberData);
+        
+        int returnValue = (int) inputStream.readObject();
+        
+        return returnValue;
     }
     
-    public ArrayList<Employee> getEmployees()
+    public ArrayList<Employee> getAllEmployees() throws IOException, ClassNotFoundException
     {
-        return null;
+        String command = "getallemployees";
+        
+        outputStream.writeObject(command);
+        
+        ArrayList<Employee> allEmployees = (ArrayList<Employee>) inputStream.readObject();
+        
+        return allEmployees;
     }
     
-    public int insertEmployee(Employee employeeData)
+    public int insertEmployee(Employee employeeData) throws IOException, ClassNotFoundException
     {
-        return 0;
+        if (!employeeData.verifyData())
+            return 4;
+        
+        String command = "insertemployee";
+        
+        outputStream.writeObject(command);
+        
+        outputStream.writeObject(employeeData);
+        
+        int returnValue = (int) inputStream.readObject();
+        
+        return returnValue;
     }
     
-    public int updateEmployee(Employee employeeData)
+    public int updateEmployee(Employee employeeData) throws IOException, ClassNotFoundException
     {
-        return 0;
+        if (!employeeData.verifyData())
+            return 4;
+        
+        String command = "updateemployee";
+        
+        outputStream.writeObject(command);
+        
+        outputStream.writeObject(employeeData);
+        
+        int returnValue = (int) inputStream.readObject();
+        
+        return returnValue;
     }
     
-    public int requestProviderReport(String providerNumber, LocalDateTime endDateTime)
+    public int requestProviderReport(String providerNumber, LocalDateTime endDateTime) throws IOException, ClassNotFoundException
     {
-        return 0;
+        String command = "requestproviderreport";
+        
+        outputStream.writeObject(command);
+        
+        int returnValue = (int) inputStream.readObject();
+        
+        return returnValue;
     }
     
-    public int requestMemberReport(String memberNumber, LocalDateTime endDateTime)
+    public int requestMemberReport(String memberNumber, LocalDateTime endDateTime) throws IOException, ClassNotFoundException
     {
-        return 0;
+        String command = "requestmemberreport";
+        
+        outputStream.writeObject(command);
+        
+        int returnValue = (int) inputStream.readObject();
+        
+        return returnValue;
     }
     
-    public int requestSummaryReport(LocalDateTime endDateTime)
+    public int requestSummaryReport(LocalDateTime endDateTime) throws IOException, ClassNotFoundException
     {
-        return 0;
+        String command = "requestsummaryreport";
+        
+        outputStream.writeObject(command);
+        
+        int returnValue = (int) inputStream.readObject();
+        
+        return returnValue;
     }
 }

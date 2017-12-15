@@ -13,7 +13,9 @@
 
 package chocanstructs;
 
-public class Member 
+import java.io.Serializable;
+
+public class Member implements Serializable
 {
     public String memberNumber;
     public String name;

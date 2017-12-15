@@ -13,10 +13,11 @@
 
 package chocanstructs;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class Bill 
+public class Bill implements Serializable
 {
     public String providerNumber;
     public String memberNumber;

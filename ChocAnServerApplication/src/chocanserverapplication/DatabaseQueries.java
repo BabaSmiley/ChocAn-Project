@@ -898,6 +898,7 @@ public class DatabaseQueries
             newEmployee.state = myRs.getString("state");
             newEmployee.zipCode = myRs.getString("zipCode");
             newEmployee.isActive = myRs.getBoolean("isActive");
+            newEmployee.isManager = myRs.getBoolean("isManager");
             
             employeeList.add(newEmployee);
         }
@@ -1061,7 +1062,7 @@ public class DatabaseQueries
             {
                 //Create sql statement
                 statement = "insert into employee values( ? , ? , ? , ? , ? , ? , ? "
-                        + ", ? , ? )";
+                        + ", ? , ? , ?)";
                 
                 myStmt = myConn.prepareStatement(statement);
                 myStmt.setString(1, employeeData.employeeNumber);
@@ -1073,6 +1074,7 @@ public class DatabaseQueries
                 myStmt.setString(7, employeeData.state);
                 myStmt.setString(8, employeeData.zipCode);
                 myStmt.setBoolean(9, employeeData.isActive);
+                myStmt.setBoolean(10, employeeData.isManager);
                 
                 //execute query
                 myStmt.executeUpdate();
@@ -1143,6 +1145,7 @@ public class DatabaseQueries
                         + "state = ? , "
                         + "zipCode = ? , "
                         + "isActive = ? , "
+                        + "isManager = ? "
                         + "where employeeNumber = ?";
                 
                 myStmt = myConn.prepareStatement(statement);
@@ -1154,7 +1157,8 @@ public class DatabaseQueries
                 myStmt.setString(6, employeeData.state);
                 myStmt.setString(7, employeeData.zipCode);
                 myStmt.setBoolean(8, employeeData.isActive);
-                myStmt.setString(9, employeeData.employeeNumber);
+                myStmt.setBoolean(9, employeeData.isManager);
+                myStmt.setString(10, employeeData.employeeNumber);
                 
                 //execute query
                 myStmt.executeUpdate();

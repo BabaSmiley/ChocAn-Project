@@ -13,7 +13,9 @@
 
 package chocanstructs;
 
-public class Service 
+import java.io.Serializable;
+
+public class Service implements Serializable
 {
     public String serviceNumber;
     public String name;

@@ -44,7 +44,7 @@ public class EmployeeFunctionality
     {
         //call the verifyData function from the employee struct on employee data
         //if verifyData returns false, return 4
-        if (employeeCreationData.verifyData())
+        if (!employeeCreationData.verifyData())
             return 4;
         
         //get the query result
@@ -67,7 +67,7 @@ public class EmployeeFunctionality
     {
         //call the verifyData function from employeeCreationData
         //if verifyData returns false, return 4
-        if (employeeCreationData.verifyData())
+        if (!employeeCreationData.verifyData())
             return 4;
         
         //get the query result
@@ -92,7 +92,7 @@ public class EmployeeFunctionality
     {
         //call the verifyData function from employeeCreationData
         //if verifyData returns false, return 4
-        if (providerCreationData.verifyData())
+        if (!providerCreationData.verifyData())
             return 4;
         
         //get the query result
@@ -115,7 +115,7 @@ public class EmployeeFunctionality
     {
         //call the verifyData function from employeeCreationData
         //if verifyData returns false, return 4
-        if (providerCreationData.verifyData())
+        if (!providerCreationData.verifyData())
             return 4;
         
         //get the query result
@@ -140,7 +140,7 @@ public class EmployeeFunctionality
     {
         //call the verifyData function from employeeCreationData
         //if verifyData returns false, return 4
-        if (memberCreationData.verifyData())
+        if (!memberCreationData.verifyData())
             return 4;
         
         //get the query result
@@ -163,7 +163,7 @@ public class EmployeeFunctionality
     {
         //call the verifyData function from employeeCreationData
         //if verifyData returns false, return 4
-        if (memberCreationData.verifyData())
+        if (!memberCreationData.verifyData())
             return 4;
         
         //get the query result
@@ -188,7 +188,7 @@ public class EmployeeFunctionality
     {
         //call the verifyData function from employeeCreationData
         //if verifyData returns false, return 4
-        if (serviceCreationData.verifyData())
+        if (!serviceCreationData.verifyData())
             return 4;
         
         //get the query result
@@ -211,7 +211,7 @@ public class EmployeeFunctionality
     {
         //call the verifyData function from employeeCreationData
         //if verifyData returns false, return 4
-        if (serviceCreationData.verifyData())
+        if (!serviceCreationData.verifyData())
             return 4;
         
         //get the query result

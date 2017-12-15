@@ -159,7 +159,7 @@ public class ServerThread implements Runnable
     {
         switch(receivedCommand)
         {
-            case "getservicedirectory":
+            case "getallservices":
             {
                 try {
                     processGetAllServicesCommand();
@@ -189,7 +189,7 @@ public class ServerThread implements Runnable
             }
             break;
             
-            case "getproviders":
+            case "getallproviders":
             {
                 try {
                     processGetAllProvidersCommand();
@@ -219,7 +219,7 @@ public class ServerThread implements Runnable
             }
             break;
             
-            case "getmembers":
+            case "getallmembers":
             {
                 try {
                     processGetAllMembersCommand();
@@ -249,7 +249,7 @@ public class ServerThread implements Runnable
             }
             break;
             
-            case "getemployees":
+            case "getallemployees":
             {
                 try {
                     processGetAllEmployeesCommand();

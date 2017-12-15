@@ -13,7 +13,9 @@
 
 package chocanstructs;
 
-public class Provider 
+import java.io.Serializable;
+
+public class Provider implements Serializable
 {
     public String providerNumber;
     public String password;

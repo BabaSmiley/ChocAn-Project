@@ -6,11 +6,41 @@
 package chocanemployeeterminalapplication;
 
 import chocanemployeeterminalapplication.EmployeeTerminal;
+import chocanstructs.Employee;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class testMain {
     public static void main(String[] args)
     {
         ChocAnEmployeeTerminal myTerminal = new ChocAnEmployeeTerminal();
-        System.out.println(myTerminal.login("123", "abc"));
+        System.out.println(myTerminal.login("146964984", "password"));
+        
+        Employee newEmployee = new Employee();
+        newEmployee.city = "Novi";
+        newEmployee.emailAddress = "Billy@bob.com";
+        newEmployee.employeeNumber = "867530800";
+        newEmployee.isActive = true;
+        newEmployee.name = "Billy Bob Joe";
+        newEmployee.password = "PratchettTheHatchet9";
+        newEmployee.state = "MI";
+        newEmployee.streetAddress = "12345 Novi Rd";
+        newEmployee.zipCode = "87654";
+        newEmployee.isManager = true;
+        
+        try {
+            System.out.println(myTerminal.updateEmployee(newEmployee));
+            
+            ArrayList<Employee> allEmployees = myTerminal.getAllEmployees();
+            
+            for (Employee currentEmployee: allEmployees)
+            {
+                System.out.println(currentEmployee.name + "\t" + currentEmployee.emailAddress);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -13,7 +13,9 @@
 
 package chocanstructs;
 
-public class Employee 
+import java.io.Serializable;
+
+public class Employee implements Serializable
 {
     public String employeeNumber;
     public String password;
@@ -24,6 +26,7 @@ public class Employee
     public String state;
     public String zipCode;
     public boolean isActive;
+    public boolean isManager;
     
     public Employee()
     {
