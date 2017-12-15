@@ -4,20 +4,61 @@
  * and open the template in the editor.
  */
 package chocanemployeeterminalapplication;
-
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.ArrayList;
+import chocanstructs.Employee;
+import chocanstructs.Provider;
+import chocanstructs.Member;
+import chocanstructs.Service;
+import chocanstructs.Bill;
+import java.io.IOException;
+import java.time.LocalDateTime;
 /**
  *
  * @author Afeefeh
  */
 public class EmployeeTerminal extends javax.swing.JFrame {
 
+    public  boolean loggedOn = false;
     /**
      * Creates new form EmployeeTerminal
      */
     public EmployeeTerminal() {
         initComponents();
+        checkIfLoggedOn();  
     }
-
+    
+    public void checkIfLoggedOn(){
+         if(!loggedOn){
+            mainPanel.remove(serviceDirectoryPanel);
+            mainPanel.remove(providersPanel);
+            mainPanel.remove(membersPanel);
+            mainPanel.remove(employeesPanel);
+            mainPanel.remove(requestReportPanel);
+            mainPanel.add(loginPanel);
+            logoutButton.setVisible(false);
+            welcomeLabel.setVisible(false);
+         }     
+         else{
+            mainPanel.add(serviceDirectoryPanel);
+            mainPanel.add(providersPanel);
+            mainPanel.add(membersPanel);
+            mainPanel.add(employeesPanel);
+            mainPanel.add(requestReportPanel);
+            mainPanel.remove(loginPanel);
+            logoutButton.setVisible(true);
+            welcomeLabel.setVisible(true); 
+         }
+    }
+    
+    public void employeeLoggedOn(int i){
+        if(i==1){
+            mainPanel.remove(employeesPanel);
+            mainPanel.remove(requestReportPanel);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,6 +73,14 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         welcomeLabel = new javax.swing.JLabel();
         chocAnLabel = new javax.swing.JLabel();
         mainPanel = new javax.swing.JTabbedPane();
+        loginPanel = new javax.swing.JPanel();
+        loginButton = new javax.swing.JButton();
+        instructionsLabel = new javax.swing.JLabel();
+        nameLabel = new javax.swing.JLabel();
+        nameInput = new javax.swing.JTextField();
+        passwordLabel = new javax.swing.JLabel();
+        passwordInput = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
         serviceDirectoryPanel = new javax.swing.JPanel();
         createButtonSD = new javax.swing.JButton();
         editButtonSD = new javax.swing.JButton();
@@ -120,13 +169,20 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         setTitle("Chocoholics Anonymous");
         setBackground(new java.awt.Color(230, 242, 255));
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
+        setPreferredSize(new java.awt.Dimension(1030, 950));
         setResizable(false);
 
         titlePanel.setBackground(new java.awt.Color(236, 245, 255));
 
+        logoutButton.setBackground(new java.awt.Color(255, 255, 255));
         logoutButton.setFont(new java.awt.Font("Verdana", 0, 16)); // NOI18N
         logoutButton.setText("Log out");
-        logoutButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        logoutButton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutButtonActionPerformed(evt);
+            }
+        });
 
         welcomeLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         welcomeLabel.setText("Welcome, ");
@@ -139,38 +195,124 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         titlePanelLayout.setHorizontalGroup(
             titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(titlePanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(chocAnLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titlePanelLayout.createSequentialGroup()
-                        .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(54, 54, 54))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titlePanelLayout.createSequentialGroup()
                         .addComponent(welcomeLabel)
-                        .addGap(141, 141, 141))))
-            .addGroup(titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titlePanelLayout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(chocAnLabel)
-                    .addGap(414, 414, 414)))
+                        .addGap(174, 174, 174))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titlePanelLayout.createSequentialGroup()
+                        .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(88, 88, 88))))
         );
         titlePanelLayout.setVerticalGroup(
             titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titlePanelLayout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
-                .addComponent(welcomeLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(logoutButton)
-                .addGap(25, 25, 25))
-            .addGroup(titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(titlePanelLayout.createSequentialGroup()
-                    .addComponent(chocAnLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(23, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(titlePanelLayout.createSequentialGroup()
+                        .addComponent(chocAnLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))
+                    .addGroup(titlePanelLayout.createSequentialGroup()
+                        .addComponent(welcomeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
 
         mainPanel.setBackground(new java.awt.Color(236, 245, 255));
         mainPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         mainPanel.setFont(new java.awt.Font("Verdana", 0, 16)); // NOI18N
         mainPanel.setName(""); // NOI18N
+
+        loginPanel.setBackground(new java.awt.Color(237, 245, 255));
+
+        loginButton.setBackground(new java.awt.Color(255, 255, 255));
+        loginButton.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        loginButton.setText("Login");
+        loginButton.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(198, 218, 243), null));
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginButtonActionPerformed(evt);
+            }
+        });
+
+        instructionsLabel.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        instructionsLabel.setText("Enter information to continue:");
+
+        nameLabel.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        nameLabel.setText("Name");
+
+        nameInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nameInputActionPerformed(evt);
+            }
+        });
+
+        passwordLabel.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        passwordLabel.setText("Password");
+
+        passwordInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordInputActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
+        jLabel7.setText("Welcome To Chocoholics Anpnymous!");
+
+        javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
+        loginPanel.setLayout(loginPanelLayout);
+        loginPanelLayout.setHorizontalGroup(
+            loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(instructionsLabel)
+                .addGap(323, 323, 323))
+            .addGroup(loginPanelLayout.createSequentialGroup()
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addGap(235, 235, 235)
+                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(nameLabel)
+                            .addComponent(passwordLabel))
+                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(loginPanelLayout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addComponent(nameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
+                                .addGap(33, 33, 33)
+                                .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addGap(427, 427, 427)
+                        .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addGap(169, 169, 169)
+                        .addComponent(jLabel7)))
+                .addContainerGap(217, Short.MAX_VALUE))
+        );
+        loginPanelLayout.setVerticalGroup(
+            loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginPanelLayout.createSequentialGroup()
+                .addGap(100, 100, 100)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
+                .addComponent(instructionsLabel)
+                .addGap(55, 55, 55)
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nameLabel))
+                .addGap(45, 45, 45)
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(passwordLabel)
+                    .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(75, 75, 75)
+                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(203, 203, 203))
+        );
+
+        mainPanel.addTab("Log in", loginPanel);
 
         serviceDirectoryPanel.setBackground(new java.awt.Color(236, 245, 255));
         serviceDirectoryPanel.setName("Service Directory "); // NOI18N
@@ -289,7 +431,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                             .addComponent(deleteButtonSD, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(serviceInfoLabel)
                     .addComponent(formPanelSD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(187, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         serviceDirectoryPanelLayout.setVerticalGroup(
             serviceDirectoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -380,12 +522,12 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(formPanelPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(nameInputP, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(formPanelPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel4)
-                        .addComponent(IDInputP, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE))
+                    .addComponent(jLabel4)
                     .addComponent(addressInputP, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel6)
+                    .addGroup(formPanelPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(IDInputP, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
+                        .addComponent(nameInputP, javax.swing.GroupLayout.Alignment.LEADING)))
                 .addGap(47, 47, 47)
                 .addGroup(formPanelPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(formPanelPLayout.createSequentialGroup()
@@ -398,7 +540,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                             .addComponent(jLabel10)
                             .addComponent(jLabel9)
                             .addComponent(zipInputP)
-                            .addComponent(stateInputP, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
+                            .addComponent(stateInputP))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(submitInfoP, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47))))
@@ -432,7 +574,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                 .addGroup(formPanelPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(stateInputP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addressInputP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         providerInfoLabel.setText("Provider Information:");
@@ -454,12 +596,12 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                             .addComponent(createButtonP, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(deleteButtonP, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(formPanelP, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(187, Short.MAX_VALUE))
+                .addContainerGap(110, Short.MAX_VALUE))
         );
         providersPanelLayout.setVerticalGroup(
             providersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, providersPanelLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap()
                 .addComponent(providersLabel)
                 .addGap(0, 0, 0)
                 .addGroup(providersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -548,12 +690,12 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(formPanelMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel13)
-                    .addComponent(nameInputM, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(formPanelMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel12)
-                        .addComponent(IDInputM, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE))
+                    .addComponent(jLabel12)
                     .addComponent(addressInputM, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14))
+                    .addComponent(jLabel14)
+                    .addGroup(formPanelMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(IDInputM, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
+                        .addComponent(nameInputM, javax.swing.GroupLayout.Alignment.LEADING)))
                 .addGap(47, 47, 47)
                 .addGroup(formPanelMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(formPanelMLayout.createSequentialGroup()
@@ -566,7 +708,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                             .addComponent(jLabel17)
                             .addComponent(jLabel16)
                             .addComponent(zipInputM)
-                            .addComponent(stateInputM, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
+                            .addComponent(stateInputM))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(submitInfoM, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47))))
@@ -623,7 +765,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                                 .addComponent(editButtonM, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(deleteButtonM, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addComponent(memberInfoLabel)))
-                .addContainerGap(187, Short.MAX_VALUE))
+                .addContainerGap(110, Short.MAX_VALUE))
         );
         membersPanelLayout.setVerticalGroup(
             membersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -642,8 +784,8 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(memberInfoLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(formPanelM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(132, 132, 132))
+                .addComponent(formPanelM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         mainPanel.addTab("Members", membersPanel);
@@ -710,12 +852,12 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(formPanelELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel20)
-                    .addComponent(nameInputE, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(formPanelELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel19)
-                        .addComponent(IDInputE, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE))
+                    .addComponent(jLabel19)
                     .addComponent(addressInputE, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel21))
+                    .addComponent(jLabel21)
+                    .addGroup(formPanelELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(IDInputE, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
+                        .addComponent(nameInputE, javax.swing.GroupLayout.Alignment.LEADING)))
                 .addGap(47, 47, 47)
                 .addGroup(formPanelELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(formPanelELayout.createSequentialGroup()
@@ -728,7 +870,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                             .addComponent(jLabel24)
                             .addComponent(jLabel23)
                             .addComponent(zipInputE)
-                            .addComponent(stateInputE, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
+                            .addComponent(stateInputE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(submitInfoE, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47))))
@@ -762,7 +904,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                 .addGroup(formPanelELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(stateInputE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addressInputE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         employeeInfoLabel.setText("Employee Information:");
@@ -788,7 +930,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                                     .addComponent(createButtonE, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(employeeInfoLabel)
                             .addComponent(formPanelE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 186, Short.MAX_VALUE))))
+                        .addGap(0, 109, Short.MAX_VALUE))))
         );
         employeesPanelLayout.setVerticalGroup(
             employeesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -843,7 +985,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                         .addGroup(requestReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(requestReportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(dateScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(542, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         requestReportPanelLayout.setVerticalGroup(
             requestReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -869,11 +1011,11 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(2, 2, 2)
                 .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 832, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         mainPanel.getAccessibleContext().setAccessibleName("");
@@ -937,6 +1079,24 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_IDInputEActionPerformed
 
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+       loggedOn = true;
+       checkIfLoggedOn();
+    }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void nameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nameInputActionPerformed
+
+    private void passwordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordInputActionPerformed
+
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+        loggedOn = false;
+        checkIfLoggedOn();
+    }//GEN-LAST:event_logoutButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -966,9 +1126,10 @@ public class EmployeeTerminal extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+         
             public void run() {
-                new EmployeeTerminal().setVisible(false);
-                
+                new EmployeeTerminal().setVisible(true);
+                           
             }
         });
     }
@@ -1005,6 +1166,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
     private javax.swing.JPanel formPanelM;
     private javax.swing.JPanel formPanelP;
     private javax.swing.JPanel formPanelSD;
+    private javax.swing.JLabel instructionsLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -1024,18 +1186,25 @@ public class EmployeeTerminal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
+    private javax.swing.JButton loginButton;
+    private javax.swing.JPanel loginPanel;
     private javax.swing.JButton logoutButton;
     private javax.swing.JTabbedPane mainPanel;
     private javax.swing.JLabel memberInfoLabel;
     private javax.swing.JLabel membersLabel;
     private javax.swing.JPanel membersPanel;
+    private javax.swing.JTextField nameInput;
     private javax.swing.JTextField nameInputE;
     private javax.swing.JTextField nameInputM;
     private javax.swing.JTextField nameInputP;
     private javax.swing.JTextField nameInputSD;
+    private javax.swing.JLabel nameLabel;
+    private javax.swing.JTextField passwordInput;
+    private javax.swing.JLabel passwordLabel;
     private javax.swing.JLabel providerInfoLabel;
     private javax.swing.JLabel providersLabel;
     private javax.swing.JPanel providersPanel;
