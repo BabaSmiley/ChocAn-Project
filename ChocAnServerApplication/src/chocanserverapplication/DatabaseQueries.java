@@ -1759,4 +1759,67 @@ public class DatabaseQueries
             return false;
         }
     }
+
+    public static boolean updateMemberStatus(Member memberData) 
+    {
+        try
+        {
+            //setup connection to database
+            Connection myConn = null;
+            PreparedStatement myStmt = null;
+            ResultSet myRs = null;
+            
+            myConn = DriverManager.getConnection(connectionString,
+                    databaseUsername, databasePassword);
+            
+            //Check that memberNumber exists in the table
+            //Create sql statement
+            String statement = "select memberNumber from member where "
+                    + "memberNumber = ?";
+            
+            myStmt = myConn.prepareStatement(statement);
+            myStmt.setString(1, memberData.memberNumber);
+            
+            //execute query and store result
+            myRs = myStmt.executeQuery();
+            
+            boolean returnValue = false;
+            
+            //if there is a value returned, memberNumber does exist in table
+            if (myRs.next())
+            {
+                returnValue = true;
+            }
+            
+            //if memberNumber exists in table, update the member
+            if (returnValue)
+            {
+                //Create sql statement
+                statement = "update member "
+                        + "isUpdated = false , "
+                        + "validityReason = ? , "
+                        + "isActive = ? , "
+                        + "where memberNumber = ?";
+                
+                myStmt = myConn.prepareStatement(statement);
+                myStmt.setBoolean(1, memberData.isValid);
+                myStmt.setString(2, memberData.validityReason);
+                myStmt.setString(3, memberData.memberNumber);
+                
+                //execute query
+                myStmt.executeUpdate();
+            }
+            
+            //cleanup connection
+            myRs.close();
+            myStmt.close();
+            myConn.close();
+            
+            //return the boolean
+            return returnValue;
+        } catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 }

@@ -15,7 +15,8 @@
 package chocanserverapplication;
 
 import chocanstructs.Member; 
-import java.util.List;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ACMEAccountingFunctionality 
 {
@@ -26,22 +27,16 @@ public class ACMEAccountingFunctionality
      * 
      * @return list of members which have been updated.
      */
-    public static List<Member> getMemberBillingInformation()
+    public static ArrayList<Member> getMemberBillingInformation() throws SQLException
     {
         //Create a new list of Member structs called updatedMembers
+        ArrayList<Member> updatedMembers;
         
         //Query the member table for Tuples with IsUpdated set to true
-        
-        //For each tuple returned from the query
-        
-        //Create a local member struct instance and populate it with the 
-        //information from the tuple
-        
-        //Add the newly created member struct instance to updatedMembers
+        updatedMembers = DatabaseQueries.getUpdatedMembers();
         
         //return updatedMembers
-
-        return null;
+        return updatedMembers;
     }
     
     /**
@@ -50,17 +45,16 @@ public class ACMEAccountingFunctionality
      * 
      * @param memberUpdates list of members to update reason and validity of
      */
-    public static void updateMemberStatus(List<Member> memberUpdates)
+    public static void updateMemberStatus(ArrayList<Member> memberUpdates)
     {
         //For each element in memberUpdates
-            //Query the member table for a tuple with the matching memberNumber 
-            //in the element
-            
-            //if the query returned a single result
-            
-            //update the member table entry using the memberNumber, isValid and
-            //validityReason in the element
+        for (Member currentMember: memberUpdates)
+        {
+            //If the data in the currentMember is valid
+            if (currentMember.isValid)
+            {
+                DatabaseQueries.updateMemberStatus(currentMember);
+            }
+        }
     }
-    
-    
 }
