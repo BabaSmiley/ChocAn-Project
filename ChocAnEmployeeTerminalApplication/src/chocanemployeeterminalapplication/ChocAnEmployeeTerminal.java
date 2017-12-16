@@ -57,7 +57,7 @@ public class ChocAnEmployeeTerminal
         return true;
     }
     
-    private void disconnect()
+    public void disconnect()
     {
         try
         {

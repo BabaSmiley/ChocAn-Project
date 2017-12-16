@@ -22,29 +22,33 @@ import javax.swing.JPanel;
  */
 public class EmployeeTerminal extends javax.swing.JFrame {
 
-    public  boolean loggedOn = false;
+    private int clientPrivileges;
+    private ChocAnEmployeeTerminal employeeTerminal;
+    
     /**
      * Creates new form EmployeeTerminal
      */
     public EmployeeTerminal() {
+        clientPrivileges = -1;
         initComponents();
-        checkIfLoggedOn();  
+        updateTabs();
     }
     
-    public void checkIfLoggedOn(){
-         if(!loggedOn){
-            mainPanel.remove(serviceDirectoryPanel);
-            mainPanel.remove(providersPanel);
-            mainPanel.remove(membersPanel);
-            mainPanel.remove(employeesPanel);
-            mainPanel.remove(requestReportPanel);
-            mainPanel.add(loginPanel);
-            mainPanel.setTitleAt(0, "Login");
-            logoutButton.setVisible(false);
-            welcomeLabel.setVisible(false);
-         }     
-         else{
+    public void updateTabs(){ 
+         if(clientPrivileges == 0){
             mainPanel.add(serviceDirectoryPanel);
+            mainPanel.setTitleAt(1, "Service Directory");
+            mainPanel.add(providersPanel);
+            mainPanel.setTitleAt(2, "Providers");
+            mainPanel.add(membersPanel);
+            mainPanel.setTitleAt(3, "Members");
+            mainPanel.add(employeesPanel);
+            mainPanel.remove(loginPanel);
+            logoutButton.setVisible(true);
+            welcomeLabel.setVisible(true); 
+         }
+         else if(clientPrivileges == 1){
+             mainPanel.add(serviceDirectoryPanel);
             mainPanel.setTitleAt(1, "Service Directory");
             mainPanel.add(providersPanel);
             mainPanel.setTitleAt(2, "Providers");
@@ -58,16 +62,19 @@ public class EmployeeTerminal extends javax.swing.JFrame {
             logoutButton.setVisible(true);
             welcomeLabel.setVisible(true); 
          }
-    }
-    
-    //if user logged on is not a manager
-    //NOTE: setting of flag for Employee/Manager is not implemented 
-    public void employeeLoggedOn(int i){
-        if(i==1){
+         else{
+            mainPanel.remove(serviceDirectoryPanel);
+            mainPanel.remove(providersPanel);
+            mainPanel.remove(membersPanel);
             mainPanel.remove(employeesPanel);
             mainPanel.remove(requestReportPanel);
-        }
+            mainPanel.add(loginPanel);
+            mainPanel.setTitleAt(0, "Login");
+            logoutButton.setVisible(false);
+            welcomeLabel.setVisible(false);
+         }
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -1089,8 +1096,12 @@ public class EmployeeTerminal extends javax.swing.JFrame {
     }//GEN-LAST:event_IDInputEActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-       loggedOn = true;
-       checkIfLoggedOn();
+        String employeeNumber = nameInput.getText();
+        String password = passwordInput.getText();
+        
+        clientPrivileges = employeeTerminal.login(employeeNumber, password);
+        
+        updateTabs();
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void nameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameInputActionPerformed
@@ -1102,8 +1113,11 @@ public class EmployeeTerminal extends javax.swing.JFrame {
     }//GEN-LAST:event_passwordInputActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
-        loggedOn = false;
-        checkIfLoggedOn();
+        employeeTerminal.disconnect();
+        
+        clientPrivileges = -1;
+        
+        updateTabs();
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     /**
