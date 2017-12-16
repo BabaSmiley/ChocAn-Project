@@ -258,7 +258,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         instructionsLabel.setText("Enter information to continue:");
 
         nameLabel.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
-        nameLabel.setText("Name");
+        nameLabel.setText("ID");
 
         nameInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
