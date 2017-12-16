@@ -5,30 +5,42 @@
  */
 package chocanserverapplication;
 
+import chocanstructs.Member;
+import chocanstructs.Provider;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 
 public class AutomatedReportThread implements Runnable
 {
-    LocalDateTime nextFriday;
+    LocalDateTime nextSaturday;
     
     public AutomatedReportThread()
     {
-        LocalDateTime dateTime = LocalDateTime.now();
-        nextFriday = dateTime.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
+        LocalDate dateOfSaturday = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
+        nextSaturday = dateOfSaturday.atStartOfDay();
     }
     
-    public void run() 
+    public void run()
     {
         while (true)
         {
-            if (LocalDateTime.now().isAfter(nextFriday))
+            if (LocalDateTime.now().isAfter(nextSaturday))
             {
-                LocalDateTime dateTime = LocalDateTime.now();
-                nextFriday = dateTime.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
+                try
+                {
+                    createAllReports();
+                } catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
                 
-                createAllReports();
+                LocalDate dateOfSaturday = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
+                nextSaturday = dateOfSaturday.atStartOfDay();
             }
             else
             {
@@ -41,18 +53,20 @@ public class AutomatedReportThread implements Runnable
         }
     }
     
-    private void createAllReports()
+    private void createAllReports() throws SQLException, IOException
     {
+        ArrayList<Provider> allProviders = DatabaseQueries.getAllProviders();
+        for (Provider currentProvider: allProviders)
+        {
+            EmployeeFunctionality.createProviderReport(currentProvider.providerNumber, nextSaturday);
+        }
         
-    }
-    
-    private void createSummaryReport()
-    {
+        ArrayList<Member> allMembers = DatabaseQueries.getAllMembers();
+        for (Member currentMember: allMembers)
+        {
+            EmployeeFunctionality.createMemberReport(currentMember.memberNumber, nextSaturday);
+        }
         
-    }
-    
-    private void createEFTReport(String providerName, String providerNumber, Double fee)
-    {
-        
+        EmployeeFunctionality.createSummaryAndEFTReports(nextSaturday);
     }
 }

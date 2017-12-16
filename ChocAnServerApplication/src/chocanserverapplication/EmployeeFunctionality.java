@@ -530,4 +530,125 @@ public class EmployeeFunctionality
         
         return 0;
     }
+    
+    public static int createSummaryAndEFTReports(LocalDateTime endTime) throws IOException, SQLException
+    {
+        //Create an integer called totalProviders and set it to 0
+        int totalProviders = 0;
+        
+        //Create an integer called totalConsultations and set it to 0
+        int totalConsultations = 0;
+        
+        //Create a double called totalFee and set it to 0
+        double totalFee = 0;
+        
+        //Create a new file in the Summary Report directory using the string - the
+        //date from billPeriodEndDate + date and time from now + “SummaryReport”
+        // - as the filename and the file extension being .txt
+        File summaryReportFile = new File("\\Summary Reports\\" + endTime + 
+                LocalDateTime.now() + ".txt");
+        FileWriter outputStream = new FileWriter(summaryReportFile);
+        
+        //Query the bills table for bills added in the 7 days before
+        //billPeriodEndDateTime. Order the query first by providerNumber.
+        ArrayList<Bill> billList = DatabaseQueries.getServicesBeforeDate(endTime);
+        
+        //if the query returned no results, return 1
+        if (billList.size() == 0)
+            return 1;
+        
+        //Create an string called currentProviderNumber and set it to the first
+        //bill in the table returned from the query’s providerNumber
+        String currentProviderNumber = billList.get(0).providerNumber;
+        
+        //Increment totalProviders by 1
+        totalProviders++;
+        
+        //Create an integer called currentProviderConsultations and set it to 0
+        int currentProviderConsultations = 0;
+        
+        //Create a double called currentProviderTotalFee and set it to 0
+        double currentProviderTotalFee = 0;
+        
+        //For each bill in the table returned from the query
+        for (Bill currentBill: billList)
+        {
+            //if the bill’s providerNumber does not equal the currentProviderNumber
+            if (!currentBill.providerNumber.equals(currentProviderNumber))
+            {
+                //write currentProviderNumber to it’s own line in the file
+                outputStream.write(currentProviderNumber + "\n");
+                //write currentProviderConsultations to it’s own line in the file
+                outputStream.write(currentProviderConsultations + "\n");
+                //write currentProviderTotalFee to it’s own line in the file
+                outputStream.write(currentProviderTotalFee + "\n");
+                //write a blank line to the file
+                outputStream.write("\n");
+                
+                //Get providerName and create EFT file
+                Provider currentProviderInfo = DatabaseQueries.getProvider(currentProviderNumber);
+                createEFTReport(currentProviderInfo.name, currentProviderNumber, currentProviderTotalFee, endTime);
+                
+                //set the currentProviderNumber to the bill’s providerNumber
+                currentProviderNumber = currentBill.providerNumber;
+                
+                //increment totalProviders by 1
+                totalProviders++;
+                
+                //set currentProviderConsultations to 0
+                currentProviderConsultations = 0;
+                
+                //set currentProviderTotalFee to 0
+                currentProviderTotalFee = 0;
+            }
+            
+            //increment currentProviderConsultations and totalConsultations by 1
+            currentProviderConsultations++;
+            
+            //query to service directory table for the fee of the service who’s
+            //serviceCode equals the serviceCode in the bill
+            double currentFee = DatabaseQueries.getService(currentBill.serviceNumber).fee;
+            
+            //add the result of the previous query to currentProviderTotalFee and to totalFee
+            currentProviderTotalFee += currentFee;
+            totalFee += currentFee;
+        }
+        //write currentProviderNumber to it’s own line in the file
+        outputStream.write(currentProviderNumber + "\n");
+        //write currentProviderConsultations to it’s own line in the file
+        outputStream.write(currentProviderConsultations + "\n");
+        //write currentProviderTotalFee to it’s own line in the file
+        outputStream.write(currentProviderTotalFee + "\n");
+        //write a blank line to the file
+        outputStream.write("\n");
+        
+        //Get providerName and create EFT file
+        Provider currentProviderInfo = DatabaseQueries.getProvider(currentProviderNumber);
+        createEFTReport(currentProviderInfo.name, currentProviderNumber, currentProviderTotalFee, endTime);
+                
+        //write totalProviders to it’s own line in the file
+        outputStream.write(totalProviders + "\n");
+        //write totalConsultations to it’s own line in the file
+        outputStream.write(totalConsultations + "\n");
+        //write totalFee to it’s own line in the file
+        outputStream.write(Double.toString(totalFee));
+        
+        //close the file
+        outputStream.close();
+        
+        return 0;
+    }
+    
+    private static void createEFTReport(String providerName, String providerNumber, Double amountToBeTransferred, LocalDateTime endTime) throws IOException
+    {
+        File EFTReportFile = new File("\\EFT Reports\\" + endTime + 
+                LocalDateTime.now() + ".txt");
+        FileWriter outputStream = new FileWriter(EFTReportFile);
+        
+        outputStream.write(providerName + "\n");
+        outputStream.write(providerNumber + "\n");
+        outputStream.write(Double.toString(amountToBeTransferred));
+        
+        outputStream.close();
+    }
 }

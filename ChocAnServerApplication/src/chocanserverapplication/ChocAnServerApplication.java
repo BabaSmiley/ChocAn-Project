@@ -55,6 +55,7 @@ public class ChocAnServerApplication
         });
         
         setupWelcomeSocket();
+        new Thread(new AutomatedReportThread()).start();
         welcomeLoop();
     }
     

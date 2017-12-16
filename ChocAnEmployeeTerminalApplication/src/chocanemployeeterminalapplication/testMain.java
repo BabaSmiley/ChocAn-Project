@@ -8,6 +8,11 @@ package chocanemployeeterminalapplication;
 import chocanemployeeterminalapplication.EmployeeTerminal;
 import chocanstructs.Employee;
 import java.io.IOException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +20,7 @@ import java.util.logging.Logger;
 public class testMain {
     public static void main(String[] args)
     {
+        /**
         ChocAnEmployeeTerminal myTerminal = new ChocAnEmployeeTerminal();
         System.out.println(myTerminal.login("146964984", "password"));
         
@@ -41,6 +47,13 @@ public class testMain {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
+        
+        LocalDate date = LocalDate.now();
+        date = date.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
+        LocalDateTime dateTime = date.atStartOfDay();
+        System.out.println(dateTime);
+        
+        
     }
 }
