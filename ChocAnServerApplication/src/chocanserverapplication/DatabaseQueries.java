@@ -1762,6 +1762,8 @@ public class DatabaseQueries
 
     public static boolean updateMemberStatus(Member memberData) 
     {
+        boolean returnValue = false;
+        
         try
         {
             //setup connection to database
@@ -1782,8 +1784,6 @@ public class DatabaseQueries
             
             //execute query and store result
             myRs = myStmt.executeQuery();
-            
-            boolean returnValue = false;
             
             //if there is a value returned, memberNumber does exist in table
             if (myRs.next())
@@ -1814,12 +1814,12 @@ public class DatabaseQueries
             myRs.close();
             myStmt.close();
             myConn.close();
-            
-            //return the boolean
-            return returnValue;
         } catch(Exception e)
         {
             e.printStackTrace();
         }
+        
+        //return the boolean
+        return returnValue;
     }
 }
