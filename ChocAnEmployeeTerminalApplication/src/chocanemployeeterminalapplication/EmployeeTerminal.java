@@ -18,7 +18,10 @@ public class EmployeeTerminal extends javax.swing.JFrame {
 
     private int clientPrivileges;
     private ChocAnEmployeeTerminal employeeTerminal;
-    private int currentCommand;
+    private int currentSDCommand;
+    private int currentPCommand;
+    private int currentMCommand;
+    private int currentECommand;
     
     /**
      * Creates new form EmployeeTerminal
@@ -28,7 +31,10 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         employeeTerminal = new ChocAnEmployeeTerminal();
         initComponents();
         updateTabs();
-        currentCommand = -1;
+        currentSDCommand = -1;
+        currentPCommand = -1;
+        currentMCommand = -1;
+        currentECommand = -1;
     }
     
     public void updateServiceDirectoryTable()
@@ -102,7 +108,15 @@ public class EmployeeTerminal extends javax.swing.JFrame {
     
     public void clearDataP()
     {
-        
+        providerNumberInputP.setText("");
+        passwordInputP.setText("");
+        nameInputP.setText("");
+        emailAddressInputP.setText("");
+        addressInputP.setText("");
+        cityInputP.setText("");
+        stateInputP.setText("");
+        zipInputP.setText("");
+        isActiveCheckBoxP.setSelected(false);
     }
     
     public void updateMemberTable()
@@ -141,7 +155,16 @@ public class EmployeeTerminal extends javax.swing.JFrame {
     
     public void clearDataM()
     {
-        
+        memberNumberInputM.setText("");
+        nameInputM.setText("");
+        emailAddressInputM.setText("");
+        addressInputM.setText("");
+        cityInputM.setText("");
+        stateInputM.setText("");
+        zipInputM.setText("");
+        isValidCheckBoxM.setSelected(false);
+        validityReasonInputM.setText("");
+        isActiveCheckBoxM.setText("");
     }
     
     public void updateEmployeeTable()
@@ -180,7 +203,16 @@ public class EmployeeTerminal extends javax.swing.JFrame {
     
     public void clearDataE()
     {
-        
+        employeeNumberInputE.setText("");
+        passwordInputE.setText("");
+        nameInputE.setText("");
+        emailAddressInputE.setText("");
+        addressInputE.setText("");
+        cityInputE.setText("");
+        stateInputE.setText("");
+        zipInputE.setText("");
+        isActiveCheckBoxE.setSelected(false);
+        isManagerCheckBoxE.setSelected(false);
     }
     
     public void updateTabs(){ 
@@ -1449,7 +1481,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         
         clearDataSD();
         
-        currentCommand = 0;
+        currentSDCommand = 0;
     }//GEN-LAST:event_createButtonSDActionPerformed
 
     private void refreshButtonSDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonSDActionPerformed
@@ -1462,6 +1494,10 @@ public class EmployeeTerminal extends javax.swing.JFrame {
 
     private void createButtonPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonPActionPerformed
         setProviderFieldsEditable(true);
+        
+        clearDataP();
+        
+        currentPCommand = 0;
     }//GEN-LAST:event_createButtonPActionPerformed
 
     private void refreshButtonMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonMActionPerformed
@@ -1501,11 +1537,11 @@ public class EmployeeTerminal extends javax.swing.JFrame {
             
             try
             {
-                if (currentCommand == 0)
+                if (currentSDCommand == 0)
                 {
                     returnValue = employeeTerminal.insertService(service);
                 }
-                else if (currentCommand == 1)
+                else if (currentSDCommand == 1)
                 {
                     returnValue = employeeTerminal.updateService(service);
                 }
@@ -1514,7 +1550,8 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                 {
                     displayAlert("Entry Successfully Inserted/Edited", "Submit Service Alert");
                     setServiceFieldsEditable(false);
-                    currentCommand = -1;
+                    currentSDCommand = -1;
+                    clearDataSD();
                 }
                 else if (returnValue == 1)
                 {
@@ -1612,7 +1649,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         feeInputSD.setText(Double.toString((Double) tableSD.getValueAt(entry, 2)));
         isActiveCheckBoxSD.setSelected((Boolean) tableSD.getValueAt(entry, 3));
         
-        currentCommand = 1;
+        currentSDCommand = 1;
     }//GEN-LAST:event_editButtonSDActionPerformed
 
     private void validityReasonInputMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validityReasonInputMActionPerformed
@@ -1621,10 +1658,73 @@ public class EmployeeTerminal extends javax.swing.JFrame {
 
     private void editButtonPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonPActionPerformed
         setProviderFieldsEditable(true);
+        
+        int row = tableP.getSelectedRow();
+        providerNumberInputP.setText((String) tableP.getValueAt(row, 0));
+        passwordInputP.setText((String) tableP.getValueAt(row, 1));
+        nameInputP.setText((String) tableP.getValueAt(row, 2));
+        emailAddressInputP.setText((String) tableP.getValueAt(row, 3));
+        addressInputP.setText((String) tableP.getValueAt(row, 4));
+        cityInputP.setText((String) tableP.getValueAt(row, 5));
+        stateInputP.setText((String) tableP.getValueAt(row, 6));
+        zipInputP.setText((String) tableP.getValueAt(row, 7));
+        isActiveCheckBoxP.setSelected((Boolean) tableP.getValueAt(row, 8));
+        
+        currentPCommand = 1;
     }//GEN-LAST:event_editButtonPActionPerformed
 
     private void submitInfoPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitInfoPActionPerformed
-        setProviderFieldsEditable(false);
+        Provider provider = new Provider();
+        provider.providerNumber = providerNumberInputP.getText();
+        provider.password = passwordInputP.getText();
+        provider.name = nameInputP.getText();
+        provider.emailAddress = emailAddressInputP.getText();
+        provider.streetAddress = addressInputP.getText();
+        provider.city = cityInputP.getText();
+        provider.state = stateInputP.getText();
+        provider.zipCode = zipInputP.getText();
+        provider.isActive = isActiveCheckBoxP.isSelected();
+        
+        if (provider.verifyData())
+        {
+            int returnValue = -1;
+            
+            try
+            {
+                if (currentPCommand == 0)
+                {
+                    returnValue = employeeTerminal.insertProvider(provider);
+                }
+                else if (currentPCommand == 1)
+                {
+                    returnValue = employeeTerminal.updateProvider(provider);
+                }
+                
+                if (returnValue == 0)
+                {
+                    displayAlert("Entry Successfully Inserted/Edited", "Submit Provider Alert");
+                    setProviderFieldsEditable(false);
+                    currentPCommand = -1;
+                    clearDataP();
+                }
+                else if (returnValue == 1)
+                {
+                    displayAlert("Connection to database failed at server", "Submit Provider Alert");
+                }
+                else if (returnValue == 4)
+                {
+                    displayAlert("Invalid Data", "Submit Provider Alert");
+                }
+                
+            } catch(Exception e)
+            {
+                displayAlert("Connection to server failed", "Submit Provider Alert");
+            }
+            
+        } else
+        {
+            displayAlert("Invalid Input", "Submit Provider Alert");
+        }
     }//GEN-LAST:event_submitInfoPActionPerformed
 
     private void submitInfoMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitInfoMActionPerformed

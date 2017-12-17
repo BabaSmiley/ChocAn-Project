@@ -1299,7 +1299,7 @@ public class DatabaseQueries
                         + "city = ? , "
                         + "state = ? , "
                         + "zipCode = ? , "
-                        + "isActive = ? , "
+                        + "isActive = ? "
                         + "where providerNumber = ?";
                 
                 myStmt = myConn.prepareStatement(statement);
