@@ -58,6 +58,10 @@ public class Employee implements Serializable
             return false;
         }
         
+        //password must be no longer than 20 characters
+        if (password.length() > 20)
+            return false;
+        
         //name must be longer than 0, but less than 26 characters
         if (name.length() > 25 || name.length() == 0)
             return false;

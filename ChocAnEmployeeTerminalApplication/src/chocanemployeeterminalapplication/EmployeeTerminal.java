@@ -26,7 +26,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
     /**
      * Creates new form EmployeeTerminal
      */
-    public EmployeeTerminal() {
+    private EmployeeTerminal() {
         clientPrivileges = -1;
         employeeTerminal = new ChocAnEmployeeTerminal();
         initComponents();
@@ -37,7 +37,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         currentECommand = -1;
     }
     
-    public void updateServiceDirectoryTable()
+    private void updateServiceDirectoryTable()
     {
         try
         {
@@ -56,24 +56,24 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         }
     }
     
-    public void setServiceFieldsEditable(Boolean editable)
+    private void setServiceFieldsEditable(Boolean editable)
     {
         serviceCodeInputSD.setEditable(editable);
         nameInputSD.setEditable(editable);
         feeInputSD.setEditable(editable);
-        isActiveCheckBoxSD.setEnabled(editable);
+        isActiveCheckboxSD.setEnabled(editable);
         submitButtonSD.setEnabled(editable);
     }
     
-    public void clearDataSD()
+    private void clearDataSD()
     {
         serviceCodeInputSD.setText("");
         nameInputSD.setText("");
         feeInputSD.setText("");
-        isActiveCheckBoxSD.setSelected(false);
+        isActiveCheckboxSD.setSelected(false);
     }
     
-    public void updateProviderTable()
+    private void updateProviderTable()
     {
         try
         {
@@ -92,7 +92,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         }
     }
     
-    public void setProviderFieldsEditable(Boolean editable)
+    private void setProviderFieldsEditable(Boolean editable)
     {
         providerNumberInputP.setEditable(editable);
         passwordInputP.setEditable(editable);
@@ -106,7 +106,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         submitInfoP.setEnabled(editable);
     }
     
-    public void clearDataP()
+    private void clearDataP()
     {
         providerNumberInputP.setText("");
         passwordInputP.setText("");
@@ -119,7 +119,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         isActiveCheckBoxP.setSelected(false);
     }
     
-    public void updateMemberTable()
+    private void updateMemberTable()
     {
         try
         {
@@ -138,7 +138,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         }
     }
     
-    public void setMemberFieldsEditable(Boolean editable)
+    private void setMemberFieldsEditable(Boolean editable)
     {
         memberNumberInputM.setEditable(editable);
         nameInputM.setEditable(editable);
@@ -153,7 +153,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         submitInfoM.setEnabled(editable);
     }
     
-    public void clearDataM()
+    private void clearDataM()
     {
         memberNumberInputM.setText("");
         nameInputM.setText("");
@@ -167,7 +167,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         isActiveCheckBoxM.setSelected(false);
     }
     
-    public void updateEmployeeTable()
+    private void updateEmployeeTable()
     {
         try
         {
@@ -186,7 +186,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         }
     }
     
-    public void setEmployeeFieldsEditable(Boolean editable)
+    private void setEmployeeFieldsEditable(Boolean editable)
     {
         employeeNumberInputE.setEditable(editable);
         passwordInputE.setEditable(editable);
@@ -201,7 +201,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         submitInfoE.setEnabled(editable);
     }
     
-    public void clearDataE()
+    private void clearDataE()
     {
         employeeNumberInputE.setText("");
         passwordInputE.setText("");
@@ -215,7 +215,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         isManagerCheckBoxE.setSelected(false);
     }
     
-    public void updateTabs(){ 
+    private void updateTabs(){ 
          if(clientPrivileges == 0){
             mainPanel.add(serviceDirectoryPanel);
             mainPanel.setTitleAt(1, "Service Directory");
@@ -265,7 +265,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
          }
     }
     
-    public void displayAlert(String message, String titleBar)
+    private void displayAlert(String message, String titleBar)
     {
         JOptionPane.showMessageDialog(null, message, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
     }
@@ -389,7 +389,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         feeInputSD = new javax.swing.JTextField();
         submitButtonSD = new javax.swing.JButton();
-        isActiveCheckBoxSD = new javax.swing.JCheckBox();
+        isActiveCheckboxSD = new javax.swing.JCheckBox();
         serviceInfoLabel = new javax.swing.JLabel();
         scrollPanelSD = new javax.swing.JScrollPane();
         tableSD = new javax.swing.JTable();
@@ -854,7 +854,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                                 .addGroup(formPanelMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(isActiveCheckBoxM)
                                     .addComponent(isValidCheckBoxM))
-                                .addGap(18, 18, 18)
+                                .addGap(15, 15, 15)
                                 .addGroup(formPanelMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel26)
                                     .addComponent(validityReasonInputM))))
@@ -867,51 +867,52 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(formPanelMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(formPanelMLayout.createSequentialGroup()
-                        .addGroup(formPanelMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(formPanelMLayout.createSequentialGroup()
-                                .addGroup(formPanelMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(formPanelMLayout.createSequentialGroup()
-                                        .addGroup(formPanelMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel12)
-                                            .addComponent(jLabel15))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(memberNumberInputM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(cityInputM, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(10, 10, 10)
-                                .addGroup(formPanelMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(formPanelMLayout.createSequentialGroup()
-                                        .addComponent(jLabel13)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(nameInputM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(formPanelMLayout.createSequentialGroup()
-                                        .addComponent(jLabel16)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(stateInputM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(formPanelMLayout.createSequentialGroup()
-                                .addComponent(jLabel17)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(formPanelMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(zipInputM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(submitInfoM))))
                         .addGroup(formPanelMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(formPanelMLayout.createSequentialGroup()
+                                .addGroup(formPanelMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel12)
+                                    .addComponent(jLabel15))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel25)
+                                .addComponent(memberNumberInputM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cityInputM, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addGroup(formPanelMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(formPanelMLayout.createSequentialGroup()
+                                .addComponent(jLabel13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(emailAddressInputM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addComponent(nameInputM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(formPanelMLayout.createSequentialGroup()
+                                .addComponent(jLabel16)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(stateInputM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(formPanelMLayout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(formPanelMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(zipInputM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(submitInfoM))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(formPanelMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formPanelMLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(isActiveCheckBoxM)
+                        .addGap(37, 37, 37)
+                        .addComponent(isValidCheckBoxM))
+                    .addGroup(formPanelMLayout.createSequentialGroup()
+                        .addComponent(jLabel25)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(emailAddressInputM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(formPanelMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(formPanelMLayout.createSequentialGroup()
+                                .addComponent(jLabel26)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(validityReasonInputM, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(formPanelMLayout.createSequentialGroup()
                                 .addComponent(jLabel14)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(addressInputM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formPanelMLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                                .addComponent(isActiveCheckBoxM)
-                                .addGap(37, 37, 37)
-                                .addComponent(isValidCheckBoxM))))
-                    .addGroup(formPanelMLayout.createSequentialGroup()
-                        .addComponent(jLabel26)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(validityReasonInputM, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(addressInputM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 7, Short.MAX_VALUE)))
                 .addContainerGap(43, Short.MAX_VALUE))
         );
 
@@ -1289,7 +1290,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
             }
         });
 
-        isActiveCheckBoxSD.setText("Is Actvice");
+        isActiveCheckboxSD.setText("Is Actvice");
 
         javax.swing.GroupLayout formPanelSDLayout = new javax.swing.GroupLayout(formPanelSD);
         formPanelSD.setLayout(formPanelSDLayout);
@@ -1311,7 +1312,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                             .addGroup(formPanelSDLayout.createSequentialGroup()
                                 .addComponent(nameInputSD, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(69, 69, 69)
-                                .addComponent(isActiveCheckBoxSD)
+                                .addComponent(isActiveCheckboxSD)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(submitButtonSD, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(feeInputSD, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -1329,7 +1330,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                     .addComponent(nameInputSD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(submitButtonSD)
-                    .addComponent(isActiveCheckBoxSD))
+                    .addComponent(isActiveCheckboxSD))
                 .addGap(25, 25, 25)
                 .addGroup(formPanelSDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(feeInputSD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1518,6 +1519,10 @@ public class EmployeeTerminal extends javax.swing.JFrame {
 
     private void createButtonEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonEActionPerformed
         setEmployeeFieldsEditable(true);
+        
+        clearDataE();
+        
+        currentECommand = 0;
     }//GEN-LAST:event_createButtonEActionPerformed
 
     private void submitButtonSDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonSDActionPerformed
@@ -1533,7 +1538,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         {
             doubleConverted = false;
         }
-        service.isActive = isActiveCheckBoxSD.isSelected();
+        service.isActive = isActiveCheckboxSD.isSelected();
         
         if (service.verifyData() && doubleConverted)
         {
@@ -1656,6 +1661,11 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         
         clientPrivileges = -1;
         
+        clearDataSD();
+        clearDataP();
+        clearDataM();
+        clearDataE();
+        
         updateTabs();
     }//GEN-LAST:event_logoutButtonActionPerformed
 
@@ -1667,7 +1677,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         serviceCodeInputSD.setEditable(false);
         nameInputSD.setText((String) tableSD.getValueAt(entry, 1));
         feeInputSD.setText(Double.toString((Double) tableSD.getValueAt(entry, 2)));
-        isActiveCheckBoxSD.setSelected((Boolean) tableSD.getValueAt(entry, 3));
+        isActiveCheckboxSD.setSelected((Boolean) tableSD.getValueAt(entry, 3));
         
         currentSDCommand = 1;
     }//GEN-LAST:event_editButtonSDActionPerformed
@@ -1805,10 +1815,76 @@ public class EmployeeTerminal extends javax.swing.JFrame {
 
     private void editButtonEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonEActionPerformed
         setEmployeeFieldsEditable(true);
+        
+        int row = tableE.getSelectedRow();
+        employeeNumberInputE.setText((String) tableE.getValueAt(row, 0));
+        employeeNumberInputE.setEditable(false);
+        passwordInputE.setText((String) tableE.getValueAt(row, 1));
+        nameInputE.setText((String) tableE.getValueAt(row, 2));
+        emailAddressInputE.setText((String) tableE.getValueAt(row, 3));
+        addressInputE.setText((String) tableE.getValueAt(row, 4));
+        cityInputE.setText((String) tableE.getValueAt(row, 5));
+        stateInputE.setText((String) tableE.getValueAt(row, 6));
+        zipInputE.setText((String) tableE.getValueAt(row, 7));
+        isActiveCheckBoxE.setSelected((Boolean) tableE.getValueAt(row, 8));
+        isManagerCheckBoxE.setSelected((Boolean) tableE.getValueAt(row, 9));
+        
+        currentECommand = 1;
     }//GEN-LAST:event_editButtonEActionPerformed
 
     private void submitInfoEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitInfoEActionPerformed
-        setEmployeeFieldsEditable(false);
+        Employee employee = new Employee();
+        employee.employeeNumber = employeeNumberInputE.getText();
+        employee.password = passwordInputE.getText();
+        employee.name = nameInputE.getText();
+        employee.emailAddress = emailAddressInputE.getText();
+        employee.streetAddress = addressInputE.getText();
+        employee.city = cityInputE.getText();
+        employee.state = stateInputE.getText();
+        employee.zipCode = zipInputE.getText();
+        employee.isActive = isActiveCheckBoxE.isSelected();
+        employee.isManager = isManagerCheckBoxE.isSelected();
+        
+        if (employee.verifyData())
+        {
+            int returnValue = -1;
+            
+            try
+            {
+                if (currentECommand == 0)
+                {
+                    returnValue = employeeTerminal.insertEmployee(employee);
+                }
+                else if (currentECommand == 1)
+                {
+                    returnValue = employeeTerminal.updateEmployee(employee);
+                }
+                
+                if (returnValue == 0)
+                {
+                    displayAlert("Entry Successfully Inserted/Edited", "Submit Employee Alert");
+                    setEmployeeFieldsEditable(false);
+                    currentECommand = -1;
+                    clearDataE();
+                }
+                else if (returnValue == 1)
+                {
+                    displayAlert("Connection to database failed at server", "Submit Employee Alert");
+                }
+                else if (returnValue == 4)
+                {
+                    displayAlert("Invalid Data", "Submit Employee Alert");
+                }
+                
+            } catch(Exception e)
+            {
+                displayAlert("Connection to server failed", "Submit Employee Alert");
+            }
+            
+        } else
+        {
+            displayAlert("Invalid Input", "Submit Employee Alert");
+        }
     }//GEN-LAST:event_submitInfoEActionPerformed
 
     /**
@@ -1881,7 +1957,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
     private javax.swing.JCheckBox isActiveCheckBoxE;
     private javax.swing.JCheckBox isActiveCheckBoxM;
     private javax.swing.JCheckBox isActiveCheckBoxP;
-    private javax.swing.JCheckBox isActiveCheckBoxSD;
+    private javax.swing.JCheckBox isActiveCheckboxSD;
     private javax.swing.JCheckBox isManagerCheckBoxE;
     private javax.swing.JCheckBox isValidCheckBoxM;
     private javax.swing.JLabel jLabel1;
