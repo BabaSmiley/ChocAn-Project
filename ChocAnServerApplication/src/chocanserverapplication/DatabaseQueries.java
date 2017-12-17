@@ -1371,21 +1371,21 @@ public class DatabaseQueries
             if (returnValue)
             {
                 //Create sql statement
-                statement = "insert into provider values( ? , ? , ? , ? , ? , ? , ? "
+                statement = "insert into member values( ? , ? , ? , ? , ? , ? , ? "
                         + ", ? , ? , ? , ?)";
                 
                 myStmt = myConn.prepareStatement(statement);
                 myStmt.setString(1, memberData.memberNumber);
-                myStmt.setString(3, memberData.name);
-                myStmt.setString(4, memberData.emailAddress);
-                myStmt.setString(5, memberData.streetAddress);
-                myStmt.setString(6, memberData.city);
-                myStmt.setString(7, memberData.state);
-                myStmt.setString(8, memberData.zipCode);
-                myStmt.setBoolean(9, true);
-                myStmt.setBoolean(10, memberData.isValid);
-                myStmt.setString(11, memberData.validityReason);
-                myStmt.setBoolean(12, memberData.isActive);
+                myStmt.setString(2, memberData.name);
+                myStmt.setString(3, memberData.emailAddress);
+                myStmt.setString(4, memberData.streetAddress);
+                myStmt.setString(5, memberData.city);
+                myStmt.setString(6, memberData.state);
+                myStmt.setString(7, memberData.zipCode);
+                myStmt.setBoolean(8, true);
+                myStmt.setBoolean(9, memberData.isValid);
+                myStmt.setString(10, memberData.validityReason);
+                myStmt.setBoolean(11, memberData.isActive);
                 
                 //execute query
                 myStmt.executeUpdate();
@@ -1452,10 +1452,10 @@ public class DatabaseQueries
                         + "city = ? , "
                         + "state = ? , "
                         + "zipCode = ? , "
-                        + "isUpdated = true , "
+                        + "isUpdated = ? , "
                         + "isValid = ? , "
                         + "validityReason = ? , "
-                        + "isActive = ? , "
+                        + "isActive = ? "
                         + "where memberNumber = ?";
                 
                 myStmt = myConn.prepareStatement(statement);

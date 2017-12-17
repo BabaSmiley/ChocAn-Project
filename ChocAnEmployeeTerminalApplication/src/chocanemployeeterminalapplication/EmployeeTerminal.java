@@ -164,7 +164,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         zipInputM.setText("");
         isValidCheckBoxM.setSelected(false);
         validityReasonInputM.setText("");
-        isActiveCheckBoxM.setText("");
+        isActiveCheckBoxM.setSelected(false);
     }
     
     public void updateEmployeeTable()
@@ -1506,6 +1506,10 @@ public class EmployeeTerminal extends javax.swing.JFrame {
 
     private void createButtonMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonMActionPerformed
         setMemberFieldsEditable(true);
+        
+        clearDataM();
+        
+        currentMCommand = 0;
     }//GEN-LAST:event_createButtonMActionPerformed
 
     private void refreshButtonEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonEActionPerformed
@@ -1587,6 +1591,21 @@ public class EmployeeTerminal extends javax.swing.JFrame {
 
     private void editButtonMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonMActionPerformed
         setMemberFieldsEditable(true);
+        
+        int row = tableM.getSelectedRow();
+        memberNumberInputM.setText((String) tableM.getValueAt(row, 0));
+        memberNumberInputM.setEditable(false);
+        nameInputM.setText((String) tableM.getValueAt(row, 1));
+        emailAddressInputM.setText((String) tableM.getValueAt(row, 2));
+        addressInputM.setText((String) tableM.getValueAt(row, 3));
+        cityInputM.setText((String) tableM.getValueAt(row, 4));
+        stateInputM.setText((String) tableM.getValueAt(row, 5));
+        zipInputM.setText((String) tableM.getValueAt(row, 6));
+        isValidCheckBoxM.setSelected((Boolean) tableM.getValueAt(row, 7));
+        validityReasonInputM.setText((String) tableM.getValueAt(row, 8));
+        isActiveCheckBoxM.setSelected((Boolean) tableM.getValueAt(row, 9));
+        
+        currentMCommand = 1;
     }//GEN-LAST:event_editButtonMActionPerformed
 
     private void employeeNumberInputEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeNumberInputEActionPerformed
@@ -1645,6 +1664,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         
         int entry = tableSD.getSelectedRow();
         serviceCodeInputSD.setText((String) tableSD.getValueAt(entry, 0));
+        serviceCodeInputSD.setEditable(false);
         nameInputSD.setText((String) tableSD.getValueAt(entry, 1));
         feeInputSD.setText(Double.toString((Double) tableSD.getValueAt(entry, 2)));
         isActiveCheckBoxSD.setSelected((Boolean) tableSD.getValueAt(entry, 3));
@@ -1661,6 +1681,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         
         int row = tableP.getSelectedRow();
         providerNumberInputP.setText((String) tableP.getValueAt(row, 0));
+        providerNumberInputP.setEditable(false);
         passwordInputP.setText((String) tableP.getValueAt(row, 1));
         nameInputP.setText((String) tableP.getValueAt(row, 2));
         emailAddressInputP.setText((String) tableP.getValueAt(row, 3));
@@ -1728,7 +1749,58 @@ public class EmployeeTerminal extends javax.swing.JFrame {
     }//GEN-LAST:event_submitInfoPActionPerformed
 
     private void submitInfoMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitInfoMActionPerformed
-        setMemberFieldsEditable(false);
+        Member member = new Member();
+        member.memberNumber = memberNumberInputM.getText();
+        member.name = nameInputM.getText();
+        member.emailAddress = emailAddressInputM.getText();
+        member.streetAddress = addressInputM.getText();
+        member.city = cityInputM.getText();
+        member.state = stateInputM.getText();
+        member.zipCode = zipInputM.getText();
+        member.isValid = isValidCheckBoxM.isSelected();
+        member.validityReason = validityReasonInputM.getText();
+        member.isActive = isActiveCheckBoxM.isSelected();
+        
+        if (member.verifyData())
+        {
+            int returnValue = -1;
+            
+            try
+            {
+                if (currentMCommand == 0)
+                {
+                    returnValue = employeeTerminal.insertMember(member);
+                }
+                else if (currentMCommand == 1)
+                {
+                    returnValue = employeeTerminal.updateMember(member);
+                }
+                
+                if (returnValue == 0)
+                {
+                    displayAlert("Entry Successfully Inserted/Edited", "Submit Member Alert");
+                    setMemberFieldsEditable(false);
+                    currentMCommand = -1;
+                    clearDataM();
+                }
+                else if (returnValue == 1)
+                {
+                    displayAlert("Connection to database failed at server", "Submit Member Alert");
+                }
+                else if (returnValue == 4)
+                {
+                    displayAlert("Invalid Data", "Submit Member Alert");
+                }
+                
+            } catch(Exception e)
+            {
+                displayAlert("Connection to server failed", "Submit Member Alert");
+            }
+            
+        } else
+        {
+            displayAlert("Invalid Input", "Submit Member Alert");
+        }
     }//GEN-LAST:event_submitInfoMActionPerformed
 
     private void editButtonEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonEActionPerformed
