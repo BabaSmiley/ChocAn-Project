@@ -259,9 +259,16 @@ public class EmployeeFunctionality
         //string - providerNumber + the date from billPeriodEndDateTime + the
         //time from billPeriodEndDateTime + “ProviderReport” - as the filename
         //and the file extension being .txt
-        File providerReportFile = new File("\\Provider Reports\\" + providerNumber
-                + endTime + LocalDateTime.now() + ".txt");
-        FileWriter outputStream = new FileWriter(providerReportFile);
+        String fileName = "\\Provider Reports\\" + providerNumber + endTime + LocalDateTime.now().hashCode() + ".txt";
+        fileName = fileName.replaceAll(":", " ");
+        System.out.println(fileName);
+        
+        File newFile = new File(fileName);
+        newFile.getParentFile().mkdirs();
+        
+        FileWriter fileWriter = new FileWriter(newFile);
+        
+        BufferedWriter outputStream = new BufferedWriter(fileWriter);
         
         //write the following data from the provider table query on individual
         //lines of the new file
@@ -307,7 +314,6 @@ public class EmployeeFunctionality
             //found in the bill.
             Service currentService = DatabaseQueries.getService(currentBill.serviceNumber);
             serviceFee = Double.toString(currentService.fee);
-            feeSum += currentService.fee;
             
             //add the serviceFee to feeSum
             feeSum += currentService.fee;
@@ -379,7 +385,10 @@ public class EmployeeFunctionality
         fileName = fileName.replaceAll(":", " ");
         System.out.println(fileName);
         
-        FileWriter fileWriter = new FileWriter(fileName);
+        File newFile = new File(fileName);
+        newFile.getParentFile().mkdirs();
+        
+        FileWriter fileWriter = new FileWriter(newFile);
         
         BufferedWriter outputStream = new BufferedWriter(fileWriter);
         
@@ -453,9 +462,16 @@ public class EmployeeFunctionality
         //Create a new file in the Summary Report directory using the string - the
         //date from billPeriodEndDate + date and time from now + “SummaryReport”
         // - as the filename and the file extension being .txt
-        File summaryReportFile = new File("\\Summary Reports\\" + endTime + 
-                LocalDateTime.now() + ".txt");
-        FileWriter outputStream = new FileWriter(summaryReportFile);
+        String fileName = "\\Summary Reports\\" + endTime + LocalDateTime.now().hashCode() + ".txt";
+        fileName = fileName.replaceAll(":", " ");
+        System.out.println(fileName);
+        
+        File newFile = new File(fileName);
+        newFile.getParentFile().mkdirs();
+        
+        FileWriter fileWriter = new FileWriter(newFile);
+        
+        BufferedWriter outputStream = new BufferedWriter(fileWriter);
         
         //Query the bills table for bills added in the 7 days before
         //billPeriodEndDateTime. Order the query first by providerNumber.
@@ -499,6 +515,8 @@ public class EmployeeFunctionality
                 //increment totalProviders by 1
                 totalProviders++;
                 
+                totalConsultations += currentProviderConsultations;
+                
                 //set currentProviderConsultations to 0
                 currentProviderConsultations = 0;
                 
@@ -517,6 +535,8 @@ public class EmployeeFunctionality
             currentProviderTotalFee += currentFee;
             totalFee += currentFee;
         }
+        totalConsultations += currentProviderConsultations;
+        
         //write currentProviderNumber to it’s own line in the file
         outputStream.write(currentProviderNumber + "\n");
         //write currentProviderConsultations to it’s own line in the file

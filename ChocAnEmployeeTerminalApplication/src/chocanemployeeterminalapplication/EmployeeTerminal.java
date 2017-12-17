@@ -1925,7 +1925,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         
         String number = numberInputR.getText();
         
-        int returnValue;
+        int returnValue = -1;
         
         if (jList1.getSelectedValue() == "Member Report")
         {
@@ -1950,6 +1950,23 @@ public class EmployeeTerminal extends javax.swing.JFrame {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+        }
+        
+        if (returnValue == 0)
+        {
+            displayAlert("Report successfully created.", "Report Request Alert");
+        }
+        else if (returnValue == 1)
+        {
+            displayAlert("No bills in the time period to report.", "Report Request Alert");
+        }
+        else if (returnValue == 2)
+        {
+            displayAlert("Provider/Member number not found.", "Report Request Alert");
+        }
+        else
+        {
+            displayAlert("Missing Input. Please fill all necessary fields.", "Report Request Alert");
         }
     }//GEN-LAST:event_requestReportButtonActionPerformed
 
