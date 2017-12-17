@@ -22,6 +22,7 @@ import chocanstructs.Service;
 import chocanstructs.Bill;
 import java.util.List;
 import chocanserverapplication.DatabaseQueries;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -373,9 +374,14 @@ public class EmployeeFunctionality
         //string - memberNumber + the date from billPeriodEndDateTime + the time
         //from billPeriodEndDateTime + “MemberReport” - as the filename and the
         //file extension being .txt
-        File memberReportFile = new File("\\Member Reports\\" + memberNumber
-                + endTime + LocalDateTime.now() + ".txt");
-        FileWriter outputStream = new FileWriter(memberReportFile);
+        //memberReportFile.createNewFile();
+        String fileName = "\\Member Reports\\" + memberNumber + endTime + LocalDateTime.now().hashCode() + ".txt";
+        fileName = fileName.replaceAll(":", " ");
+        System.out.println(fileName);
+        
+        FileWriter fileWriter = new FileWriter(fileName);
+        
+        BufferedWriter outputStream = new BufferedWriter(fileWriter);
         
         //write the following data from the member table query on individual
         //lines of the new file
@@ -428,6 +434,7 @@ public class EmployeeFunctionality
         
         //close the file
         outputStream.close();
+        fileWriter.close();
         
         return 0;
     }

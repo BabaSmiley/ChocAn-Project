@@ -9,6 +9,12 @@ import chocanstructs.Employee;
 import chocanstructs.Provider;
 import chocanstructs.Member;
 import chocanstructs.Service;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  *
@@ -348,6 +354,9 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         dateScrollPane = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         requestReportInstructions = new javax.swing.JLabel();
+        numberInputR = new javax.swing.JTextField();
+        jLabel29 = new javax.swing.JLabel();
+        datePickerR = new org.jdesktop.swingx.JXDatePicker();
         employeesPanel = new javax.swing.JPanel();
         employeesLabel = new javax.swing.JLabel();
         scrollPanelE = new javax.swing.JScrollPane();
@@ -966,16 +975,24 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         requestReportButton.setFont(new java.awt.Font("Verdana", 0, 16)); // NOI18N
         requestReportButton.setText("Request Report");
         requestReportButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        requestReportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                requestReportButtonActionPerformed(evt);
+            }
+        });
 
         jList1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "Member Report", "Provider Report", "Summary Report" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        jList1.setToolTipText("");
         dateScrollPane.setViewportView(jList1);
 
         requestReportInstructions.setText("Choose a date to request a report for:");
+
+        jLabel29.setText("Member/Provider Number:");
 
         javax.swing.GroupLayout requestReportPanelLayout = new javax.swing.GroupLayout(requestReportPanel);
         requestReportPanel.setLayout(requestReportPanelLayout);
@@ -984,25 +1001,41 @@ public class EmployeeTerminal extends javax.swing.JFrame {
             .addGroup(requestReportPanelLayout.createSequentialGroup()
                 .addGroup(requestReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(requestReportPanelLayout.createSequentialGroup()
-                        .addGap(338, 338, 338)
-                        .addComponent(requestReportInstructions))
-                    .addGroup(requestReportPanelLayout.createSequentialGroup()
                         .addGap(391, 391, 391)
                         .addGroup(requestReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(requestReportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dateScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(dateScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(requestReportPanelLayout.createSequentialGroup()
+                        .addGap(404, 404, 404)
+                        .addGroup(requestReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(requestReportPanelLayout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(numberInputR, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel29)))
+                    .addGroup(requestReportPanelLayout.createSequentialGroup()
+                        .addGap(378, 378, 378)
+                        .addComponent(requestReportInstructions))
+                    .addGroup(requestReportPanelLayout.createSequentialGroup()
+                        .addGap(412, 412, 412)
+                        .addComponent(datePickerR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(556, Short.MAX_VALUE))
         );
         requestReportPanelLayout.setVerticalGroup(
             requestReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, requestReportPanelLayout.createSequentialGroup()
-                .addGap(74, 74, 74)
+                .addContainerGap()
                 .addComponent(requestReportInstructions)
-                .addGap(32, 32, 32)
-                .addComponent(dateScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58)
+                .addGap(18, 18, 18)
+                .addComponent(datePickerR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61)
+                .addComponent(dateScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(jLabel29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(numberInputR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61)
                 .addComponent(requestReportButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(448, Short.MAX_VALUE))
         );
 
         mainPanel.addTab("Reports", requestReportPanel);
@@ -1887,6 +1920,39 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_submitInfoEActionPerformed
 
+    private void requestReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestReportButtonActionPerformed
+        LocalDateTime endDateTime = LocalDateTime.ofInstant(datePickerR.getDate().toInstant(), ZoneId.systemDefault());
+        
+        String number = numberInputR.getText();
+        
+        int returnValue;
+        
+        if (jList1.getSelectedValue() == "Member Report")
+        {
+            try {
+                returnValue = employeeTerminal.requestMemberReport(number, endDateTime);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        else if (jList1.getSelectedValue() == "Provider Report")
+        {
+            try {
+                returnValue = employeeTerminal.requestProviderReport(number, endDateTime);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        else if (jList1.getSelectedValue() == "Summary Report")
+        {
+            try {
+                returnValue = employeeTerminal.requestSummaryReport(endDateTime);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_requestReportButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1936,6 +2002,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
     private javax.swing.JButton createButtonM;
     private javax.swing.JButton createButtonP;
     private javax.swing.JButton createButtonSD;
+    private org.jdesktop.swingx.JXDatePicker datePickerR;
     private javax.swing.JScrollPane dateScrollPane;
     private javax.swing.JButton editButtonE;
     private javax.swing.JButton editButtonM;
@@ -1981,6 +2048,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -2003,6 +2071,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
     private javax.swing.JTextField nameInputP;
     private javax.swing.JTextField nameInputSD;
     private javax.swing.JLabel nameLabel;
+    private javax.swing.JTextField numberInputR;
     private javax.swing.JTextField passwordInput;
     private javax.swing.JTextField passwordInputE;
     private javax.swing.JTextField passwordInputP;

@@ -559,7 +559,7 @@ public class ServerThread implements Runnable
             String memberNumber = (String) inputStream.readObject();
             LocalDateTime endTime = (LocalDateTime) inputStream.readObject();
             
-            int returnValue = EmployeeFunctionality.createProviderReport(memberNumber, endTime);
+            int returnValue = EmployeeFunctionality.createMemberReport(memberNumber, endTime);
             
             outputStream.writeObject(returnValue);
         }

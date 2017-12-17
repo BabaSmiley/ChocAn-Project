@@ -68,7 +68,7 @@ public class DatabaseQueries
         
         //Create sql statement
         String statement = "select * from bill where "
-                + "memberNumber = ? and (dateOfService between " + 
+                + "memberNumber = ? and (dateTimeBilled between " + 
                 formattedStartDateTime + " and " + formattedEndDateTime + ")";
         
         myStmt = myConn.prepareStatement(statement);
@@ -87,10 +87,8 @@ public class DatabaseQueries
             newBill.providerNumber = myRs.getString("providerNumber");
             newBill.memberNumber = myRs.getString("memberNumber");
             newBill.serviceNumber = myRs.getString("serviceNumber");
-            newBill.dateTimeBilled = myRs.getDate("dateTimeBilled").toInstant()
-                    .atZone(ZoneId.systemDefault()).toLocalDateTime();
-            newBill.dateOfService = myRs.getDate("dateOfService").toInstant()
-                    .atZone(ZoneId.systemDefault()).toLocalDate();
+            newBill.dateTimeBilled = myRs.getTimestamp("dateTimeBilled").toLocalDateTime();
+            newBill.dateOfService = myRs.getTimestamp("dateOfService").toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             newBill.comments = myRs.getString("comments");
             
             billList.add(newBill);
@@ -143,7 +141,7 @@ public class DatabaseQueries
         
         //Create sql statement
         String statement = "select * from bill where "
-                + "providerNumber = ? and (dateOfService between " + 
+                + "providerNumber = ? and (dateTimeBilled between " + 
                 formattedStartDateTime + " and " + formattedEndDateTime + ")";
         
         myStmt = myConn.prepareStatement(statement);
@@ -217,7 +215,7 @@ public class DatabaseQueries
         
         //Create sql statement
         String statement = "select * from bill where "
-                + "(dateOfService between " + formattedStartDateTime + 
+                + "(dateTimeBilled between " + formattedStartDateTime + 
                 " and " + formattedEndDateTime + ")" + 
                 "order by providerNumber asc";
         

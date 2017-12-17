@@ -308,6 +308,10 @@ public class ChocAnEmployeeTerminal
         
         outputStream.writeObject(command);
         
+        outputStream.writeObject(providerNumber);
+        
+        outputStream.writeObject(endDateTime);
+        
         int returnValue = (int) inputStream.readObject();
         
         return returnValue;
@@ -319,6 +323,10 @@ public class ChocAnEmployeeTerminal
         
         outputStream.writeObject(command);
         
+        outputStream.writeObject(memberNumber);
+        
+        outputStream.writeObject(endDateTime);
+        
         int returnValue = (int) inputStream.readObject();
         
         return returnValue;
@@ -329,6 +337,8 @@ public class ChocAnEmployeeTerminal
         String command = "requestsummaryreport";
         
         outputStream.writeObject(command);
+        
+        outputStream.writeObject(endDateTime);
         
         int returnValue = (int) inputStream.readObject();
         
