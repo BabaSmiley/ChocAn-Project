@@ -943,7 +943,7 @@ public class DatabaseQueries
         while(myRs.next())
         {
             Member newMember = new Member();
-            newMember.memberNumber = myRs.getString("employeeNumber");
+            newMember.memberNumber = myRs.getString("memberNumber");
             newMember.name = myRs.getString("name");
             newMember.emailAddress = myRs.getString("emailAddress");
             newMember.streetAddress = myRs.getString("streetAddress");
