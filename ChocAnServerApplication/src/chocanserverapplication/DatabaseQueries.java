@@ -1530,13 +1530,13 @@ public class DatabaseQueries
             if (returnValue)
             {
                 //Create sql statement
-                statement = "insert into servicedirectory values( ? , ? , ? , ? )";
+                statement = "insert into servicedirectory values( ? , ? , ? , ?)";
                 
                 myStmt = myConn.prepareStatement(statement);
                 myStmt.setString(1, serviceData.serviceNumber);
-                myStmt.setString(3, serviceData.name);
-                myStmt.setDouble(4, serviceData.fee);
-                myStmt.setBoolean(5, serviceData.isActive);
+                myStmt.setString(2, serviceData.name);
+                myStmt.setDouble(3, serviceData.fee);
+                myStmt.setBoolean(4, serviceData.isActive);
                 
                 //execute query
                 myStmt.executeUpdate();
@@ -1551,6 +1551,7 @@ public class DatabaseQueries
             return returnValue;
         } catch(Exception e)
         {
+            e.printStackTrace();
             return false;
         }
     }
@@ -1599,13 +1600,14 @@ public class DatabaseQueries
                 statement = "update servicedirectory "
                         + "set name = ? , "
                         + "fee = ? , "
-                        + "isActive = ? , "
+                        + "isActive = ? "
                         + "where serviceNumber = ?";
                 
                 myStmt = myConn.prepareStatement(statement);
                 myStmt.setString(1, serviceData.name);
                 myStmt.setDouble(2, serviceData.fee);
                 myStmt.setBoolean(3, serviceData.isActive);
+                myStmt.setString(4, serviceData.serviceNumber);
                 
                 //execute query
                 myStmt.executeUpdate();
@@ -1620,6 +1622,7 @@ public class DatabaseQueries
             return returnValue;
         } catch(Exception e)
         {
+            e.printStackTrace();
             return false;
         }
     }

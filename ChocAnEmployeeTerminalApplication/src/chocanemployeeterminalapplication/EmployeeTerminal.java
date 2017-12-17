@@ -4,25 +4,12 @@
  * and open the template in the editor.
  */
 package chocanemployeeterminalapplication;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 import chocanstructs.Employee;
 import chocanstructs.Provider;
 import chocanstructs.Member;
 import chocanstructs.Service;
-import chocanstructs.Bill;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ScrollPaneLayout;
 /**
  *
  * @author Afeefeh
@@ -31,6 +18,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
 
     private int clientPrivileges;
     private ChocAnEmployeeTerminal employeeTerminal;
+    private int currentCommand;
     
     /**
      * Creates new form EmployeeTerminal
@@ -40,6 +28,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         employeeTerminal = new ChocAnEmployeeTerminal();
         initComponents();
         updateTabs();
+        currentCommand = -1;
     }
     
     public void updateServiceDirectoryTable()
@@ -66,7 +55,16 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         serviceCodeInputSD.setEditable(editable);
         nameInputSD.setEditable(editable);
         feeInputSD.setEditable(editable);
-        isActiveCheckboxSD.setEnabled(editable);
+        isActiveCheckBoxSD.setEnabled(editable);
+        submitButtonSD.setEnabled(editable);
+    }
+    
+    public void clearDataSD()
+    {
+        serviceCodeInputSD.setText("");
+        nameInputSD.setText("");
+        feeInputSD.setText("");
+        isActiveCheckBoxSD.setSelected(false);
     }
     
     public void updateProviderTable()
@@ -99,6 +97,12 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         stateInputP.setEditable(editable);
         zipInputP.setEditable(editable);
         isActiveCheckBoxP.setEnabled(editable);
+        submitInfoP.setEnabled(editable);
+    }
+    
+    public void clearDataP()
+    {
+        
     }
     
     public void updateMemberTable()
@@ -132,6 +136,12 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         isValidCheckBoxM.setEnabled(editable);
         validityReasonInputM.setEditable(editable);
         isActiveCheckBoxM.setEnabled(editable);
+        submitInfoM.setEnabled(editable);
+    }
+    
+    public void clearDataM()
+    {
+        
     }
     
     public void updateEmployeeTable()
@@ -165,6 +175,12 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         zipInputE.setEditable(editable);
         isActiveCheckBoxE.setEnabled(editable);
         isManagerCheckBoxE.setEnabled(editable);
+        submitInfoE.setEnabled(editable);
+    }
+    
+    public void clearDataE()
+    {
+        
     }
     
     public void updateTabs(){ 
@@ -341,7 +357,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         feeInputSD = new javax.swing.JTextField();
         submitButtonSD = new javax.swing.JButton();
-        isActiveCheckboxSD = new javax.swing.JCheckBox();
+        isActiveCheckBoxSD = new javax.swing.JCheckBox();
         serviceInfoLabel = new javax.swing.JLabel();
         scrollPanelSD = new javax.swing.JScrollPane();
         tableSD = new javax.swing.JTable();
@@ -1220,7 +1236,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
 
         formPanelSD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setText("Service Code:");
+        jLabel1.setText("Service Number:");
 
         jLabel2.setText("Service Name:");
 
@@ -1241,7 +1257,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
             }
         });
 
-        isActiveCheckboxSD.setText("Is Actvice");
+        isActiveCheckBoxSD.setText("Is Actvice");
 
         javax.swing.GroupLayout formPanelSDLayout = new javax.swing.GroupLayout(formPanelSD);
         formPanelSD.setLayout(formPanelSDLayout);
@@ -1263,7 +1279,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                             .addGroup(formPanelSDLayout.createSequentialGroup()
                                 .addComponent(nameInputSD, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(69, 69, 69)
-                                .addComponent(isActiveCheckboxSD)
+                                .addComponent(isActiveCheckBoxSD)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(submitButtonSD, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(feeInputSD, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -1281,7 +1297,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                     .addComponent(nameInputSD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(submitButtonSD)
-                    .addComponent(isActiveCheckboxSD))
+                    .addComponent(isActiveCheckBoxSD))
                 .addGap(25, 25, 25)
                 .addGroup(formPanelSDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(feeInputSD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1430,6 +1446,10 @@ public class EmployeeTerminal extends javax.swing.JFrame {
 
     private void createButtonSDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonSDActionPerformed
         setServiceFieldsEditable(true);
+        
+        clearDataSD();
+        
+        currentCommand = 0;
     }//GEN-LAST:event_createButtonSDActionPerformed
 
     private void refreshButtonSDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonSDActionPerformed
@@ -1461,7 +1481,59 @@ public class EmployeeTerminal extends javax.swing.JFrame {
     }//GEN-LAST:event_createButtonEActionPerformed
 
     private void submitButtonSDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonSDActionPerformed
-        setServiceFieldsEditable(false);
+        Service service = new Service();
+        service.serviceNumber = serviceCodeInputSD.getText();
+        service.name = nameInputSD.getText();
+        boolean doubleConverted = false;
+        try
+        {
+            service.fee = Double.parseDouble(feeInputSD.getText());
+            doubleConverted = true;
+        } catch (Exception e)
+        {
+            doubleConverted = false;
+        }
+        service.isActive = isActiveCheckBoxSD.isSelected();
+        
+        if (service.verifyData() && doubleConverted)
+        {
+            int returnValue = -1;
+            
+            try
+            {
+                if (currentCommand == 0)
+                {
+                    returnValue = employeeTerminal.insertService(service);
+                }
+                else if (currentCommand == 1)
+                {
+                    returnValue = employeeTerminal.updateService(service);
+                }
+                
+                if (returnValue == 0)
+                {
+                    displayAlert("Entry Successfully Inserted/Edited", "Submit Service Alert");
+                    setServiceFieldsEditable(false);
+                    currentCommand = -1;
+                }
+                else if (returnValue == 1)
+                {
+                    displayAlert("Connection to database failed at server", "Submit Service Alert");
+                }
+                else if (returnValue == 4)
+                {
+                    displayAlert("Invalid Data", "Submit Service Alert");
+                }
+                
+            } catch(Exception e)
+            {
+                displayAlert("Connection to server failed", "Submit Service Alert");
+            }
+            
+        } else
+        {
+            displayAlert("Invalid Input", "Submit Service Alert");
+        }
     }//GEN-LAST:event_submitButtonSDActionPerformed
 
     private void nameInputSDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameInputSDActionPerformed
@@ -1533,6 +1605,14 @@ public class EmployeeTerminal extends javax.swing.JFrame {
 
     private void editButtonSDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonSDActionPerformed
         setServiceFieldsEditable(true);
+        
+        int entry = tableSD.getSelectedRow();
+        serviceCodeInputSD.setText((String) tableSD.getValueAt(entry, 0));
+        nameInputSD.setText((String) tableSD.getValueAt(entry, 1));
+        feeInputSD.setText(Double.toString((Double) tableSD.getValueAt(entry, 2)));
+        isActiveCheckBoxSD.setSelected((Boolean) tableSD.getValueAt(entry, 3));
+        
+        currentCommand = 1;
     }//GEN-LAST:event_editButtonSDActionPerformed
 
     private void validityReasonInputMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validityReasonInputMActionPerformed
@@ -1629,7 +1709,7 @@ public class EmployeeTerminal extends javax.swing.JFrame {
     private javax.swing.JCheckBox isActiveCheckBoxE;
     private javax.swing.JCheckBox isActiveCheckBoxM;
     private javax.swing.JCheckBox isActiveCheckBoxP;
-    private javax.swing.JCheckBox isActiveCheckboxSD;
+    private javax.swing.JCheckBox isActiveCheckBoxSD;
     private javax.swing.JCheckBox isManagerCheckBoxE;
     private javax.swing.JCheckBox isValidCheckBoxM;
     private javax.swing.JLabel jLabel1;

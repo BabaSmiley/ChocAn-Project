@@ -215,7 +215,7 @@ public class EmployeeFunctionality
             return 4;
         
         //get the query result
-        boolean insertSuccess = DatabaseQueries.insertService(serviceCreationData);
+        boolean insertSuccess = DatabaseQueries.updateService(serviceCreationData);
         
         //if the query was successful, return 0, else return 1
         if (insertSuccess)

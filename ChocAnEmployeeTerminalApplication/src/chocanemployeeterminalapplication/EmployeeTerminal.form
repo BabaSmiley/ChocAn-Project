@@ -1615,7 +1615,7 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="nameInputSD" min="-2" pref="411" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
-                                          <Component id="isActiveCheckboxSD" min="-2" max="-2" attributes="0"/>
+                                          <Component id="isActiveCheckBoxSD" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="32767" attributes="0"/>
                                           <Component id="submitButtonSD" min="-2" pref="141" max="-2" attributes="0"/>
                                       </Group>
@@ -1640,7 +1640,7 @@
                               <Component id="nameInputSD" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="submitButtonSD" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="isActiveCheckboxSD" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="isActiveCheckBoxSD" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -1655,7 +1655,7 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jLabel1">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Service Code:"/>
+                    <Property name="text" type="java.lang.String" value="Service Number:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="serviceCodeInputSD">
@@ -1693,7 +1693,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="submitButtonSDActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JCheckBox" name="isActiveCheckboxSD">
+                <Component class="javax.swing.JCheckBox" name="isActiveCheckBoxSD">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Is Actvice"/>
                   </Properties>

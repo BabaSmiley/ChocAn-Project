@@ -52,8 +52,8 @@ public class Service implements Serializable
             return false;
         }
         
-        //name must be longer than 0, but less than 26 characters
-        if (name.length() > 25 || name.length() == 0)
+        //name must be longer than 0, but less than 20 characters
+        if (name.length() > 20 || name.length() == 0)
             return false;
         
         //fee must be greater than or equal to 0, but less than 999.99
