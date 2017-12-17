@@ -444,16 +444,12 @@ public class EmployeeTerminal extends javax.swing.JFrame {
         });
 
         jLabel7.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
-        jLabel7.setText("Welcome To Chocoholics Anpnymous!");
+        jLabel7.setText("Welcome To Chocoholics Anonymous!");
 
         javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
         loginPanel.setLayout(loginPanelLayout);
         loginPanelLayout.setHorizontalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(instructionsLabel)
-                .addGap(323, 323, 323))
             .addGroup(loginPanelLayout.createSequentialGroup()
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(loginPanelLayout.createSequentialGroup()
@@ -473,17 +469,20 @@ public class EmployeeTerminal extends javax.swing.JFrame {
                         .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(loginPanelLayout.createSequentialGroup()
                         .addGap(169, 169, 169)
-                        .addComponent(jLabel7)))
-                .addContainerGap(266, Short.MAX_VALUE))
+                        .addComponent(jLabel7))
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addGap(339, 339, 339)
+                        .addComponent(instructionsLabel)))
+                .addContainerGap(271, Short.MAX_VALUE))
         );
         loginPanelLayout.setVerticalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loginPanelLayout.createSequentialGroup()
                 .addGap(100, 100, 100)
                 .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
                 .addComponent(instructionsLabel)
-                .addGap(55, 55, 55)
+                .addGap(65, 65, 65)
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nameLabel))
