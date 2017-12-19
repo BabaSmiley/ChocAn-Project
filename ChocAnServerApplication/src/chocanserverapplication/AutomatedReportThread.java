@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ public class AutomatedReportThread implements Runnable
     {
         LocalDate dateOfSaturday = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
         nextSaturday = dateOfSaturday.atStartOfDay();
+        System.out.println("Next Auto Report: " + nextSaturday);
     }
     
     public void run()
@@ -31,6 +33,7 @@ public class AutomatedReportThread implements Runnable
         {
             if (LocalDateTime.now().isAfter(nextSaturday))
             {
+                System.out.println("Starting auto reports...");
                 try
                 {
                     createAllReports();

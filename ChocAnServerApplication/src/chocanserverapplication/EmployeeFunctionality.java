@@ -572,9 +572,16 @@ public class EmployeeFunctionality
         //Create a new file in the Summary Report directory using the string - the
         //date from billPeriodEndDate + date and time from now + “SummaryReport”
         // - as the filename and the file extension being .txt
-        File summaryReportFile = new File("\\Summary Reports\\" + endTime + 
-                LocalDateTime.now() + ".txt");
-        FileWriter outputStream = new FileWriter(summaryReportFile);
+        String fileName = "\\Summary Reports\\" + endTime + LocalDateTime.now().hashCode() + ".txt";
+        fileName = fileName.replaceAll(":", " ");
+        System.out.println(fileName);
+        
+        File newFile = new File(fileName);
+        newFile.getParentFile().mkdirs();
+        
+        FileWriter fileWriter = new FileWriter(newFile);
+        
+        BufferedWriter outputStream = new BufferedWriter(fileWriter);
         
         //Query the bills table for bills added in the 7 days before
         //billPeriodEndDateTime. Order the query first by providerNumber.
@@ -668,9 +675,16 @@ public class EmployeeFunctionality
     
     private static void createEFTReport(String providerName, String providerNumber, Double amountToBeTransferred, LocalDateTime endTime) throws IOException
     {
-        File EFTReportFile = new File("\\EFT Reports\\" + endTime + 
-                LocalDateTime.now() + ".txt");
-        FileWriter outputStream = new FileWriter(EFTReportFile);
+        String fileName = "\\EFT Reports\\" + endTime + LocalDateTime.now().hashCode() + ".txt";
+        fileName = fileName.replaceAll(":", " ");
+        System.out.println(fileName);
+        
+        File newFile = new File(fileName);
+        newFile.getParentFile().mkdirs();
+        
+        FileWriter fileWriter = new FileWriter(newFile);
+        
+        BufferedWriter outputStream = new BufferedWriter(fileWriter);
         
         outputStream.write(providerName + "\n");
         outputStream.write(providerNumber + "\n");
