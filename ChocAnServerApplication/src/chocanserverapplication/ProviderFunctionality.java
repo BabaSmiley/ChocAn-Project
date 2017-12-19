@@ -103,7 +103,7 @@ public class ProviderFunctionality
             //Create a file under the ServiceDirectory folder called 
             //"ServiceDirectory" + datetime + ".txt" where datetime is the current 
             //timestamp.
-            String fileName = "\\Service Directory\\ServiceDirectory" + LocalDateTime.now().hashCode() + ".txt";
+            String fileName = ".\\Service Directory\\ServiceDirectory" + LocalDateTime.now().hashCode() + ".txt";
             fileName = fileName.replaceAll(":", " ");
             System.out.println(fileName);
         

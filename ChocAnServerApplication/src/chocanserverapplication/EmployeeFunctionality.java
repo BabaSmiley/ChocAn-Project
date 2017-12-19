@@ -259,7 +259,7 @@ public class EmployeeFunctionality
         //string - providerNumber + the date from billPeriodEndDateTime + the
         //time from billPeriodEndDateTime + “ProviderReport” - as the filename
         //and the file extension being .txt
-        String fileName = "\\Provider Reports\\" + providerNumber + endTime + LocalDateTime.now().hashCode() + ".txt";
+        String fileName = ".\\Provider Reports\\" + providerNumber + endTime + LocalDateTime.now().hashCode() + ".txt";
         fileName = fileName.replaceAll(":", " ");
         System.out.println(fileName);
         
@@ -382,7 +382,7 @@ public class EmployeeFunctionality
         //from billPeriodEndDateTime + “MemberReport” - as the filename and the
         //file extension being .txt
         //memberReportFile.createNewFile();
-        String fileName = "\\Member Reports\\" + memberNumber + endTime + LocalDateTime.now().hashCode() + ".txt";
+        String fileName = ".\\Member Reports\\" + memberNumber + endTime + LocalDateTime.now().hashCode() + ".txt";
         fileName = fileName.replaceAll(":", " ");
         System.out.println(fileName);
         
@@ -463,7 +463,7 @@ public class EmployeeFunctionality
         //Create a new file in the Summary Report directory using the string - the
         //date from billPeriodEndDate + date and time from now + “SummaryReport”
         // - as the filename and the file extension being .txt
-        String fileName = "\\Summary Reports\\" + endTime + LocalDateTime.now().hashCode() + ".txt";
+        String fileName = ".\\Summary Reports\\" + endTime + LocalDateTime.now().hashCode() + ".txt";
         fileName = fileName.replaceAll(":", " ");
         System.out.println(fileName);
         
@@ -574,7 +574,7 @@ public class EmployeeFunctionality
         //Create a new file in the Summary Report directory using the string - the
         //date from billPeriodEndDate + date and time from now + “SummaryReport”
         // - as the filename and the file extension being .txt
-        String fileName = "\\Summary Reports\\" + endTime + LocalDateTime.now().hashCode() + ".txt";
+        String fileName = ".\\Summary Reports\\" + endTime + LocalDateTime.now().hashCode() + ".txt";
         fileName = fileName.replaceAll(":", " ");
         System.out.println(fileName);
         
@@ -678,7 +678,7 @@ public class EmployeeFunctionality
     
     private static void createEFTReport(String providerName, String providerNumber, Double amountToBeTransferred, LocalDateTime endTime) throws IOException
     {
-        String fileName = "\\EFT Reports\\" + endTime + LocalDateTime.now().hashCode() + ".txt";
+        String fileName = ".\\EFT Reports\\" + endTime + LocalDateTime.now().hashCode() + ".txt";
         fileName = fileName.replaceAll(":", " ");
         System.out.println(fileName);
         
