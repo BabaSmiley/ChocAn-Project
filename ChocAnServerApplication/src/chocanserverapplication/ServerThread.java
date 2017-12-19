@@ -402,7 +402,7 @@ public class ServerThread implements Runnable
         } catch(Exception e)
         {
             e.printStackTrace();
-            returnValue = 4;
+            returnValue = 1;
         }
         
         outputStream.writeObject(returnValue);
@@ -418,11 +418,14 @@ public class ServerThread implements Runnable
             Provider providerData = (Provider) inputStream.readObject();
             
             //Check value, query database, return value (EmployeeFunctionality function)
-            returnValue = EmployeeFunctionality.updateProvider(providerData);
+            if (providerData.verifyData())
+                returnValue = EmployeeFunctionality.updateProvider(providerData);
+            else
+                returnValue = 4;
         } catch(Exception e)
         {
             e.printStackTrace();
-            returnValue = 4;
+            returnValue = 1;
         }
         
         outputStream.writeObject(returnValue);
@@ -465,11 +468,14 @@ public class ServerThread implements Runnable
             Member memberData = (Member) inputStream.readObject();
             
             //Check value, query database, return value (EmployeeFunctionality function)
-            returnValue = EmployeeFunctionality.updateMember(memberData);
+            if (memberData.verifyData())
+                returnValue = EmployeeFunctionality.updateMember(memberData);
+            else
+                returnValue = 4;
         } catch(Exception e)
         {
             e.printStackTrace();
-            returnValue = 4;
+            returnValue = 1;
         }
         
         outputStream.writeObject(returnValue);
@@ -524,11 +530,14 @@ public class ServerThread implements Runnable
                 Employee employeeData = (Employee) inputStream.readObject();
                 
                 //Check value, query database, return value (EmployeeFunctionality function)
-                returnValue = EmployeeFunctionality.updateEmployee(employeeData);
+                if (employeeData.verifyData())
+                    returnValue = EmployeeFunctionality.updateEmployee(employeeData);
+                else
+                    returnValue = 4;
             } catch(Exception e)
             {
                 e.printStackTrace();
-                returnValue = 4;
+                returnValue = 1;
             }
             
             outputStream.writeObject(returnValue);
