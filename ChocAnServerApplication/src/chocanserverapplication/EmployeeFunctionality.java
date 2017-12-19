@@ -353,6 +353,7 @@ public class EmployeeFunctionality
         
         //close the file
         outputStream.close();
+        fileWriter.close();
         
         return 0;
     }
@@ -554,6 +555,7 @@ public class EmployeeFunctionality
         
         //close the file
         outputStream.close();
+        fileWriter.close();
         
         return 0;
     }
@@ -669,6 +671,7 @@ public class EmployeeFunctionality
         
         //close the file
         outputStream.close();
+        fileWriter.close();
         
         return 0;
     }
@@ -691,5 +694,6 @@ public class EmployeeFunctionality
         outputStream.write(Double.toString(amountToBeTransferred));
         
         outputStream.close();
+        fileWriter.close();
     }
 }

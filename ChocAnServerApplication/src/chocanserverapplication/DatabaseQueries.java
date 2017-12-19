@@ -633,7 +633,7 @@ public class DatabaseQueries
      * "1"+validityReason if invalid. Inactive counts as invalid.
      * 
      * @param memberNumber
-     * @returnReturns "0" if valid, "1"+validityReason if invalid. Inactive 
+     * @return Returns "0" if valid, "1"+validityReason if invalid. Inactive 
      * counts as invalid
      * @throws SQLException 
      */
